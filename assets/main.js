@@ -13,7 +13,7 @@ const increaseBreak = document.querySelector("#increase-break");
 const breakMinutes = document.querySelector("#break-minutes");
 const decreaseBreak = document.querySelector("#decrease-break");
 
-function timerDisplay(seconds) {
+function timerDisplay(seconds, breakTime = true) {
     play.addEventListener("click", () => {
         seconds = sessionSeconds;
         clearInterval(countdown);
@@ -33,27 +33,42 @@ function timerDisplay(seconds) {
 
             if (secondsLeft < 1) {
                 clearInterval(countdown);
+                if (breakTime) {
+                    sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                    timerDisplay(sessionSeconds, false);
+                    play.style.pointerEvents = "auto";
+                    play.click();
+                } else {
+                    sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+                    timerDisplay(sessionSeconds);
+                    play.style.pointerEvents = "auto";
+                    play.click();
+                }
             }
             displayTimeLeft(secondsLeft);
         }, 1000);
     });
 }
 
-function timerSession(increase, minutes, decrease) {
+function timerSession(increase, minutes, decrease, session = true) {
     increase.addEventListener("click", () => {
         if (parseInt(minutes.textContent) >= 5940) return;
         else {
             minutes.textContent = parseInt(minutes.textContent) + 1;
-            sessionSeconds += 60;
-            if (minutes === sessionMinutes) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+            if (session) {
+                displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                sessionSeconds += 60;
+            }
         }
     });
     decrease.addEventListener("click", () => {
         if (parseInt(minutes.textContent) <= 1) return;
         else {
             minutes.textContent = parseInt(minutes.textContent) - 1;
-            sessionSeconds -= 60;
-            if (minutes === sessionMinutes) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+            if (session) {
+                displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                sessionSeconds -= 60;
+            }
         }
     });
 }
@@ -101,12 +116,28 @@ function stopTimer(stop, seconds) {
     });
 }
 
+function resetTimer(reset) {
+    reset.addEventListener("click", () => {
+        clearInterval(countdown);
+        timer.textContent = "25:00";
+        sessionMinutes.textContent = "25";
+        sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+        breakMinutes.textContent = "5";
+        arrow.forEach(arrow => {
+            arrow.style.pointerEvents = "auto";
+        });
+        play.style.pointerEvents = "auto";
+        document.title = "Pomodoro";
+    });
+}
+
 function main() {
     timerDisplay(sessionSeconds);
     timerSession(increaseSession, sessionMinutes, decreaseSession);
-    timerSession(increaseBreak, breakMinutes, decreaseBreak);
+    timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
     pauseTimer(pause);
     stopTimer(stop, sessionSeconds);
+    resetTimer(reset);
 }
 
 window.onload = main();
