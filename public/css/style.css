@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #202020;
+    color: #e8e8e8;
+}
+
+/* header */
+header {
+    display: flex;
+    background-color: #e8e8e8;
+    height: 5%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+header>h1 {
+    font-size: 1.4em;
+    color: #202020;
+}
+
+/* main content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    display: grid;
+    width: 90vw;
+    height: 50vh;
+    grid-template-columns: 22.5vw 22.5vw 22.5vw 22.5vw;
+    grid-template-rows: 12.5vh 12.5vh 12.5vh 12.5vh;
+    grid-template-areas:
+        "session session break break"
+        "session-step session-step break-step break-step"
+        "time time time time"
+        "timer-control timer-control timer-control timer-control";
+}
+
+button {
+    border: none;
+    color: #e8e8e8;
+    background-color: transparent;
+    font-size: 3em;
+    padding: 0;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* session */
+.session-title {
+    display: flex;
+    grid-area: session;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.session-step {
+    display: flex;
+    grid-area: session-step;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.minutes {
+    margin: auto;
+    padding: 10px;
+}
+
+.minutes>p {
+    width: 70px;
+    text-align: center;
+    font-size: 2em;
+}
+
+.session-title,
+.break-title {
+    font-size: 1.7em;
+}
+
+.arrow {
+    margin: auto;
+}
+
+/* break */
+.break-title {
+    display: flex;
+    grid-area: break;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.break-step {
+    display: flex;
+    grid-area: break-step;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* time */
+.timer-display {
+    display: flex;
+    grid-area: time;
+    justify-content: center;
+    align-items: center;
+}
+
+#timer {
+    font-size: 4em;
+}
+
+/* timer controls */
+.timer-controls {
+    display: inline-flex;
+    justify-content: space-around;
+    grid-area: timer-control;
+}
+
+.timer-controls button {
+    display: inline-block;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Pomodoro</h1>
+    </header>
+    <div class="container">
+        <main>
+            <div class="session-title">
+                <h3>Session</h3>
+            </div>
+            <div class="session-step">
+                <button id="increase-session" class="arrow">↑</button>
+                <div class="minutes">
+                    <p id="session-minutes">25</p>
+                </div>
+                <button id="decrease-session" class="arrow">↓</button>
+            </div>
+            <div class="break-title">
+                <h3>Break</h3>
+            </div>
+            <div class="break-step">
+                <button id="increase-break" class="arrow">↑</button>
+                <div class="minutes">
+                    <p id="break-minutes">5</p>
+                </div>
+                <button id="decrease-break" class="arrow">↓</button>
+            </div>
+            <div class="timer-display">
+                <p id="timer">25:00</p>
+            </div>
+            <div class="timer-controls">
+                <button id="play">▶</button>
+                <button id="pause">❚❚</button>
+                <button id="stop">■</button>
+                <button id="reset">⟳</button>
+            </div>
+        </main>
+    </div>
+    <!-- scripts -->
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

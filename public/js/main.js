@@ -17,11 +17,11 @@ function timerDisplay(seconds, breakTime = true) {
     play.addEventListener("click", () => {
         seconds = sessionSeconds;
         clearInterval(countdown);
-        play.style.pointerEvents = "none";
-        pause.style.pointerEvents = "auto";
-        stop.style.pointerEvents = "auto";
+        play.disabled = true;
+        pause.disabled = false;
+        stop.disabled = false;
         arrow.forEach(arrow => {
-            arrow.style.pointerEvents = "none";
+            arrow.disabled = true;
         });
         const now = Date.now();
         const then = now + seconds * 1000;
@@ -36,12 +36,12 @@ function timerDisplay(seconds, breakTime = true) {
                 if (breakTime) {
                     sessionSeconds = parseInt(breakMinutes.textContent) * 60;
                     timerDisplay(sessionSeconds, false);
-                    play.style.pointerEvents = "auto";
+                    play.disabled = false;
                     play.click();
                 } else {
                     sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                     timerDisplay(sessionSeconds);
-                    play.style.pointerEvents = "auto";
+                    play.disabled = false;
                     play.click();
                 }
             }
@@ -84,7 +84,7 @@ function displayTimeLeft(seconds, title = true) {
 }
 
 function pauseTimer(pause) {
-    pause.style.pointerEvents = "none";
+    pause.disabled = true;
 
     pause.addEventListener("click", () => {
         const time = timer.textContent.split(":");
@@ -92,24 +92,24 @@ function pauseTimer(pause) {
 
         clearInterval(countdown);
         timerDisplay(seconds);
-        pause.style.pointerEvents = "none";
-        play.style.pointerEvents = "auto";
+        pause.disabled = true;
+        play.disabled = false;
     });
 }
 
 function stopTimer(stop, seconds) {
-    stop.style.pointerEvents = "none";
+    stop.disabled = true;
 
     stop.addEventListener("click", () => {
         seconds = parseInt(sessionMinutes.textContent) * 60;
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
-        stop.style.pointerEvents = "none";
-        pause.style.pointerEvents = "none";
-        play.style.pointerEvents = "auto";
+        stop.disabled = true;
+        pause.disabled = true;
+        play.disabled = false;
         arrow.forEach(arrow => {
-            arrow.style.pointerEvents = "auto";
+            arrow.disabled = false;
         });
         document.title = "Pomodoro";
         timerDisplay(seconds);
@@ -124,9 +124,9 @@ function resetTimer(reset) {
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         breakMinutes.textContent = "5";
         arrow.forEach(arrow => {
-            arrow.style.pointerEvents = "auto";
+            arrow.disabled = false;
         });
-        play.style.pointerEvents = "auto";
+        play.disabled = false;
         document.title = "Pomodoro";
     });
 }
