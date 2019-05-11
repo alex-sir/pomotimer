@@ -2,12 +2,14 @@ let countdown;
 const timerDisplay = document.querySelector("#timer");
 const play = document.querySelector(".fa-play");
 const pause = document.querySelector(".fa-pause");
-const stop = document.querySelector(".fa-stop");
+const reset = document.querySelector(".fa-stop");
 
 function timer(seconds) {
     play.addEventListener("click", () => {
         clearInterval(countdown);
         play.style.pointerEvents = "none";
+        pause.style.pointerEvents = "auto";
+        reset.style.pointerEvents = "auto";
         const now = Date.now();
         const then = now + seconds * 1000;
         displayTimeLeft(seconds);
@@ -33,12 +35,27 @@ function displayTimeLeft(seconds) {
 }
 
 function pauseTimer(pause) {
+    pause.style.pointerEvents = "none";
+
     pause.addEventListener("click", () => {
         const time = timerDisplay.textContent.split(":");
         const seconds = (parseInt(time[0]) * 60) + parseInt(time[1]);
 
         clearInterval(countdown);
         timer(seconds);
+        pause.style.pointerEvents = "none";
+        play.style.pointerEvents = "auto";
+    });
+}
+
+function resetTimer(reset, seconds) {
+    reset.style.pointerEvents = "none";
+
+    reset.addEventListener("click", () => {
+        clearInterval(countdown);
+        displayTimeLeft(seconds);
+        reset.style.pointerEvents = "none";
+        pause.style.pointerEvents = "none";
         play.style.pointerEvents = "auto";
     });
 }
@@ -46,6 +63,7 @@ function pauseTimer(pause) {
 function main() {
     timer(1500);
     pauseTimer(pause);
+    resetTimer(reset, 1500);
 }
 
 window.onload = main();
