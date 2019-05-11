@@ -5,8 +5,7 @@
     "spellright.documentTypes": [
         "markdown",
         "latex",
-        "plaintext",
-        "html"
+        "plaintext"
     ],
     "spellright.parserByClass": {
         "code-runner-output": {
