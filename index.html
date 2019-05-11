@@ -6,18 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pomodoro</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
     <h1>Pomodoro</h1>
-    <div class="container">
+    <div id="session-container">
+        <div class="session-option">
+            <h3>Session</h3>
+            <button id="increase-session" class="arrow">🡡</button>
+            <p id="session-minutes">25</p>
+            <button id="decrease-session" class="arrow">🡣</button>
+        </div>
+        <div class="session-option">
+            <h3>Break</h3>
+            <button id="increase-break" class="arrow">🡡</button>
+            <p id="break-minutes">5</p>
+            <button id="decrease-break" class="arrow">🡣</button>
+        </div>
+    </div>
+    <div id="timer-container">
         <p id="timer">25:00</p>
-        <i class="fas fa-play"></i>
-        <i class="fas fa-pause"></i>
-        <i class="fas fa-stop"></i>
+        <button id="play">▶</button>
+        <button id="pause">❚❚</button>
+        <button id="stop">■</button>
+        <button id="reset">⟳</button>
     </div>
     <!-- scripts -->
     <script src="./assets/main.js"></script>
