@@ -52,7 +52,7 @@ function timerDisplay(seconds, breakTime = true) {
 
 function timerSession(increase, minutes, decrease, session = true) {
     increase.addEventListener("click", () => {
-        if (parseInt(minutes.textContent) >= 5940) return;
+        if (parseInt(minutes.textContent) >= 6000) return;
         else {
             minutes.textContent = parseInt(minutes.textContent) + 1;
             if (session) {
@@ -74,10 +74,19 @@ function timerSession(increase, minutes, decrease, session = true) {
 }
 
 function displayTimeLeft(seconds, title = true) {
-    const minutes = Math.floor(seconds / 60);
+    let minutes = Math.floor(seconds / 60);
     const remainderSeconds = seconds % 60;
-    const display = `${minutes < 10 ? minutes.toString().padStart(2, 0) : minutes}:${
-        remainderSeconds < 10 ? remainderSeconds.toString().padStart(2, 0) : remainderSeconds}`;
+    let display;
+    if (minutes >= 60) {
+        const hours = Math.floor(minutes / 60);
+        minutes %= 60;
+        display = `${hours < 10 ? hours.toString().padStart(2, 0) : hours}:${
+            minutes < 10 ? minutes.toString().padStart(2, 0) : minutes}:${
+            remainderSeconds < 10 ? remainderSeconds.toString().padStart(2, 0) : remainderSeconds}`;
+    } else {
+        display = `${minutes < 10 ? minutes.toString().padStart(2, 0) : minutes}:${
+            remainderSeconds < 10 ? remainderSeconds.toString().padStart(2, 0) : remainderSeconds}`;
+    }
     timer.textContent = display;
     if (!title) return
     else document.title = `(${display}) Pomodoro`;

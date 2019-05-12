@@ -9,6 +9,7 @@ body {
     height: 100vh;
     background-color: #202020;
     color: #e8e8e8;
+    font-family: "Inconsolata", monospace;
 }
 
 /* header */
