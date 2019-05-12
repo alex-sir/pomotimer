@@ -17,13 +17,14 @@ header {
     display: flex;
     background-color: #e8e8e8;
     height: 5%;
+    min-height: 40px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
 header>h1 {
-    font-size: 1.4em;
+    font-size: 1.5em;
     color: #202020;
 }
 
@@ -36,7 +37,6 @@ header>h1 {
 
 main {
     display: grid;
-    /* make less wide for bigger screens */
     width: 100vw;
     height: 50vh;
     grid-template-columns: repeat(4, auto);
@@ -81,7 +81,6 @@ button:hover {
 }
 
 .minutes {
-    margin: 0 auto auto auto;
     padding: 10px;
 }
 
@@ -97,8 +96,12 @@ button:hover {
 }
 
 .arrow {
-    margin: 0 auto auto auto;
     font-size: 10vw;
+}
+
+.arrow,
+.minutes {
+    margin: 0 auto auto auto auto;
 }
 
 /* break */
@@ -125,7 +128,7 @@ button:hover {
 }
 
 #timer {
-    font-size: 15vw;
+    font-size: 20vw;
 }
 
 /* timer controls */
@@ -140,29 +143,161 @@ button:hover {
     font-size: 10vw;
 }
 
+/* phone */
 @media only screen and (min-width: 600px) {
+
+    /* sizes */
     main {
         width: 50vw;
     }
 
     .session-title,
     .break-title {
-        font-size: 2.5vw;
+        font-size: 35px;
     }
 
     .minutes>p {
-        font-size: 3vw;
+        font-size: 40px;
     }
 
     .timer-controls>button {
-        font-size: 4vw;
+        font-size: 50px;
     }
 
     #timer {
-        font-size: 8vw;
+        font-size: 100px;
     }
 
     .arrow {
-        font-size: 4vw;
+        font-size: 60px;
+    }
+
+    /* grid display */
+    .timer-controls {
+        align-items: flex-end;
+    }
+
+    .timer-display {
+        align-items: center;
+    }
+
+    .session-title {
+        align-items: flex-end;
+    }
+
+    .session-step {
+        align-items: center;
+    }
+
+    .break-title {
+        align-items: flex-end;
+    }
+
+    .break-step {
+        align-items: center;
+    }
+
+    .arrow,
+    .minutes {
+        margin: 0 auto;
+    }
+
+    .minutes {
+        padding: 15px;
+    }
+}
+
+/* tablet */
+@media only screen and (min-width: 600px) and (max-width: 1200px) {
+    main {
+        width: 70vw;
+    }
+}
+
+/* small tablet, large phone */
+@media only screen and (min-width: 600px) and (max-width: 900px) {
+    main {
+        width: 90vw;
+    }
+}
+
+/* small height */
+@media only screen and (max-height: 700px) {
+
+    /* sizes */
+    main {
+        width: 90vw;
+        gap: 12.5%;
+    }
+
+    h3 {
+        margin-top: 10%;
+    }
+
+    .session-title,
+    .break-title {
+        font-size: 30px;
+    }
+
+    .minutes>p {
+        font-size: 35px;
+    }
+
+    .timer-controls>button {
+        font-size: 45px;
+        margin-bottom: 5%;
+    }
+
+    #timer {
+        font-size: 95px;
+        margin-bottom: 2%;
+    }
+
+    .arrow {
+        font-size: 55px;
+    }
+}
+
+/* small phone */
+@media only screen and (max-height: 700px) and (max-width: 370px) {
+    main {
+        gap: 2.5%;
+    }
+
+    .session-title,
+    .break-title {
+        font-size: 20px;
+    }
+
+    .minutes>p {
+        font-size: 25px;
+    }
+
+    .timer-controls>button {
+        font-size: 35px;
+    }
+
+    #timer {
+        font-size: 85px;
+    }
+
+    .arrow {
+        font-size: 45px;
+    }
+}
+
+/* small width */
+@media only screen and (max-width: 300px) {
+
+    body,
+    main {
+        min-width: 300px;
+    }
+}
+
+/* small height overflows */
+@media only screen and (max-height: 410px) {
+    body {
+        overflow-x: hidden;
     }
 }
