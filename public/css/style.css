@@ -36,10 +36,11 @@ header>h1 {
 
 main {
     display: grid;
-    width: 90vw;
+    /* make less wide for bigger screens */
+    width: 100vw;
     height: 50vh;
-    grid-template-columns: 22.5vw 22.5vw 22.5vw 22.5vw;
-    grid-template-rows: 12.5vh 12.5vh 12.5vh 12.5vh;
+    grid-template-columns: repeat(4, auto);
+    grid-template-rows: repeat(4, auto);
     grid-template-areas:
         "session session break break"
         "session-step session-step break-step break-step"
@@ -69,7 +70,7 @@ button:hover {
     display: flex;
     grid-area: session;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .session-step {
@@ -80,23 +81,24 @@ button:hover {
 }
 
 .minutes {
-    margin: auto;
+    margin: 0 auto auto auto;
     padding: 10px;
 }
 
 .minutes>p {
     width: 70px;
     text-align: center;
-    font-size: 2em;
+    font-size: 7vw;
 }
 
 .session-title,
 .break-title {
-    font-size: 1.7em;
+    font-size: 7vw;
 }
 
 .arrow {
-    margin: auto;
+    margin: 0 auto auto auto;
+    font-size: 10vw;
 }
 
 /* break */
@@ -104,7 +106,7 @@ button:hover {
     display: flex;
     grid-area: break;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .break-step {
@@ -119,20 +121,48 @@ button:hover {
     display: flex;
     grid-area: time;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 #timer {
-    font-size: 4em;
+    font-size: 15vw;
 }
 
 /* timer controls */
 .timer-controls {
     display: inline-flex;
     justify-content: space-around;
+    align-items: flex-start;
     grid-area: timer-control;
 }
 
-.timer-controls button {
-    display: inline-block;
+.timer-controls>button {
+    font-size: 10vw;
+}
+
+@media only screen and (min-width: 600px) {
+    main {
+        width: 50vw;
+    }
+
+    .session-title,
+    .break-title {
+        font-size: 2.5vw;
+    }
+
+    .minutes>p {
+        font-size: 3vw;
+    }
+
+    .timer-controls>button {
+        font-size: 4vw;
+    }
+
+    #timer {
+        font-size: 8vw;
+    }
+
+    .arrow {
+        font-size: 4vw;
+    }
 }
