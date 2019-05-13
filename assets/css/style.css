@@ -45,7 +45,7 @@ nav>h1,
 .settings:focus,
 .github:hover,
 .github:focus {
-    opacity: 0.8;
+    opacity: 0.75;
     cursor: pointer;
 }
 
@@ -117,12 +117,13 @@ main {
     width: 100vw;
     height: 50vh;
     grid-template-columns: repeat(4, auto);
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(5, auto);
     grid-template-areas:
         "session session break break"
         "session-step session-step break-step break-step"
         "time time time time"
-        "timer-control timer-control timer-control timer-control";
+        "timer-control timer-control timer-control timer-control"
+        ". poromodo poromodo .";
 }
 
 button {
@@ -145,6 +146,12 @@ button:focus {
     grid-area: session;
     justify-content: center;
     align-items: center;
+}
+
+.active-time {
+    background: linear-gradient(to right, #e8e8e8, #e8e8e8) no-repeat;
+    background-size: 100% 1.5px;
+    background-position: left bottom;
 }
 
 .session-step {
@@ -176,6 +183,25 @@ button:focus {
 .arrow,
 .minutes {
     margin: 0 auto auto auto auto;
+}
+
+/* pomodoros */
+.pomodoros {
+    grid-area: poromodo;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+.pomodoro {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border: 2px solid #e8e8e8;
+    border-radius: 50%;
 }
 
 /* break */
@@ -215,7 +241,12 @@ button:focus {
 
 .timer-controls>button {
     font-size: 10vw;
+    margin-bottom: 5%;
 }
+
+/* **************************************** */
+/* FOR MEDIA QUERY: SET MINIMUM WIDTH */
+/* **************************************** */
 
 /* desktop */
 @media only screen and (min-width: 600px) {
@@ -324,7 +355,6 @@ button:focus {
 
     .timer-controls>button {
         font-size: 45px;
-        margin-bottom: 5%;
     }
 
     #timer {

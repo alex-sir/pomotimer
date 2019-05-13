@@ -5,9 +5,13 @@ const pause = document.querySelector("#pause");
 const stop = document.querySelector("#stop");
 const reset = document.querySelector("#reset");
 const arrow = document.querySelectorAll(".arrow");
+const pomodoros = document.querySelectorAll(".pomodoro");
+let pomodorosCount = 0;
+const sessionTitle = document.querySelector(".session-title h3");
 const increaseSession = document.querySelector("#increase-session");
 const sessionMinutes = document.querySelector("#session-minutes");
 let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+const breakTitle = document.querySelector(".break-title h3");
 const decreaseSession = document.querySelector("#decrease-session");
 const increaseBreak = document.querySelector("#increase-break");
 const breakMinutes = document.querySelector("#break-minutes");
@@ -36,8 +40,23 @@ function timerDisplay(seconds, breakTime = true) {
 
             if (secondsLeft < 1) {
                 clearInterval(countdown);
-                if (breakTime) {
-                    sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                sessionTitle.classList.toggle("active-time");
+                breakTitle.classList.toggle("active-time");
+                if (pomodorosCount === 4) {
+                    pomodorosCount = 0;
+                    pomodoros.forEach((pomodoro) => {
+                        pomodoro.style.backgroundColor = "";
+                    });
+                    sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+                    timerDisplay(sessionSeconds);
+                    play.disabled = false;
+                    play.click();
+                } else if (breakTime) {
+                    pomodorosCount++;
+                    pomodoros[pomodorosCount - 1].style.backgroundColor = "#e8e8e8";
+                    pomodorosCount === 4 ?
+                        sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 7, 6000) :
+                        sessionSeconds = parseInt(breakMinutes.textContent) * 60;
                     timerDisplay(sessionSeconds, false);
                     play.disabled = false;
                     play.click();
@@ -99,11 +118,8 @@ function pauseTimer(pause) {
     pause.disabled = true;
 
     pause.addEventListener("click", () => {
-        const time = timer.textContent.split(":");
-        const seconds = (parseInt(time[0]) * 60) + parseInt(time[1]);
-
         clearInterval(countdown);
-        timerDisplay(seconds);
+        sessionTitle.classList.contains("active-time") ? timerDisplay(0) : timerDisplay(0, false);
         pause.disabled = true;
         play.disabled = false;
     });
@@ -117,6 +133,14 @@ function stopTimer(stop, seconds) {
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
+        if (breakTitle.classList.contains("active-time")) {
+            breakTitle.classList.remove("active-time");
+            sessionTitle.classList.add("active-time");
+        }
+        pomodoros.forEach((pomodoro) => {
+            pomodoro.style.backgroundColor = "";
+        });
+        pomodorosCount = 0;
         stop.disabled = true;
         pause.disabled = true;
         play.disabled = false;
@@ -133,6 +157,14 @@ function resetTimer(reset) {
         clearInterval(countdown);
         timer.textContent = "25:00";
         sessionMinutes.textContent = "25";
+        if (breakTitle.classList.contains("active-time")) {
+            breakTitle.classList.remove("active-time");
+            sessionTitle.classList.add("active-time");
+        }
+        pomodoros.forEach((pomodoro) => {
+            pomodoro.style.backgroundColor = "";
+        });
+        pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         breakMinutes.textContent = "5";
         arrow.forEach(arrow => {
