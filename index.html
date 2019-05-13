@@ -5,17 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./assets/favicon/site.webmanifest">
     <title>Pomodoro</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <header>
-        <h1>Pomodoro</h1>
+    <header class="main-header">
+        <nav>
+            <a class="github" href="https://github.com/alex-sir/pomodoro" target="_blank" title="Github Repo"><i
+                    class="fab fa-github"></i></a>
+            <h1>Pomodoro</h1>
+            <button id="modal-btn" class="settings" title="Settings"><i class="fas fa-cog"></i></button>
+            <div id="simple-modal" class="modal">
+                <div class="modal-content">
+                    <header class="modal-header">
+                        <p class="close-btn">&times;</p>
+                        <h2>Settings</h2>
+                    </header>
+                    <div class="modal-body">
+                        <p>WIP</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </header>
     <div class="container">
         <main>
@@ -51,7 +71,7 @@
         </main>
     </div>
     <!-- scripts -->
-    <script src="../js/main.js"></script>
+    <script src="./assets/js/main.js"></script>
 </body>
 
 </html>

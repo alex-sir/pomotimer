@@ -12,6 +12,9 @@ const decreaseSession = document.querySelector("#decrease-session");
 const increaseBreak = document.querySelector("#increase-break");
 const breakMinutes = document.querySelector("#break-minutes");
 const decreaseBreak = document.querySelector("#decrease-break");
+const modal = document.querySelector("#simple-modal");
+const modalBtn = document.querySelector("#modal-btn");
+const closeBtn = document.querySelectorAll(".close-btn")[0];
 
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener("click", () => {
@@ -140,6 +143,20 @@ function resetTimer(reset) {
     });
 }
 
+function modalDisplay(modal, modalBtn, closeBtn) {
+    modalBtn.addEventListener("click", () => {
+        modal.classList.add("show-modal");
+    });
+    closeBtn.addEventListener("click", () => {
+        modal.classList.remove("show-modal");
+    });
+    window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+            modal.classList.remove("show-modal");
+        }
+    });
+}
+
 function main() {
     timerDisplay(sessionSeconds);
     timerSession(increaseSession, sessionMinutes, decreaseSession);
@@ -147,6 +164,7 @@ function main() {
     pauseTimer(pause);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
+    modalDisplay(modal, modalBtn, closeBtn);
 }
 
 window.onload = main();

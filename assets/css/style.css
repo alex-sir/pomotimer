@@ -13,19 +13,96 @@ body {
 }
 
 /* header */
-header {
-    display: flex;
+.main-header {
     background-color: #e8e8e8;
+}
+
+nav {
+    display: flex;
     height: 5%;
     min-height: 40px;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-header>h1 {
+nav>h1,
+.github,
+.settings {
     font-size: 1.5em;
     color: #202020;
+}
+
+.github {
+    margin-left: 3%;
+}
+
+.settings {
+    margin-right: 3%;
+}
+
+.settings:hover,
+.settings:focus,
+.github:hover,
+.github:focus {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+/* modal */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: -100%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #202020;
+    opacity: 0;
+    transition: top 0.4s, opacity 0.4s;
+}
+
+.show-modal {
+    top: 0;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #e8e8e8;
+    margin: 10% auto 0 auto;
+    padding: 20px;
+    width: 70%;
+    height: 60%;
+}
+
+.modal-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header>h2 {
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.close-btn {
+    color: #8f8f8f;
+    font-size: 50px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    cursor: pointer;
+}
+
+.modal-body>p {
+    font-size: 25px;
 }
 
 /* main content */
@@ -56,11 +133,8 @@ button {
     padding: 0;
 }
 
+button:hover,
 button:focus {
-    outline: none;
-}
-
-button:hover {
     cursor: pointer;
     opacity: 0.7;
 }
@@ -143,12 +217,15 @@ button:hover {
     font-size: 10vw;
 }
 
-/* phone */
+/* desktop */
 @media only screen and (min-width: 600px) {
-
-    /* sizes */
     main {
         width: 50vw;
+    }
+
+    nav {
+        width: 40vw;
+        margin: 0 auto;
     }
 
     .session-title,
@@ -219,12 +296,14 @@ button:hover {
     main {
         width: 90vw;
     }
+
+    nav {
+        width: 60vw;
+    }
 }
 
 /* small height */
 @media only screen and (max-height: 700px) {
-
-    /* sizes */
     main {
         width: 90vw;
         gap: 12.5%;
@@ -295,7 +374,7 @@ button:hover {
     }
 }
 
-/* small height overflows */
+/* small height overflow */
 @media only screen and (max-height: 410px) {
     body {
         overflow-x: hidden;
