@@ -5,6 +5,7 @@ const pause = document.querySelector("#pause");
 const stop = document.querySelector("#stop");
 const reset = document.querySelector("#reset");
 const arrow = document.querySelectorAll(".arrow");
+const settings = document.querySelector(".settings");
 const pomodoros = document.querySelectorAll(".pomodoro");
 let pomodorosCount = 0;
 const sessionTitle = document.querySelector(".session-title h3");
@@ -55,7 +56,7 @@ function timerDisplay(seconds, breakTime = true) {
                     pomodorosCount++;
                     pomodoros[pomodorosCount - 1].style.backgroundColor = "#e8e8e8";
                     pomodorosCount === 4 ?
-                        sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 7, 6000) :
+                        sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 3, 6000) :
                         sessionSeconds = parseInt(breakMinutes.textContent) * 60;
                     timerDisplay(sessionSeconds, false);
                     play.disabled = false;
@@ -110,7 +111,7 @@ function displayTimeLeft(seconds, title = true) {
             remainderSeconds < 10 ? remainderSeconds.toString().padStart(2, 0) : remainderSeconds}`;
     }
     timer.textContent = display;
-    if (!title) return
+    if (!title) return;
     else document.title = `(${display}) Pomodoro`;
 }
 
@@ -178,13 +179,17 @@ function resetTimer(reset) {
 function modalDisplay(modal, modalBtn, closeBtn) {
     modalBtn.addEventListener("click", () => {
         modal.classList.add("show-modal");
+        settings.style.transform = "rotate(90deg)";
+        settings.blur();
     });
     closeBtn.addEventListener("click", () => {
         modal.classList.remove("show-modal");
+        settings.style.transform = "rotate(0deg)";
     });
     window.addEventListener("click", function (e) {
         if (e.target === modal) {
             modal.classList.remove("show-modal");
+            settings.style.transform = "rotate(0deg)";
         }
     });
 }

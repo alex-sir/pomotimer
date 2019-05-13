@@ -39,6 +39,7 @@ nav>h1,
 
 .settings {
     margin-right: 3%;
+    transition: transform 0.75s ease-in-out;
 }
 
 .settings:hover,
@@ -252,6 +253,8 @@ button:focus {
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
+        gap: 7.5%;
+        margin-top: 2%;
     }
 
     nav {
@@ -319,6 +322,7 @@ button:focus {
 @media only screen and (min-width: 600px) and (max-width: 1200px) {
     main {
         width: 70vw;
+        margin-top: 2%;
     }
 }
 
@@ -402,11 +406,32 @@ button:focus {
     main {
         min-width: 300px;
     }
+
+    .session-title,
+    .break-title {
+        font-size: 25px;
+    }
+
+    .minutes>p {
+        font-size: 30px;
+    }
+
+    .timer-controls>button {
+        font-size: 40px;
+    }
+
+    #timer {
+        font-size: 90px;
+    }
+
+    .arrow {
+        font-size: 50px;
+    }
 }
 
 /* small height overflow */
 @media only screen and (max-height: 410px) {
     body {
-        overflow-x: hidden;
+        overflow-x: auto;
     }
 }
