@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="Alex Carbajal">
+    <meta name="description"
+        content="Pomodoro timer with customizable session and break times and a minimalistic interface.">
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
@@ -20,10 +23,10 @@
 <body>
     <header class="main-header">
         <nav>
-            <a class="github" href="https://github.com/alex-sir/pomodoro" target="_blank" title="Github Repo"><i
+            <a class="github" href="https://github.com/alex-sir/pomodoro" target="noopener" title="Github Repo"><i
                     class="fab fa-github"></i></a>
             <h1>Pomodoro</h1>
-            <button id="modal-btn" class="settings" title="Settings"><i class="fas fa-cog"></i></button>
+            <button id="modal-btn" class="settings" name="settings" title="Settings"><i class="fas fa-cog"></i></button>
             <div id="simple-modal" class="modal">
                 <div class="modal-content">
                     <header class="modal-header">
@@ -43,30 +46,34 @@
                 <h3 class="active-time">Session</h3>
             </div>
             <div class="session-step">
-                <button id="increase-session" class="arrow"><i class="fas fa-long-arrow-alt-up"></i></button>
+                <button id="increase-session" name="increase-session" class="arrow"><i
+                        class="fas fa-long-arrow-alt-up"></i></button>
                 <div class="minutes">
                     <p id="session-minutes">25</p>
                 </div>
-                <button id="decrease-session" class="arrow"><i class="fas fa-long-arrow-alt-down"></i></button>
+                <button id="decrease-session" class="arrow" name="decrease-session"><i
+                        class="fas fa-long-arrow-alt-down"></i></button>
             </div>
             <div class="break-title">
                 <h3>Break</h3>
             </div>
             <div class="break-step">
-                <button id="increase-break" class="arrow"><i class="fas fa-long-arrow-alt-up"></i></button>
+                <button id="increase-break" class="arrow" name="increase-break"><i
+                        class="fas fa-long-arrow-alt-up"></i></button>
                 <div class="minutes">
                     <p id="break-minutes">5</p>
                 </div>
-                <button id="decrease-break" class="arrow"><i class="fas fa-long-arrow-alt-down"></i></button>
+                <button id="decrease-break" class="arrow" name="decrease-break"><i
+                        class="fas fa-long-arrow-alt-down"></i></button>
             </div>
             <div class="timer-display">
                 <p id="timer">25:00</p>
             </div>
             <div class="timer-controls">
-                <button id="play"><i class="fas fa-play"></i></button>
-                <button id="pause"><i class="fas fa-pause"></i></button>
-                <button id="stop"><i class="fas fa-square"></i></button>
-                <button id="reset"><i class="fas fa-undo"></i></button>
+                <button id="play" name="play"><i class="fas fa-play"></i></button>
+                <button id="pause" name="pause"><i class="fas fa-pause"></i></button>
+                <button id="stop" name="stop"><i class="fas fa-square"></i></button>
+                <button id="reset" name="reset"><i class="fas fa-undo"></i></button>
             </div>
             <div class="pomodoros">
                 <span class="pomodoro"></span>
