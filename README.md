@@ -1,2 +1,2 @@
 # Pomodoro
-Minimalistic Pomodoro timer with customizable session and break times.
+Minimalist Pomodoro timer with customizable session/break times.

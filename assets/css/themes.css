@@ -1,0 +1,95 @@
+/* dark */
+.dark {
+  background-color: #202020;
+  color: #E8E8E8;
+}
+
+.dark-color {
+  color: #E8E8E8;
+}
+
+.dark-border {
+  border-color: #E8E8E8;
+}
+
+.dark-active {
+  background: linear-gradient(to right, #E8E8E8, #E8E8E8) no-repeat;
+  background-size: 100% 1.5px;
+  background-position: left bottom;
+}
+
+.dark-title {
+  color: #e8e8e8;
+}
+
+/* light */
+.light {
+  background-color: #E8E8E8;
+  color: #202020;
+}
+
+.light-color {
+  color: #202020;
+}
+
+.light-border {
+  border-color: #202020;
+}
+
+.light-active {
+  background: linear-gradient(to right, #202020, #202020) no-repeat;
+  background-size: 100% 1.5px;
+  background-position: left bottom;
+}
+
+.light-title {
+  color: #202020;
+}
+
+/* premier */
+.premier {
+  background-color: #FFF;
+  color: #F03D2C;
+}
+
+.premier-color {
+  color: #F03D2C;
+}
+
+.premier-border {
+  border-color: #F03D2C;
+}
+
+.premier-active {
+  background: linear-gradient(to right, #F03D2C, #F03D2C) no-repeat;
+  background-size: 100% 1.5px;
+  background-position: left bottom;
+}
+
+.premier-title {
+  color: #F03D2C;
+}
+
+/* candy */
+.candy {
+  background-color: #5FC3E4;
+  color: #E55D87;
+}
+
+.candy-color {
+  color: #E55D87;
+}
+
+.candy-border {
+  border-color: #E55D87;
+}
+
+.candy-active {
+  background: linear-gradient(to right, #E55D87, #E55D87) no-repeat;
+  background-size: 100% 1.5px;
+  background-position: left bottom;
+}
+
+.candy-title {
+  color: #E55D87;
+}
