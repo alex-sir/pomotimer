@@ -13,7 +13,7 @@ const themeWarningBackground = document.querySelector('.theme-warning-background
 const acceptRestart = document.querySelector('#accept-restart');
 const declineRestart = document.querySelector('#decline-restart');
 
-function modalDisplay(modal, modalBtn, closeBtn) {
+function modalDisplay(modal, modalBtn, closeBtn, settings) {
   modalBtn.addEventListener('click', () => {
     modal.style.visibility = 'visible';
     modal.style.opacity = '1';
@@ -21,19 +21,11 @@ function modalDisplay(modal, modalBtn, closeBtn) {
     settings.blur();
   });
   closeBtn.addEventListener('click', () => {
-    modal.style.opacity = '0';
-    setTimeout(() => {
-      modal.style.visibility = 'hidden';
-    }, 300);
-    settings.style.transform = 'rotate(0deg)';
+    hideModal(modal, settings);
   });
   window.addEventListener('click', function (e) {
     if (e.target === modal) {
-      modal.style.opacity = '0';
-      setTimeout(() => {
-        modal.style.visibility = 'hidden';
-      }, 300);
-      settings.style.transform = 'rotate(0deg)';
+      hideModal(modal, settings);
     }
   });
 }
@@ -42,7 +34,7 @@ function timerRestart(accept, decline, themeWarning, theme) {
   themeWarning.style.display = 'block';
   accept.addEventListener('click', () => {
     stop.click();
-    executeChangeTheme(theme);
+    executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
     themeWarning.style.display = 'none';
   });
   decline.addEventListener('click', () => {
@@ -57,12 +49,12 @@ function changeTheme(themes) {
   themes.forEach(theme => {
     theme.addEventListener('click', function () {
       if (timerStarted) timerRestart(acceptRestart, declineRestart, themeWarningBackground, theme);
-      else executeChangeTheme(theme);
+      else executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
     });
   });
 }
 
-function executeChangeTheme(theme) {
+function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal) {
   body.classList = '';
   body.classList.add(theme.classList[1]);
   themeColor.forEach(element => {
@@ -82,10 +74,19 @@ function executeChangeTheme(theme) {
     pomodoro.classList.remove();
     pomodoro.classList.add(`${theme.classList[1]}-border`);
   });
+  hideModal(modal, settings);
+}
+
+function hideModal(modal, settings) {
+  modal.style.opacity = '0';
+  setTimeout(() => {
+    modal.style.visibility = 'hidden';
+  }, 300);
+  settings.style.transform = 'rotate(0deg)';
 }
 
 function main() {
-  modalDisplay(modal, modalBtn, closeBtn);
+  modalDisplay(modal, modalBtn, closeBtn, settings);
   changeTheme(themes);
 }
 
