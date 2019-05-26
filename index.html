@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/modal.css">
   <link rel="stylesheet" href="./assets/css/themes.css">
+  <script src="./assets/js/main.js" async></script>
+  <script src="assets/js/modal.js" async></script>
 </head>
 
 <body class="dark">
@@ -27,13 +29,14 @@
       <a class="github dark-color" href="https://github.com/alex-sir/pomodoro" target="noopener" title="Github Repo"><i
           class="fab fa-github"></i></a>
       <h1 class="dark-title">Pomodoro</h1>
-      <button id="modal-btn" class="settings dark-color" aria-label="Settings" title="Settings"><i class="fas fa-cog"></i></button>
+      <button id="modal-btn" class="settings dark-color" aria-label="Settings" title="Settings"><i
+          class="fas fa-cog"></i></button>
       <!-- modal -->
       <div id="simple-modal" class="modal">
         <div class="modal-content">
           <header class="modal-header">
             <p class="close-btn">&times;</p>
-            <h2>Settings(WIP)</h2>
+            <h2>Settings</h2>
           </header>
           <div class="modal-body">
             <div class="themes">
@@ -42,6 +45,17 @@
               <p class="theme light">Light</p>
               <p class="theme premier">Premier</p>
               <p class="theme candy">Candy</p>
+            </div>
+            <div class="theme-warning-background">
+              <div class="theme-warning">
+                <div class="theme-warning-dialogue">
+                  <span>Restart the timer?</span>
+                </div>
+                <div class="theme-warning-options">
+                  <button id="accept-restart">Yes</button>
+                  <button id="decline-restart">No</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -91,9 +105,6 @@
       </div>
     </main>
   </div>
-  <!-- scripts -->
-  <script src="./assets/js/main.js"></script>
-  <script src="assets/js/modal.js"></script>
 </body>
 
 </html>

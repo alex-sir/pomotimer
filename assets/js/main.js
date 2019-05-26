@@ -1,25 +1,26 @@
 let countdown;
-const timer = document.querySelector("#timer");
-const play = document.querySelector("#play");
-const pause = document.querySelector("#pause");
-const stop = document.querySelector("#stop");
-const reset = document.querySelector("#reset");
-const arrow = document.querySelectorAll(".arrow");
-const settings = document.querySelector(".settings");
-const pomodoros = document.querySelectorAll(".pomodoro");
+const timer = document.querySelector('#timer');
+let timerStarted = false;
+const play = document.querySelector('#play');
+const pause = document.querySelector('#pause');
+const stop = document.querySelector('#stop');
+const reset = document.querySelector('#reset');
+const arrow = document.querySelectorAll('.arrow');
+const pomodoros = document.querySelectorAll('.pomodoro');
 let pomodorosCount = 0;
-const sessionTitle = document.querySelector(".session-title h3");
-const increaseSession = document.querySelector("#increase-session");
-const sessionMinutes = document.querySelector("#session-minutes");
+const sessionTitle = document.querySelector('.session-title h3');
+const increaseSession = document.querySelector('#increase-session');
+const sessionMinutes = document.querySelector('#session-minutes');
 let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-const breakTitle = document.querySelector(".break-title h3");
-const decreaseSession = document.querySelector("#decrease-session");
-const increaseBreak = document.querySelector("#increase-break");
-const breakMinutes = document.querySelector("#break-minutes");
-const decreaseBreak = document.querySelector("#decrease-break");
+const breakTitle = document.querySelector('.break-title h3');
+const decreaseSession = document.querySelector('#decrease-session');
+const increaseBreak = document.querySelector('#increase-break');
+const breakMinutes = document.querySelector('#break-minutes');
+const decreaseBreak = document.querySelector('#decrease-break');
 
 function timerDisplay(seconds, breakTime = true) {
-  play.addEventListener("click", () => {
+  play.addEventListener('click', () => {
+    timerStarted = true;
     seconds = sessionSeconds;
     clearInterval(countdown);
     play.disabled = true;
@@ -34,6 +35,7 @@ function timerDisplay(seconds, breakTime = true) {
 
     countdown = setInterval(() => {
       const secondsLeft = Math.round((then - Date.now()) / 1000);
+      // const secondsLeft = Math.round((then - then) / 1000);
       sessionSeconds -= 1;
 
       if (secondsLeft < 1) {
@@ -47,7 +49,7 @@ function timerDisplay(seconds, breakTime = true) {
         if (pomodorosCount === 4) {
           pomodorosCount = 0;
           pomodoros.forEach((pomodoro) => {
-            pomodoro.style.backgroundColor = "";
+            pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
           });
           sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
           timerDisplay(sessionSeconds);
@@ -55,7 +57,7 @@ function timerDisplay(seconds, breakTime = true) {
           play.click();
         } else if (breakTime) {
           pomodorosCount++;
-          pomodoros[pomodorosCount - 1].style.backgroundColor = "#e8e8e8";
+          pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
           pomodorosCount === 4 ?
             sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 3, 6000) :
             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
@@ -75,7 +77,7 @@ function timerDisplay(seconds, breakTime = true) {
 }
 
 function timerSession(increase, minutes, decrease, session = true) {
-  increase.addEventListener("click", () => {
+  increase.addEventListener('click', () => {
     if (parseInt(minutes.textContent) >= 6000) return;
     else {
       minutes.textContent = parseInt(minutes.textContent) + 1;
@@ -85,7 +87,7 @@ function timerSession(increase, minutes, decrease, session = true) {
       }
     }
   });
-  decrease.addEventListener("click", () => {
+  decrease.addEventListener('click', () => {
     if (parseInt(minutes.textContent) <= 1) return;
     else {
       minutes.textContent = parseInt(minutes.textContent) - 1;
@@ -119,7 +121,7 @@ function displayTimeLeft(seconds, title = true) {
 function pauseTimer(pause) {
   pause.disabled = true;
 
-  pause.addEventListener("click", () => {
+  pause.addEventListener('click', () => {
     clearInterval(countdown);
     sessionTitle.classList >= 1 ? timerDisplay(0) : timerDisplay(0, false);
     pause.disabled = true;
@@ -130,18 +132,17 @@ function pauseTimer(pause) {
 function stopTimer(stop, seconds) {
   stop.disabled = true;
 
-  stop.addEventListener("click", () => {
+  stop.addEventListener('click', () => {
+    timerStarted = false;
     seconds = parseInt(sessionMinutes.textContent) * 60;
     sessionSeconds = seconds;
     clearInterval(countdown);
     displayTimeLeft(seconds);
     if (breakTitle.classList.length >= 1) {
       sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
-      breakTitle.classList = "";
+      breakTitle.classList = '';
     }
-    pomodoros.forEach((pomodoro) => {
-      pomodoro.style.backgroundColor = "";
-    });
+    resetPomodoros(pomodoros);
     pomodorosCount = 0;
     stop.disabled = true;
     pause.disabled = true;
@@ -149,31 +150,40 @@ function stopTimer(stop, seconds) {
     arrow.forEach(arrow => {
       arrow.disabled = false;
     });
-    document.title = "Pomodoro";
+    document.title = 'Pomodoro';
     timerDisplay(seconds);
   });
 }
 
+function resetPomodoros(pomodoros) {
+  pomodoros.forEach((pomodoro) => {
+    const pomodoroBorder = pomodoro.classList[1];
+    pomodoro.classList = '';
+    pomodoro.classList.add('pomodoro');
+    pomodoro.classList.add(pomodoroBorder);
+  });
+}
+
 function resetTimer(reset) {
-  reset.addEventListener("click", () => {
+  reset.addEventListener('click', () => {
+    timerStarted = false;
     clearInterval(countdown);
-    timer.textContent = "25:00";
-    sessionMinutes.textContent = "25";
+    timer.textContent = '25:00';
+    sessionMinutes.textContent = '25';
     if (breakTitle.classList.length >= 1) {
       sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
-      breakTitle.classList = "";
+      breakTitle.classList = '';
     }
-    pomodoros.forEach((pomodoro) => {
-      pomodoro.style.backgroundColor = "";
-    });
+    resetPomodoros(pomodoros);
     pomodorosCount = 0;
     sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-    breakMinutes.textContent = "5";
+    breakMinutes.textContent = '5';
     arrow.forEach(arrow => {
       arrow.disabled = false;
     });
     play.disabled = false;
-    document.title = "Pomodoro";
+    document.title = 'Pomodoro';
+    timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60);
   });
 }
 

@@ -1,0 +1,20 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "Minimalist Pomodoro timer with customizable session/break times.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex-sir/pomodoro.git"
+  },
+  "author": "Alex Carbajal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex-sir/pomodoro/issues"
+  },
+  "homepage": "https://github.com/alex-sir/pomodoro#readme",
+  "devDependencies": {}
+}
