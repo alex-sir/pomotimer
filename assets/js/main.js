@@ -18,6 +18,7 @@ const increaseBreak = document.querySelector('#increase-break');
 const breakMinutes = document.querySelector('#break-minutes');
 const decreaseBreak = document.querySelector('#decrease-break');
 
+// TODO: Add indicator for long break
 function timerDisplay(seconds, breakTime = true) {
   play.addEventListener('click', () => {
     timerStarted = true;

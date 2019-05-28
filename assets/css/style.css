@@ -180,10 +180,6 @@ button:focus {
     margin-bottom: 5%;
 }
 
-/* **************************************** */
-/* FOR MEDIA QUERY: SET MINIMUM WIDTH */
-/* **************************************** */
-
 /* desktop */
 @media only screen and (min-width: 600px) {
     main {
@@ -211,7 +207,7 @@ button:focus {
     }
 
     #timer {
-        font-size: 100px;
+        font-size: 80px;
     }
 
     .arrow {
@@ -335,7 +331,7 @@ button:focus {
 }
 
 /* small width */
-@media only screen and (max-width: 300px) {
+@media only screen and (max-width: 600px) {
 
     body,
     main {
@@ -344,7 +340,7 @@ button:focus {
 
     .session-title,
     .break-title {
-        font-size: 25px;
+        font-size: 30px;
     }
 
     .minutes>p {
