@@ -7,21 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Alex Carbajal">
     <meta name="description" content="Pomodoro timer with customizable session/break times and a minimalist interface.">
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/">
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="./assets/favicon/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
     <title>Pomodoro</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./assets/spectrum/spectrum.css">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/modal.css">
-    <link rel="stylesheet" href="./assets/css/modal-themes.css">
-    <link rel="stylesheet" href="./assets/css/modal-themes-custom.css">
-    <link rel="stylesheet" href="./assets/css/themes.css">
+    <link rel="stylesheet" type="text/css" href="assets/spectrum/spectrum.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/modal.css">
+    <link rel="stylesheet" href="assets/css/modal-themes.css">
+    <link rel="stylesheet" href="assets/css/modal-themes-custom.css">
+    <link rel="stylesheet" href="assets/css/themes.css">
+    <link rel="stylesheet" href="assets/css/misc.css">
 </head>
 
 <body class="dark">
@@ -64,6 +65,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="pomodoro-about">
+                            <span>
+                                <span>What</span> is the <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+                                    target="noopener">Pomodoro Technique</a>?
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,7 +107,7 @@
             </div>
             <div class="timer-controls">
                 <button id="play" aria-label="Start"><i class="fas fa-play dark-color"></i></button>
-                <button id="pause" aria-label=" Pause"><i class="fas fa-pause dark-color"></i></button>
+                <button id="pause" aria-label="Pause"><i class="fas fa-pause dark-color"></i></button>
                 <button id="stop" aria-label="Stop"><i class="fas fa-square dark-color"></i></button>
                 <button id="reset" aria-label="Reset"><i class="fas fa-undo dark-color"></i></button>
             </div>
@@ -114,9 +121,10 @@
     </div>
     <!-- scripts -->
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-    <script src='./assets/spectrum/spectrum.js'></script>
-    <script src="./assets/js/main.js"></script>
+    <script src='assets/spectrum/spectrum.js'></script>
+    <script src="assets/js/main.js"></script>
     <script src="assets/js/modal.js"></script>
+    <script src="assets/js/themes.js"></script>
 </body>
 
 </html>
