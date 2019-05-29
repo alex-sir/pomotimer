@@ -161,6 +161,7 @@ button:focus {
     grid-area: time;
     justify-content: center;
     align-items: flex-start;
+    margin-bottom: 10px;
 }
 
 #timer {
@@ -185,7 +186,7 @@ button:focus {
     main {
         width: 50vw;
         gap: 7.5%;
-        margin-top: 2%;
+        margin-top: 1%;
     }
 
     nav {
@@ -195,11 +196,11 @@ button:focus {
 
     .session-title,
     .break-title {
-        font-size: 35px;
+        font-size: 37.5px;
     }
 
     .minutes>p {
-        font-size: 40px;
+        font-size: 45px;
     }
 
     .timer-controls>button {
@@ -207,7 +208,7 @@ button:focus {
     }
 
     #timer {
-        font-size: 80px;
+        font-size: 90px;
     }
 
     .arrow {
@@ -253,7 +254,7 @@ button:focus {
 @media only screen and (min-width: 600px) and (max-width: 1200px) {
     main {
         width: 70vw;
-        margin-top: 2%;
+        margin-top: 1%;
     }
 }
 
@@ -272,11 +273,11 @@ button:focus {
 @media only screen and (max-height: 700px) {
     main {
         width: 90vw;
-        gap: 12.5%;
+        gap: 5%;
     }
 
     h3 {
-        margin-top: 10%;
+        margin-top: 2%;
     }
 
     .session-title,
