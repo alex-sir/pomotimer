@@ -112,6 +112,11 @@ button:focus {
     font-size: 7vw;
 }
 
+.session-title>h3:hover,
+.break-title>h3:hover {
+    cursor: pointer;
+}
+
 .arrow {
     font-size: 10vw;
 }

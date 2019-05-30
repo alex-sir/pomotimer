@@ -41,6 +41,7 @@ function colorPicker() {
         else {
             customThemeActive = true;
             customThemeChanger(customValueBody, customValueContent);
+            if (breakSelected) titleBorderColor(true);
         }
     });
 }
@@ -53,7 +54,8 @@ function customThemeChanger(bodyValue, contentValue) {
     themeBorder.forEach(element => {
         element.setAttribute('style', `border-color: ${contentValue}`);
     });
-    themeActive.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
+    if (breakSelected) breakTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
+    else sessionTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
     themeTitle.setAttribute('style', `color: ${contentValue}`);
     pomodoros.forEach(pomodoro => {
         pomodoro.setAttribute('style', `border-color: ${contentValue}`);
@@ -61,7 +63,8 @@ function customThemeChanger(bodyValue, contentValue) {
     hideModal(modal, settings);
 }
 
-function removeCustomTheme() {
+function removeCustomTheme(fullRemove = false) {
+    if (fullRemove) customThemeActive = false;
     body.style.backgroundColor = '';
     body.style.color = '';
     themeColor.forEach(element => {
@@ -87,9 +90,11 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
         stop.click();
         executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
         if (customThemeActive) {
-            customThemeActive = false;
-            removeCustomTheme();
+            removeCustomTheme(true);
         }
+        sessionTimeSelected = true;
+        breakTimeSelected = false;
+        breakSelected = false;
         themeWarning.style.display = 'none';
     });
     decline.addEventListener('click', () => {
@@ -104,9 +109,13 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
         customThemeActive = true;
-        removeCustomTheme();
+        removeCustomTheme(false);
         stop.click();
         customThemeChanger(bodyValue, contentValue);
+        sessionTimeSelected = true;
+        breakTimeSelected = false;
+        breakSelected = false;
+        titleBorderColor(true);
         themeWarning.style.display = 'none';
     });
     decline.addEventListener('click', () => {
@@ -122,11 +131,29 @@ function changeTheme(themes) {
         theme.addEventListener('click', function () {
             if (timerStarted) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
             else {
-                if (customThemeActive) removeCustomTheme();
+                if (customThemeActive) removeCustomTheme(true);
+                setTimeout(() => {
+                    if (breakSelected) titleBorderColor(false);
+                }, 0);
                 executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
             }
         });
     });
+}
+
+function titleBorderColor(customThemeReset) {
+    if (!customThemeActive && !customThemeReset) {
+        let currentActive = sessionTitle.classList[sessionTitle.classList.length - 1];
+        breakTitle.classList = '';
+        breakTitle.classList.add(currentActive);
+        sessionTitle.classList = '';
+    } else if (customThemeReset) {
+        if (breakSelected) customThemeSwitch = false;
+        else customThemeSwitch = true;
+        sessionTitle.classList = '';
+        breakTitle.classList = '';
+
+    }
 }
 
 function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal) {

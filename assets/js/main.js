@@ -18,12 +18,17 @@ const increaseBreak = document.querySelector('#increase-break');
 const breakMinutes = document.querySelector('#break-minutes');
 const decreaseBreak = document.querySelector('#decrease-break');
 let customThemeSwitch = true;
+let autoStart = document.querySelector('#auto-start');
+let breakSelected = false;
+let sessionTimeSelected = true;
+let breakTimeSelected = false;
 
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener('click', () => {
         timerStarted = true;
         seconds = sessionSeconds;
         clearInterval(countdown);
+        autoStart.disabled = true;
         play.disabled = true;
         pause.disabled = false;
         stop.disabled = false;
@@ -41,66 +46,105 @@ function timerDisplay(seconds, breakTime = true) {
 
             if (secondsLeft < 1) {
                 clearInterval(countdown);
-                let currentActive;
-                if (!customThemeActive) {
-                    sessionTitle.classList.length >= 1 ?
-                        currentActive = sessionTitle.classList[sessionTitle.classList.length - 1] :
-                        currentActive = breakTitle.classList[breakTitle.classList.length - 1];
-                    breakTitle.classList.toggle(currentActive);
-                    sessionTitle.classList.toggle(currentActive);
-                } else {
-                    sessionTitle.classList = '';
-                    breakTitle.classList = '';
-                    if (customThemeSwitch) {
-                        customThemeSwitch = false;
-                        sessionTitle.style.background = '';
-                        sessionTitle.style.backgroundSize = '';
-                        sessionTitle.style.backgroundPosition = '';
-                        breakTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
-                        breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
-                        breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+                if (autoStart.checked) {
+                    currentActive = titleBorderChange();
+                    if (pomodorosCount === 4) {
+                        breakSelected = false;
+                        pomodorosCount = 0;
+                        pomodoros.forEach((pomodoro) => {
+                            if (!customThemeActive) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
+                            else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
+                        });
+                        sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+                        timerDisplay(sessionSeconds);
+                        play.disabled = false;
+                        play.click();
+                    } else if (breakTime) {
+                        breakSelected = true;
+                        pomodorosCount++;
+                        if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
+                        else {
+                            pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
+                        }
+                        pomodorosCount === 4 ?
+                            sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 3, 6000) :
+                            sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                        timerDisplay(sessionSeconds, false);
+                        play.disabled = false;
+                        play.click();
                     } else {
-                        customThemeSwitch = true;
-                        breakTitle.style.background = '';
-                        breakTitle.style.backgroundSize = '';
-                        breakTitle.style.backgroundPosition = '';
-                        sessionTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
-                        sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
-                        sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+                        breakSelected = false;
+                        sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+                        timerDisplay(sessionSeconds);
+                        play.disabled = false;
+                        play.click();
                     }
-                }
-                if (pomodorosCount === 4) {
-                    pomodorosCount = 0;
-                    pomodoros.forEach((pomodoro) => {
-                        if (!customThemeActive) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
-                        else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
-                    });
-                    sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-                    timerDisplay(sessionSeconds);
-                    play.disabled = false;
-                    play.click();
-                } else if (breakTime) {
-                    pomodorosCount++;
-                    if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
-                    else {
-                        pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
-                    }
-                    pomodorosCount === 4 ?
-                        sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 3, 6000) :
-                        sessionSeconds = parseInt(breakMinutes.textContent) * 60;
-                    timerDisplay(sessionSeconds, false);
-                    play.disabled = false;
-                    play.click();
-                } else {
-                    sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-                    timerDisplay(sessionSeconds);
-                    play.disabled = false;
-                    play.click();
                 }
             }
             displayTimeLeft(secondsLeft);
         }, 1000);
     });
+}
+
+function sessionBreakSelect(sessionTime, breakTime) {
+    sessionTime.addEventListener('click', () => {
+        if (timerStarted) reset.click();
+        breakSelected = false;
+        sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+        displayTimeLeft(sessionSeconds, false);
+        timerDisplay(sessionSeconds);
+        if (sessionTimeSelected) null;
+        else if (breakTimeSelected) {
+            breakTimeSelected = false;
+            sessionTimeSelected = true;
+            titleBorderChange();
+        }
+    });
+    breakTime.addEventListener('click', () => {
+        if (timerStarted) reset.click();
+        breakSelected = true;
+        sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+        displayTimeLeft(sessionSeconds, false);
+        timerDisplay(sessionSeconds, false);
+        if (breakTimeSelected) null;
+        else if (sessionTimeSelected) {
+            breakTimeSelected = true;
+            sessionTimeSelected = false;
+            titleBorderChange();
+        }
+    });
+}
+
+function titleBorderChange() {
+    let currentActive;
+    if (!customThemeActive) {
+        sessionTitle.classList.length >= 1 ?
+            currentActive = sessionTitle.classList[sessionTitle.classList.length - 1] :
+            currentActive = breakTitle.classList[breakTitle.classList.length - 1];
+        breakTitle.classList.toggle(currentActive);
+        sessionTitle.classList.toggle(currentActive);
+    } else {
+        sessionTitle.classList = '';
+        breakTitle.classList = '';
+        if (customThemeSwitch) {
+            customThemeSwitch = false;
+            sessionTitle.style.background = '';
+            sessionTitle.style.backgroundSize = '';
+            sessionTitle.style.backgroundPosition = '';
+            breakTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
+            breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
+            breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+        } else {
+            customThemeSwitch = true;
+            breakTitle.style.background = '';
+            breakTitle.style.backgroundSize = '';
+            breakTitle.style.backgroundPosition = '';
+            sessionTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
+            sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
+            sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+        }
+    }
+    return currentActive;
 }
 
 function timerSession(increase, minutes, decrease, session = true) {
@@ -172,7 +216,39 @@ function breakSessionTitleReset() {
 function stopTimer(stop, seconds) {
     stop.disabled = true;
 
+    // TODO: add feature for resetting the time ONLY for current time (session, break, long break)
+    // for theme switching in between time runs, the 'stop' mechanism should be used to maintain
+    // user selected session/break times.
+    /*
     stop.addEventListener('click', () => {
+        // if break selected, stop should reset the time for current stop
+        // TODO: Long break check, stop and reset time to long break time
+        if (breakSelected) {
+            seconds = parseInt(breakMinutes.textContent) * 60;
+        } else {
+            seconds = parseInt(sessionMinutes.textContent) * 60;
+        }
+        timerStarted = false;
+        // seconds = parseInt(sessionMinutes.textContent) * 60;
+        sessionSeconds = seconds;
+        clearInterval(countdown);
+        displayTimeLeft(seconds);
+        // breakSessionTitleReset();
+        // resetPomodoros(pomodoros);
+        // pomodorosCount = 0;
+        stop.disabled = true;
+        pause.disabled = true;
+        play.disabled = false;
+        // autoStart.disabled = false;
+        // arrow.forEach(arrow => {
+        //     arrow.disabled = false;
+        // });
+        document.title = 'Pomodoro';
+        timerDisplay(seconds);
+    });
+    */
+    stop.addEventListener('click', () => {
+        seconds = parseInt(sessionMinutes.textContent) * 60;
         timerStarted = false;
         seconds = parseInt(sessionMinutes.textContent) * 60;
         sessionSeconds = seconds;
@@ -184,6 +260,7 @@ function stopTimer(stop, seconds) {
         stop.disabled = true;
         pause.disabled = true;
         play.disabled = false;
+        autoStart.disabled = false;
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
@@ -212,6 +289,9 @@ function resetTimer(reset) {
         timer.textContent = '25:00';
         sessionMinutes.textContent = '25';
         breakSessionTitleReset();
+        breakSelected = false;
+        sessionTimeSelected = true;
+        breakTimeSelected = false;
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
@@ -220,6 +300,7 @@ function resetTimer(reset) {
             arrow.disabled = false;
         });
         play.disabled = false;
+        autoStart.disabled = false;
         document.title = 'Pomodoro';
         timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60);
     });
@@ -229,6 +310,7 @@ function main() {
     timerDisplay(sessionSeconds);
     timerSession(increaseSession, sessionMinutes, decreaseSession);
     timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
+    sessionBreakSelect(sessionTitle, breakTitle);
     pauseTimer(pause);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
