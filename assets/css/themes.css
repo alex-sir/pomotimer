@@ -4,8 +4,8 @@
   --light-color: #E8E8E8;
   --white-color: #FFF;
   --red-color: #F03D2C;
-  --light-blue-color: #32a8cf;
-  --pink-color: #da0045;
+  --magenta-color: #85144B;
+  --yellow-color: #FFDC00;
   /* pomodoros */
   --pomodoro-size: 100% 1.5px;
   --pomodoro-position: left bottom;
@@ -95,30 +95,30 @@
   color: var(--red-color);
 }
 
-/* candy */
-.candy {
-  background-color: var(--light-blue-color);
-  color: var(--pink-color);
+/* royal */
+.royal {
+  background-color: var(--magenta-color);
+  color: var(--yellow-color);
 }
 
-.candy-color {
-  color: var(--pink-color);
+.royal-color {
+  color: var(--yellow-color);
 }
 
-.candy-background {
-  background-color: var(--pink-color);
+.royal-background {
+  background-color: var(--yellow-color);
 }
 
-.candy-border {
-  border-color: var(--pink-color);
+.royal-border {
+  border-color: var(--yellow-color);
 }
 
-.candy-active {
-  background: linear-gradient(to right, var(--pink-color), var(--pink-color)) no-repeat;
+.royal-active {
+  background: linear-gradient(to right, var(--yellow-color), var(--yellow-color)) no-repeat;
   background-size: var(--pomodoro-size);
   background-position: var(--pomodoro-position);
 }
 
-.candy-title {
-  color: var(--pink-color);
+.royal-title {
+  color: var(--yellow-color);
 }

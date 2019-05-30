@@ -87,7 +87,7 @@ function removeCustomTheme(fullRemove = false) {
 function timerRestartTheme(accept, decline, themeWarning, theme) {
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
-        stop.click();
+        stopTimerHard(stop, sessionSeconds);
         executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
         if (customThemeActive) {
             removeCustomTheme(true);
@@ -110,12 +110,12 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
     accept.addEventListener('click', () => {
         customThemeActive = true;
         removeCustomTheme(false);
-        stop.click();
-        customThemeChanger(bodyValue, contentValue);
+        stopTimerHard(stop, sessionSeconds);
         sessionTimeSelected = true;
         breakTimeSelected = false;
         breakSelected = false;
-        titleBorderColor(true);
+        customThemeChanger(customValueBody, customValueContent);
+        titleBorderColor(true)
         themeWarning.style.display = 'none';
     });
     decline.addEventListener('click', () => {

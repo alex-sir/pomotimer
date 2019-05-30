@@ -26,6 +26,7 @@ let breakTimeSelected = false;
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener('click', () => {
         timerStarted = true;
+        if (breakSelected) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
         autoStart.disabled = true;
@@ -87,6 +88,7 @@ function timerDisplay(seconds, breakTime = true) {
 }
 
 function sessionBreakSelect(sessionTime, breakTime) {
+    // TODO: pop up warning is timer has started
     sessionTime.addEventListener('click', () => {
         if (timerStarted) reset.click();
         breakSelected = false;
@@ -153,6 +155,9 @@ function timerSession(increase, minutes, decrease, session = true) {
         else {
             minutes.textContent = parseInt(minutes.textContent) + 1;
             if (session) {
+                if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                sessionSeconds += 60;
+            } else if (breakSelected) {
                 displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds += 60;
             }
@@ -163,6 +168,9 @@ function timerSession(increase, minutes, decrease, session = true) {
         else {
             minutes.textContent = parseInt(minutes.textContent) - 1;
             if (session) {
+                if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                sessionSeconds -= 60;
+            } else if (breakSelected) {
                 displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds -= 60;
             }
@@ -219,7 +227,6 @@ function stopTimer(stop, seconds) {
     // TODO: add feature for resetting the time ONLY for current time (session, break, long break)
     // for theme switching in between time runs, the 'stop' mechanism should be used to maintain
     // user selected session/break times.
-    /*
     stop.addEventListener('click', () => {
         // if break selected, stop should reset the time for current stop
         // TODO: Long break check, stop and reset time to long break time
@@ -229,44 +236,46 @@ function stopTimer(stop, seconds) {
             seconds = parseInt(sessionMinutes.textContent) * 60;
         }
         timerStarted = false;
-        // seconds = parseInt(sessionMinutes.textContent) * 60;
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
-        // breakSessionTitleReset();
-        // resetPomodoros(pomodoros);
-        // pomodorosCount = 0;
-        stop.disabled = true;
-        pause.disabled = true;
-        play.disabled = false;
-        // autoStart.disabled = false;
-        // arrow.forEach(arrow => {
-        //     arrow.disabled = false;
-        // });
-        document.title = 'Pomodoro';
-        timerDisplay(seconds);
-    });
-    */
-    stop.addEventListener('click', () => {
-        seconds = parseInt(sessionMinutes.textContent) * 60;
-        timerStarted = false;
-        seconds = parseInt(sessionMinutes.textContent) * 60;
-        sessionSeconds = seconds;
-        clearInterval(countdown);
-        displayTimeLeft(seconds);
-        breakSessionTitleReset();
-        resetPomodoros(pomodoros);
-        pomodorosCount = 0;
         stop.disabled = true;
         pause.disabled = true;
         play.disabled = false;
         autoStart.disabled = false;
+        // Enabling arrows might be buggy...
+        // might actually be fine
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
         document.title = 'Pomodoro';
-        timerDisplay(seconds);
+        if (breakSelected) timerDisplay(seconds, false);
+        else timerDisplay(seconds);
     });
+}
+
+function stopTimerHard(stop, seconds) {
+    seconds = parseInt(sessionMinutes.textContent) * 60;
+    timerStarted = false;
+    seconds = parseInt(sessionMinutes.textContent) * 60;
+    sessionSeconds = seconds;
+    clearInterval(countdown);
+    displayTimeLeft(seconds);
+    breakSessionTitleReset();
+    resetPomodoros(pomodoros);
+    pomodorosCount = 0;
+    breakSelected = false;
+    sessionTimeSelected = true;
+    breakTimeSelected = false;
+    stop.disabled = true;
+    pause.disabled = true;
+    play.disabled = false;
+    autoStart.disabled = false;
+    arrow.forEach(arrow => {
+        arrow.disabled = false;
+    });
+    document.title = 'Pomodoro';
+    timerDisplay(seconds);
 }
 
 function resetPomodoros(pomodoros) {
