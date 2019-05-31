@@ -37,7 +37,7 @@ function colorPicker() {
         customValueContent = $('#color-picker-content').spectrum('get');
     });
     applyCustomTheme.addEventListener('click', () => {
-        if (timerStarted) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueContent);
+        if (timerStarted || pomodorosCount >= 1) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueContent);
         else {
             customThemeActive = true;
             customThemeChanger(customValueBody, customValueContent);
@@ -129,7 +129,7 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
 function changeTheme(themes) {
     themes.forEach(theme => {
         theme.addEventListener('click', function () {
-            if (timerStarted) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
+            if (timerStarted || pomodorosCount >= 1) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
             else {
                 if (customThemeActive) removeCustomTheme(true);
                 setTimeout(() => {
@@ -174,6 +174,7 @@ function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTi
     themeTitle.classList.add(`${theme.classList[1]}-title`);
     pomodoros.forEach(pomodoro => {
         pomodoro.classList.remove();
+        pomodoro.classList.add('pomodoro');
         pomodoro.classList.add(`${theme.classList[1]}-border`);
     });
     hideModal(modal, settings);

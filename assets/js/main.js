@@ -22,11 +22,12 @@ let autoStart = document.querySelector('#auto-start');
 let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
+let longBreak = 15;
 
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener('click', () => {
         timerStarted = true;
-        if (breakSelected) sessionSeconds = breakMinutes.textContent * 60;
+        if (breakSelected && pomodorosCount !== 4) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
         autoStart.disabled = true;
@@ -68,7 +69,7 @@ function timerDisplay(seconds, breakTime = true) {
                             pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
                         }
                         pomodorosCount === 4 ?
-                            sessionSeconds = Math.min((parseInt(breakMinutes.textContent) * 60) * 3, 6000) :
+                            sessionSeconds = Math.min(longBreak * 60, 6000) :
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, false);
                         play.disabled = false;
@@ -88,9 +89,9 @@ function timerDisplay(seconds, breakTime = true) {
 }
 
 function sessionBreakSelect(sessionTime, breakTime) {
-    // TODO: pop up warning is timer has started
+    // TODO: pop up warning if timer has started
     sessionTime.addEventListener('click', () => {
-        if (timerStarted) reset.click();
+        if (timerStarted) stopTimerHard(stop, sessionSeconds);
         breakSelected = false;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         displayTimeLeft(sessionSeconds, false);
@@ -103,7 +104,7 @@ function sessionBreakSelect(sessionTime, breakTime) {
         }
     });
     breakTime.addEventListener('click', () => {
-        if (timerStarted) reset.click();
+        if (timerStarted) stopTimerHard(stop, sessionSeconds);
         breakSelected = true;
         sessionSeconds = parseInt(breakMinutes.textContent) * 60;
         displayTimeLeft(sessionSeconds, false);
@@ -162,6 +163,7 @@ function timerSession(increase, minutes, decrease, session = true) {
                 sessionSeconds += 60;
             }
         }
+        longBreak = parseInt(breakMinutes.textContent) * 3;
     });
     decrease.addEventListener('click', () => {
         if (parseInt(minutes.textContent) <= 1) return;
@@ -175,6 +177,7 @@ function timerSession(increase, minutes, decrease, session = true) {
                 sessionSeconds -= 60;
             }
         }
+        longBreak = parseInt(breakMinutes.textContent) * 3;
     });
 }
 
@@ -224,17 +227,10 @@ function breakSessionTitleReset() {
 function stopTimer(stop, seconds) {
     stop.disabled = true;
 
-    // TODO: add feature for resetting the time ONLY for current time (session, break, long break)
-    // for theme switching in between time runs, the 'stop' mechanism should be used to maintain
-    // user selected session/break times.
     stop.addEventListener('click', () => {
-        // if break selected, stop should reset the time for current stop
-        // TODO: Long break check, stop and reset time to long break time
-        if (breakSelected) {
-            seconds = parseInt(breakMinutes.textContent) * 60;
-        } else {
-            seconds = parseInt(sessionMinutes.textContent) * 60;
-        }
+        if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
+        else if (pomodorosCount === 4) seconds = longBreak;
+        else seconds = parseInt(sessionMinutes.textContent) * 60;
         timerStarted = false;
         sessionSeconds = seconds;
         clearInterval(countdown);
@@ -243,8 +239,6 @@ function stopTimer(stop, seconds) {
         pause.disabled = true;
         play.disabled = false;
         autoStart.disabled = false;
-        // Enabling arrows might be buggy...
-        // might actually be fine
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
@@ -286,6 +280,8 @@ function resetPomodoros(pomodoros) {
             pomodoro.classList.add('pomodoro');
             pomodoro.classList.add(pomodoroBorder);
         } else {
+            pomodoro.classList = '';
+            pomodoro.classList.add('pomodoro');
             pomodoro.style.backgroundColor = '';
         }
     });
@@ -305,6 +301,7 @@ function resetTimer(reset) {
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         breakMinutes.textContent = '5';
+        longBreak = 15;
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
