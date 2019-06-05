@@ -16,14 +16,14 @@ function concatScripts() {
         .pipe(concat('concat.min.js'), {
             newLine: '\n'
         })
-        .pipe(rename('all.min.js'))
+        .pipe(rename('bundle.min.js'))
         .pipe(uglify())
         .pipe(dest('public/'));
 }
 
 function concatStylesheets() {
     return src('client/*/**.css')
-        .pipe(concat('all.min.css'))
+        .pipe(concat('bundle.min.css'))
         .pipe(cleanCSS())
         .pipe(dest('public/'));
 }
