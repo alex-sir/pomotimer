@@ -24,6 +24,10 @@ let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreak = 15;
 
+// TODO: Add keyboard controls (play, pause, stop, reset, possibly settings)
+// TODO: Add documentation on GitHub and a link to it in the settings (better if in the settings itself)
+// TODO: Add modifiable session/break times through text input when selecting number
+// TODO: Add notifications when a session/break finishes
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener('click', () => {
         timerStarted = true;

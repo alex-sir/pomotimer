@@ -2,7 +2,8 @@ const {
     series,
     parallel,
     src,
-    dest
+    dest,
+    watch
 } = require('gulp');
 const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
@@ -29,8 +30,8 @@ function concatStylesheets() {
 }
 
 // copy tasks
-function copyIndex() {
-    return src('client/index.html')
+function copyPublicHTML() {
+    return src('client/public.html')
         .pipe(dest('public/'));
 }
 
@@ -53,9 +54,9 @@ function cleanVendor() {
     return del('public/vendor');
 }
 
-exports.default = series(cleanAll, concatScripts, concatStylesheets, parallel(copyIndex, copyVendor, copyFavicon));
+exports.default = series(cleanAll, concatScripts, concatStylesheets, parallel(copyPublicHTML, copyVendor, copyFavicon));
 exports.concat = parallel(concatScripts, concatStylesheets);
-exports.copy = parallel(copyIndex, copyVendor, copyFavicon);
+exports.copy = parallel(copyPublicHTML, copyVendor, copyFavicon);
 exports.cleanAll = cleanAll;
 exports.cleanVendor = cleanVendor;
-exports.build = parallel(concatScripts, concatStylesheets, copyIndex, copyVendor, copyFavicon);
+exports.build = parallel(concatScripts, concatStylesheets, copyPublicHTML, copyVendor, copyFavicon);
