@@ -30,8 +30,8 @@ let longBreak = 15;
 // TODO: Add notifications when a session/break finishes
 function timerDisplay(seconds, breakTime = true) {
     play.addEventListener('click', () => {
-        timerStarted = true;
-        if (breakSelected && pomodorosCount !== 4) sessionSeconds = breakMinutes.textContent * 60;
+        if (!timerStarted) timerStarted = true;
+        if (breakSelected && pomodorosCount !== 4 && !timerStarted) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
         autoStart.disabled = true;
