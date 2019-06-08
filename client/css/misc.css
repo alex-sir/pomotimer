@@ -7,7 +7,7 @@
     font-size: 1.3em;
 }
 
-#auto-start{
+.preference-option-checkbox {
     vertical-align: bottom;
     transform: scale(1.2);
 }
@@ -23,7 +23,7 @@
         font-size: 0.9em;
     }
 
-    #auto-start {
+    .preference-option-checkbox {
         margin: -1px 0 0 0;
         vertical-align: middle;
     }
