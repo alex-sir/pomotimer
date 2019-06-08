@@ -1,3 +1,5 @@
+'use strict';
+
 const {
     series,
     parallel,
@@ -9,54 +11,71 @@ const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const del = require('del');
 const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 
-// concat & uglify tasks
+
+// TODO: Maybe I can add spectrum as a package instead of the raw files (js specifically, not css)
+// Concat & uglify tasks
 function concatScripts() {
     return src(['client/js/main.js', 'client/js/modal.js', 'client/spectrum/spectrum.js', 'client/js/themes.js'])
         .pipe(concat('concat.min.js'), {
             newLine: '\n'
         })
         .pipe(rename('bundle.min.js'))
+        .pipe(sourcemaps.init({
+            loadMaps: true
+        }))
         .pipe(uglify())
-        .pipe(dest('public/'));
+        .pipe(sourcemaps.write('/'))
+        .pipe(dest('dist/'));
 }
 
 function concatStylesheets() {
     return src('client/*/**.css')
         .pipe(concat('bundle.min.css'))
         .pipe(cleanCSS())
-        .pipe(dest('public/'));
+        .pipe(dest('dist/'));
 }
 
-// copy tasks
-function copyPublicHTML() {
-    return src('client/public.html')
-        .pipe(dest('public/'));
+// Copy tasks
+function copyIndex() {
+    return src('client/index.html')
+        .pipe(dest('dist/'));
 }
 
 function copyVendor() {
     return src('node_modules/jquery/dist/jquery.min.js')
-        .pipe(dest('public/vendor/'));
+        .pipe(dest('dist/vendor/'));
 }
 
 function copyFavicon() {
     return src('client/favicon/*')
-        .pipe(dest('public/favicon'));
+        .pipe(dest('dist/favicon'));
 }
 
-// clean tasks
+// Clean tasks
 function cleanAll() {
-    return del('public/');
+    return del('dist/');
 }
 
 function cleanVendor() {
-    return del('public/vendor');
+    return del('dist/vendor');
 }
 
-exports.default = series(cleanAll, concatScripts, concatStylesheets, parallel(copyPublicHTML, copyVendor, copyFavicon));
+// Watch tasks
+watch(['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css', 'client/spectrum/**/*.css'], () => {
+    return series(cleanAll, concatScripts, concatStylesheets),
+        parallel(copyIndex, copyVendor, copyFavicon);
+});
+
+// TODO: Modularize by putting repeated series/parallels into functions OR tasks (not sure which one is better)
+exports.default = series(cleanAll, concatScripts, concatStylesheets, parallel(copyIndex, copyVendor, copyFavicon));
 exports.concat = parallel(concatScripts, concatStylesheets);
-exports.copy = parallel(copyPublicHTML, copyVendor, copyFavicon);
+exports.copy = parallel(copyIndex, copyVendor, copyFavicon);
 exports.cleanAll = cleanAll;
 exports.cleanVendor = cleanVendor;
-exports.build = parallel(concatScripts, concatStylesheets, copyPublicHTML, copyVendor, copyFavicon);
+exports.build = parallel(concatScripts, concatStylesheets, copyIndex, copyVendor, copyFavicon);
+exports.watch = () => {
+    watch(['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css', 'client/spectrum/**/*.css'], series(cleanAll, concatScripts, concatStylesheets, copyIndex, copyVendor, copyFavicon));
+}
