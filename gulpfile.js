@@ -16,7 +16,6 @@ const uglify = require('gulp-uglify-es').default;
 
 
 // TODO: Maybe I can add spectrum as a package instead of the raw files (js specifically, not css)
-// Concat & uglify tasks
 function concatScripts() {
     return src(['client/js/main.js', 'client/js/modal.js', 'client/spectrum/spectrum.js', 'client/js/themes.js'])
         .pipe(concat('concat.min.js'), {

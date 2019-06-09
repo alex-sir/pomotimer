@@ -21,15 +21,35 @@
 <body class="dark">
     <header class="main-header dark-border">
         <nav>
-            <a class="github dark-color" href="https://github.com/alex-sir/pomodoro" target="noopener"
-                title="GitHub Repo"><i class="fab fa-github"></i></a>
-            <h1 class="dark-title">Pomodoro</h1>
-            <button id="modal-btn" class="settings dark-color" aria-label="Settings" title="Settings"><i
-                    class="fas fa-cog"></i></button>
-            <div id="simple-modal" class="modal">
+            <button id="modal-btn-about" class="about dark-color" title="About">
+                <i class="fas fa-info-circle"></i>
+            </button>
+            <!-- about modal -->
+            <div id="simple-modal-about" class="modal">
                 <div class="modal-content">
                     <header class="modal-header">
-                        <p class="close-btn">&times;</p>
+                        <p id="close-btn-about" class="close-btn">&times;</p>
+                        <h2>About</h2>
+                    </header>
+                    <div class="modal-body">
+                        <div id="pomodoro-about">
+                            <span>
+                                <span>What</span> is the <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+                                    target="noopener">Pomodoro Technique</a>?
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="dark-title">Pomodoro</h1>
+            <button id="modal-btn-settings" class="settings dark-color" aria-label="Settings" title="Settings">
+                <i class="fas fa-cog"></i>
+            </button>
+            <!-- settings modal -->
+            <div id="simple-modal-settings" class="modal">
+                <div class="modal-content">
+                    <header class="modal-header">
+                        <p id="close-btn-settings" class="close-btn">&times;</p>
                         <h2>Settings</h2>
                     </header>
                     <div class="modal-body">
@@ -65,12 +85,6 @@
                                 <input type="checkbox" id="auto-start" class="preference-option-checkbox" checked>
                                 <label for="auto-start">Auto start session/break</label>
                             </div>
-                        </div>
-                        <div id="pomodoro-about">
-                            <span>
-                                <span>What</span> is the <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
-                                    target="noopener">Pomodoro Technique</a>?
-                            </span>
                         </div>
                     </div>
                 </div>

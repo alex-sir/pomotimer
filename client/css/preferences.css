@@ -1,4 +1,3 @@
-/* Preferences */
 #preferences {
     display: flex;
     width: 100%;
@@ -14,7 +13,7 @@
 
 .preferences-option:not(:first-child) {
     margin-left: 15px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 @media only screen and (max-width: 960px) {
@@ -27,25 +26,4 @@
         margin: -1px 0 0 0;
         vertical-align: middle;
     }
-}
-
-/* About */
-#pomodoro-about {
-    margin-top: 10px;
-    font-size: 1.4em;
-}
-
-#pomodoro-about>span {
-    line-height: 1.1;
-}
-
-#pomodoro-about>span>span {
-    font-size: 1.5em;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-#pomodoro-about>span>a {
-    color: #202020;
-    text-decoration: underline;
 }

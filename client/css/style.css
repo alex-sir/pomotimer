@@ -25,13 +25,13 @@ nav {
 }
 
 nav>h1,
-.github,
+.about,
 .settings {
     font-size: 1.5em;
     color: #202020;
 }
 
-.github {
+.about {
     margin-left: 3%;
 }
 
@@ -42,8 +42,8 @@ nav>h1,
 
 .settings:hover,
 .settings:focus,
-.github:hover,
-.github:focus {
+.about:hover,
+.about:focus {
     opacity: 0.75;
     cursor: pointer;
 }
@@ -190,7 +190,7 @@ button:focus {
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
-        gap: 7.5%;
+        gap: 5.5%;
         margin-top: 1%;
     }
 

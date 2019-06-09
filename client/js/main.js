@@ -339,8 +339,7 @@ function resetPomodoros(pomodoros) {
         if (!customThemeActive) {
             const pomodoroBorder = pomodoro.classList[1];
             pomodoro.classList = '';
-            pomodoro.classList.add('pomodoro');
-            pomodoro.classList.add(pomodoroBorder);
+            pomodoro.classList.add('pomodoro', pomodoroBorder);
         } else {
             pomodoro.classList = '';
             pomodoro.classList.add('pomodoro');

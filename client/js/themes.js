@@ -60,7 +60,7 @@ function customThemeChanger(bodyValue, contentValue) {
     pomodoros.forEach(pomodoro => {
         pomodoro.setAttribute('style', `border-color: ${contentValue}`);
     });
-    hideModal(modal, settings);
+    hideModalSettings(modalSettings, settings);
 }
 
 function removeCustomTheme(fullRemove = false) {
@@ -88,7 +88,7 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
         stopTimerHard(stop, sessionSeconds);
-        executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
+        executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings);
         if (customThemeActive) {
             removeCustomTheme(true);
         }
@@ -114,7 +114,7 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
         sessionTimeSelected = true;
         breakTimeSelected = false;
         breakSelected = false;
-        customThemeChanger(customValueBody, customValueContent);
+        customThemeChanger(bodyValue, contentValue);
         titleBorderColor(true)
         themeWarning.style.display = 'none';
     });
@@ -135,7 +135,7 @@ function changeTheme(themes) {
                 setTimeout(() => {
                     if (breakSelected) titleBorderColor(false);
                 }, 0);
-                executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal);
+                executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings);
             }
         });
     });
@@ -156,7 +156,7 @@ function titleBorderColor(customThemeReset) {
     }
 }
 
-function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modal) {
+function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings) {
     body.classList = '';
     body.classList.add(theme.classList[1]);
     themeColor.forEach(element => {
@@ -173,11 +173,10 @@ function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTi
     themeTitle.classList.remove(themeTitle.classList[themeTitle.classList.length - 1]);
     themeTitle.classList.add(`${theme.classList[1]}-title`);
     pomodoros.forEach(pomodoro => {
-        pomodoro.classList.remove();
-        pomodoro.classList.add('pomodoro');
-        pomodoro.classList.add(`${theme.classList[1]}-border`);
+        pomodoro.classList = '';
+        pomodoro.classList.add('pomodoro', `${theme.classList[1]}-border`);
     });
-    hideModal(modal, settings);
+    hideModalSettings(modalSettings, settings);
 }
 
 function mainThemes() {
