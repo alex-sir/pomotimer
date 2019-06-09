@@ -1,0 +1,19 @@
+#pomodoro-about {
+    margin-top: 10px;
+    font-size: 1.4em;
+}
+
+#pomodoro-about>span {
+    line-height: 1.1;
+}
+
+#pomodoro-about>span>span {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+#pomodoro-about>span>a {
+    color: #202020;
+    text-decoration: underline;
+}
