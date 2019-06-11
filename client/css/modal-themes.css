@@ -5,7 +5,7 @@
     flex-flow: row wrap;
 }
 
-.settings-section-heading {
+.modal-section-heading {
     display: inline-block;
     margin-bottom: 10px;
     font-size: 1.75rem;

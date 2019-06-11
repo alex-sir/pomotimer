@@ -39,6 +39,7 @@ function modalDisplayAbout(modal, modalBtn, closeBtn, about) {
     modalBtn.addEventListener('click', () => {
         modal.style.visibility = 'visible';
         modal.style.opacity = '1';
+        about.style.transform = 'scale(0.85)';
         body.style.overflow = 'hidden';
         about.blur();
     });
@@ -57,6 +58,7 @@ function hideModalAbout(modal) {
     setTimeout(() => {
         modal.style.visibility = 'hidden';
     }, 300);
+    about.style.transform = 'scale(1)';
     body.style.overflow = 'auto';
 }
 

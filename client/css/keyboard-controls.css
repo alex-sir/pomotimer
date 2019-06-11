@@ -1,0 +1,27 @@
+#keyboard-controls>h2 {
+    display: block;
+}
+
+#keyboard-controls-list>li {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.keyboard-action-name {
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 745px) {
+    .keyboard-action-description {
+        display: block;
+    }
+
+    .keyboard-action-description::before {
+        content: "- ";
+        margin-left: 15px;
+    }
+
+    .keyboard-action-dash {
+        display: none;
+    }
+}

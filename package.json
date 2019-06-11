@@ -22,7 +22,6 @@
     "gulp-clean-css": "^4.2.0",
     "gulp-cli": "^2.2.0",
     "gulp-concat": "^2.6.1",
-    "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify-es": "^1.0.4",
     "nodemon": "^1.19.1",
@@ -30,6 +29,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "jquery": "^3.4.1"
+    "jquery": "^3.4.1",
+    "spectrum-colorpicker": "^1.8.0"
   }
 }
