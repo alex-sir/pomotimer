@@ -13,6 +13,9 @@ const del = require('del');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 
+// FIXME: Vendor isn't showing up on heroku version
+// TODO: Add notify.js to vendor folder for notifications
+
 // Concat tasks
 function concatScripts() {
     return src(['client/js/main.js', 'client/js/modal.js', 'client/js/themes.js'])

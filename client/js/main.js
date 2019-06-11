@@ -27,7 +27,7 @@ let longBreak = 15;
 // TODO: Add documentation on GitHub
 // TODO: Add modifiable session/break times through text input when selecting number
 // TODO: Add notifications when a session/break finishes
-// TODO: Change GitHub icon to info icon. Info icon will include how to use, what it is, and GitHub repo/author
+// TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -62,10 +62,9 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
                         });
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-                        timerDisplay(sessionSeconds, true, true);
+                        timerDisplay(sessionSeconds, true, true)();
                         play.disabled = false;
-                        play.click();
-                    } else if (breakTime) {
+                    } else if (breakTime && !breakSelected) {
                         breakSelected = true;
                         pomodorosCount++;
                         if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
@@ -75,15 +74,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         pomodorosCount === 4 ?
                             sessionSeconds = Math.min(longBreak * 60, 6000) :
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
-                        timerDisplay(sessionSeconds, false, true);
+                        timerDisplay(sessionSeconds, false, true)();
                         play.disabled = false;
-                        play.click();
                     } else {
                         breakSelected = false;
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-                        timerDisplay(sessionSeconds, true, true);
+                        timerDisplay(sessionSeconds, true, true)();
                         play.disabled = false;
-                        play.click();
                     }
                 }
             }
@@ -284,7 +281,7 @@ function stopTimer(stop, seconds) {
 
     function runStopTimer() {
         if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
-        else if (pomodorosCount === 4) seconds = longBreak;
+        else if (pomodorosCount === 4) seconds = longBreak * 60;
         else seconds = parseInt(sessionMinutes.textContent) * 60;
         timerStarted = false;
         sessionSeconds = seconds;
