@@ -13,7 +13,10 @@
 
 .preferences-option:not(:first-child) {
     margin-left: 15px;
-    /* margin-bottom: 10px; */
+}
+
+.preferences-option:not(:first-child):not(:last-child) {
+    margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 960px) {

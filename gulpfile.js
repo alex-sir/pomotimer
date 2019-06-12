@@ -40,7 +40,7 @@ function concatStylesheets() {
 }
 
 function concatVendor() {
-    return src(['node_modules/jquery/dist/jquery.min.js', 'node_modules/spectrum-colorpicker/spectrum.js'])
+    return src(['node_modules/jquery/dist/jquery.min.js', 'node_modules/spectrum-colorpicker/spectrum.js', 'node_modules/push.js/bin/push.min.js', 'node_modules/push.js/bin/serviceWorker.min.js'])
         .pipe(concat('vendor-bundle.min.js'))
         .pipe(sourcemaps.init({
             loadMaps: true

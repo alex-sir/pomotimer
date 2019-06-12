@@ -30,6 +30,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "jquery": "^3.4.1",
+    "push.js": "^1.0.9",
     "spectrum-colorpicker": "^1.8.0"
   }
 }

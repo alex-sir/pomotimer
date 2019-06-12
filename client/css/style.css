@@ -194,7 +194,7 @@ button:focus {
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
-        gap: 5.5%;
+        gap: 3%;
         margin-top: 1%;
     }
 
@@ -350,7 +350,7 @@ button:focus {
 
     .session-title,
     .break-title {
-        font-size: 30px;
+        font-size: 32.5px;
     }
 
     .minutes>p {

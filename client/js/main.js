@@ -19,15 +19,18 @@ const breakMinutes = document.querySelector('#break-minutes');
 const decreaseBreak = document.querySelector('#decrease-break');
 let customThemeSwitch = true;
 let autoStart = document.querySelector('#auto-start');
+let notifications = document.querySelector('#notifications');
 let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreak = 15;
+const notificationIcon = 'favicon/android-chrome-192x192.png';
 
 // TODO: Add documentation on GitHub
 // TODO: Add modifiable session/break times through text input when selecting number
 // TODO: Add notifications when a session/break finishes
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
+// TODO: Add option to toggle on/off the tab title time display
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -55,6 +58,10 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                 if (autoStart.checked) {
                     currentActive = titleBorderChange();
                     if (pomodorosCount === 4) {
+                        Push.create('Long break over!', {
+                            body: 'Session started.',
+                            icon: notificationIcon
+                        });
                         breakSelected = false;
                         pomodorosCount = 0;
                         pomodoros.forEach((pomodoro) => {
@@ -68,15 +75,27 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         breakSelected = true;
                         pomodorosCount++;
                         if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
-                        else {
-                            pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
-                        }
-                        pomodorosCount === 4 ?
-                            sessionSeconds = Math.min(longBreak * 60, 6000) :
+                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
+                        if (pomodorosCount === 4) {
+                            sessionSeconds = Math.min(longBreak * 60, 6000);
+                            Push.create('Session over!', {
+                                body: 'Long break started.',
+                                icon: notificationIcon
+                            });
+                        } else {
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                            Push.create('Session over!', {
+                                body: 'Break started.',
+                                icon: notificationIcon
+                            });
+                        }
                         timerDisplay(sessionSeconds, false, true)();
                         play.disabled = false;
                     } else {
+                        Push.create('Break over!', {
+                            body: 'Session started.',
+                            icon: notificationIcon
+                        });
                         breakSelected = false;
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
@@ -128,14 +147,14 @@ function sessionBreakSelect(sessionTime, breakTime) {
         }
     }
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 80) {
+        if (e.altKey && e.keyCode === 80) {
             if (e.repeat) return
             runSessionSelect();
         }
     });
     sessionTime.addEventListener('click', runSessionSelect);
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 66) {
+        if (e.altKey && e.keyCode === 66) {
             if (e.repeat) return
             runBreakSelect();
         }
@@ -197,7 +216,7 @@ function timerSession(increase, minutes, decrease, session = true) {
         runIncrease(false);
     });
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 38 && !timerStarted) {
+        if (e.altKey && e.keyCode === 38 && !timerStarted) {
             runIncrease(true);
         }
     });
@@ -223,7 +242,7 @@ function timerSession(increase, minutes, decrease, session = true) {
         runDecrease(false);
     });
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 40 && !timerStarted) {
+        if (e.altKey && e.keyCode === 40 && !timerStarted) {
             runDecrease(true);
         }
     });
@@ -299,7 +318,7 @@ function stopTimer(stop, seconds) {
         else timerDisplay(seconds, true, true);
     }
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 83) {
+        if (e.altKey && e.keyCode === 83) {
             if (e.repeat) return
             runStopTimer();
         }
@@ -369,12 +388,18 @@ function resetTimer(reset) {
         timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60, true, true);
     }
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.keyCode === 82) {
+        if (e.altKey && e.keyCode === 82) {
             if (e.repeat) return;
             runResetTimer();
         }
     });
     reset.addEventListener('click', runResetTimer);
+}
+
+function toggleNotifications(notifications) {
+    notifications.addEventListener('change', e => {
+        if (e.target.checked) Push.Permission.request();
+    });
 }
 
 function mainTimer() {
@@ -385,6 +410,7 @@ function mainTimer() {
     pauseTimer(pause, true);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
+    toggleNotifications(notifications);
 }
 
 window.onload = mainTimer();
