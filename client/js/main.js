@@ -18,8 +18,9 @@ const increaseBreak = document.querySelector('#increase-break');
 const breakMinutes = document.querySelector('#break-minutes');
 const decreaseBreak = document.querySelector('#decrease-break');
 let customThemeSwitch = true;
-let autoStart = document.querySelector('#auto-start');
-let notifications = document.querySelector('#notifications');
+const autoStart = document.querySelector('#auto-start');
+const notifications = document.querySelector('#notifications');
+const tabTitleTime = document.querySelector('#tab-title-time');
 let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
@@ -28,9 +29,7 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 
 // TODO: Add documentation on GitHub
 // TODO: Add modifiable session/break times through text input when selecting number
-// TODO: Add notifications when a session/break finishes
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
-// TODO: Add option to toggle on/off the tab title time display
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -263,7 +262,7 @@ function displayTimeLeft(seconds, title = true) {
             remainderSeconds < 10 ? remainderSeconds.toString().padStart(2, 0) : remainderSeconds}`;
     }
     timer.textContent = display;
-    if (!title) return;
+    if (!title || !tabTitleTime.checked) return;
     else document.title = `(${display}) Pomodoro`;
 }
 

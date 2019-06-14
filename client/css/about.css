@@ -17,3 +17,29 @@
     color: #202020;
     text-decoration: underline;
 }
+
+/* author */
+#author-wrapper {
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#author {
+    font-size: 1em;
+}
+
+.fa-github {
+    color: #202020;
+}
+
+@media only screen and (max-width: 745px) {
+    .author-name {
+        display: none;
+    }
+
+    .fa-github {
+        font-size: 1.5em;
+    }
+}
