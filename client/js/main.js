@@ -33,7 +33,6 @@ const breakInput = document.querySelector('#break-input');
 
 // TODO: Add documentation on GitHub.
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
-// TODO: Clean up global variables, don't need all my variables to be global. Find the ones that can be local and make them local.
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -421,54 +420,51 @@ function toggleNotifications(notifications) {
     });
 }
 
-// TODO: Could modularize this...?
-// TODO: Add visual queue when user presses enter or clicks check mark
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput) {
-    function runConfirmTimeChangeSession() {
-        let sessionInputValue = sessionInput.value;
-        if (sessionInputValue > 6000) {
-            sessionInputValue = 6000;
-            sessionInput.value = 6000;
-        } else if (sessionInputValue < 1) {
-            sessionInputValue = 1;
+    function runConfirmTimeChange(input, confirmTimeChange, minutes, isSession) {
+        let inputValue = input.value;
+        if (inputValue > 6000) {
+            inputValue = 6000;
+            input.value = 6000;
+        } else if (inputValue < 1) {
+            inputValue = 1;
             sessionInput.value = 1;
         }
-        if (!breakSelected) {
-            displayTimeLeft(sessionInputValue * 60, false);
-            sessionSeconds = sessionInputValue * 60;
+        if (isSession) {
+            if (!breakSelected) {
+                displayTimeLeft(inputValue * 60, false);
+                sessionSeconds = inputValue * 60;
+            }
+        } else if (!isSession) {
+            if (breakSelected) {
+                displayTimeLeft(inputValue * 60, false);
+                sessionSeconds = inputValue * 60;
+            }
         }
-        sessionMinutes.textContent = sessionInputValue;
+        minutes.textContent = inputValue;
+        confirmTimeChange.style.color = 'green';
+        setTimeout(() => {
+            confirmTimeChange.style.color = '#202020';
+        }, 800);
     }
 
-    confirmTimeChangeSession.addEventListener('click', runConfirmTimeChangeSession);
+    confirmTimeChangeSession.addEventListener('click', () => {
+        runConfirmTimeChange(sessionInput, confirmTimeChangeSession, sessionMinutes, true);
+    });
     sessionInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChangeSession();
+            runConfirmTimeChange(sessionInput, confirmTimeChangeSession, sessionMinutes, true);
         }
     });
 
-    function runConfirmTimeChangeBreak() {
-        let breakInputValue = breakInput.value;
-        if (breakInputValue > 6000) {
-            breakInputValue = 6000;
-            breakInput.value = 6000;
-        } else if (breakInputValue < 1) {
-            breakInputValue = 1;
-            breakInput.value = 1;
-        }
-        if (breakSelected) {
-            displayTimeLeft(breakInputValue * 60, false);
-            sessionSeconds = breakInputValue * 60;
-        }
-        breakMinutes.textContent = breakInputValue;
-    }
-
-    confirmTimeChangeBreak.addEventListener('click', runConfirmTimeChangeBreak);
+    confirmTimeChangeBreak.addEventListener('click', () => {
+        runConfirmTimeChange(breakInput, confirmTimeChangeBreak, breakMinutes, false);
+    });
     breakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChangeBreak();
+            runConfirmTimeChange(breakInput, confirmTimeChangeBreak, breakMinutes, false);
         }
     });
 }

@@ -17,6 +17,7 @@
     background-color: #E8E8E8;
     border: 1px solid #202020;
     font-size: 0.8em;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .time-input:not(:last-child) {
@@ -25,4 +26,18 @@
 
 .fa-check-circle {
     cursor: pointer;
+}
+
+.confirm-time-change-session,
+.confirm-time-change-break {
+    transition: transform 0.1s ease-in-out, color 0.3s ease-in-out;
+}
+
+.confirm-time-change-session:hover,
+.confirm-time-change-break:hover {
+    transform: scale(1.1);
+}
+
+.time-change-confirmed {
+    color: green;
 }
