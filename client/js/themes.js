@@ -15,14 +15,14 @@ let customThemeActive = false;
 
 function colorPicker() {
     $('#color-picker-body').spectrum({
-        color: '#9032e0',
+        color: '#3C1053',
         showInput: true,
         showInitial: true,
         showAlpha: true,
         preferredFormat: 'hex'
     });
     $('#color-picker-content').spectrum({
-        color: '#57dca3',
+        color: '#FC466B',
         showInput: true,
         showInitial: true,
         showAlpha: true,

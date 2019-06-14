@@ -1,8 +1,8 @@
 .themes-custom {
-     display: inline-flex;
-     width: 100%;
-     flex-flow: row nowrap;
-     margin-top: 10px;
+    display: inline-flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    margin-top: 10px;
 }
 
 .subsection-heading {

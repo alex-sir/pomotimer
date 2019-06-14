@@ -15,7 +15,7 @@
     margin-left: 15px;
 }
 
-.preferences-option:not(:first-child):not(:last-child) {
+.preferences-option:not(:first-child) {
     margin-bottom: 10px;
 }
 

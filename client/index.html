@@ -38,58 +38,57 @@
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">SPACE</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Play/Pause</span>
+                                        <span class="keyboard-action-name">SPACE</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Play/Pause</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + S</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Stop (current time reset)</span>
+                                        <span class="keyboard-action-name">ALT + S</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Stop (current time reset)</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + R</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Reset to original values
-                                            (25/5)</span>
+                                        <span class="keyboard-action-name">ALT + R</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Reset to original values (25/5)</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + P</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Session</span>
+                                        <span class="keyboard-action-name">ALT + P</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Session</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + B</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Break</span>
+                                        <span class="keyboard-action-name">ALT + B</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Break</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + &uarr;</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Increase time</span>
+                                        <span class="keyboard-action-name">ALT + &uarr;</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Increase time</span>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
                                     <span>
-                                        <span class="keyboard-action-name">ALT + &darr;</span><span
-                                            class="keyboard-action-dash"> - </span><span
-                                            class="keyboard-action-description">Decrease time</span>
+                                        <span class="keyboard-action-name">ALT + &darr;</span>
+                                        <span class="keyboard-action-dash"> - </span>
+                                        <span class="keyboard-action-description">Decrease time</span>
                                     </span>
                                 </li>
                             </ul>
@@ -162,6 +161,21 @@
                             <div class="preferences-option">
                                 <input type="checkbox" id="tab-title-time" class="preference-option-checkbox" checked>
                                 <label for="tab-title-time">Time in tab title</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="time-inputs">
+                        <h2 class="modal-section-heading">Time:</h2>
+                        <div id="time-inputs-wrapper">
+                            <div class="time-input-wrapper">
+                                <label for="session-input">Session</label><br>
+                                <input type="number" id="session-input" class="time-input" value="25">
+                                <i class="fas fa-check-circle confirm-time-change-session"></i>
+                            </div>
+                            <div class="time-input-wrapper">
+                                <label for="break-input">Break</label><br>
+                                <input type="number" id="break-input" class="time-input" value="5">
+                                <i class="fas fa-check-circle confirm-time-change-break"></i>
                             </div>
                         </div>
                     </div>

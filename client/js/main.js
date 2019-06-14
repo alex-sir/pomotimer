@@ -26,10 +26,14 @@ let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreak = 15;
 const notificationIcon = 'favicon/android-chrome-192x192.png';
+const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
+const sessionInput = document.querySelector('#session-input');
+const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
+const breakInput = document.querySelector('#break-input');
 
-// TODO: Add documentation on GitHub
-// TODO: Add modifiable session/break times through text input when selecting number
+// TODO: Add documentation on GitHub.
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
+// TODO: Clean up global variables, don't need all my variables to be global. Find the ones that can be local and make them local.
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -40,6 +44,10 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         play.disabled = true;
         pause.disabled = false;
         stop.disabled = false;
+        sessionInput.disabled = true;
+        breakInput.disabled = true;
+        confirmTimeChangeSession.style.pointerEvents = 'none';
+        confirmTimeChangeBreak.style.pointerEvents = 'none';
         arrow.forEach(arrow => {
             arrow.disabled = true;
         });
@@ -309,6 +317,10 @@ function stopTimer(stop, seconds) {
         pause.disabled = true;
         play.disabled = false;
         autoStart.disabled = false;
+        sessionInput.disabled = false;
+        breakInput.disabled = false;
+        confirmTimeChangeSession.style.pointerEvents = 'auto';
+        confirmTimeChangeBreak.style.pointerEvents = 'auto';
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
@@ -342,6 +354,10 @@ function stopTimerHard(stop, seconds) {
     pause.disabled = true;
     play.disabled = false;
     autoStart.disabled = false;
+    sessionInput.disabled = false;
+    breakInput.disabled = false;
+    confirmTimeChangeSession.style.pointerEvents = 'auto';
+    confirmTimeChangeBreak.style.pointerEvents = 'auto';
     arrow.forEach(arrow => {
         arrow.disabled = false;
     });
@@ -373,6 +389,10 @@ function resetTimer(reset) {
         breakSelected = false;
         sessionTimeSelected = true;
         breakTimeSelected = false;
+        sessionInput.disabled = false;
+        breakInput.disabled = false;
+        confirmTimeChangeSession.style.pointerEvents = 'auto';
+        confirmTimeChangeBreak.style.pointerEvents = 'auto';
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
@@ -401,6 +421,58 @@ function toggleNotifications(notifications) {
     });
 }
 
+// TODO: Could modularize this...?
+// TODO: Add visual queue when user presses enter or clicks check mark
+function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput) {
+    function runConfirmTimeChangeSession() {
+        let sessionInputValue = sessionInput.value;
+        if (sessionInputValue > 6000) {
+            sessionInputValue = 6000;
+            sessionInput.value = 6000;
+        } else if (sessionInputValue < 1) {
+            sessionInputValue = 1;
+            sessionInput.value = 1;
+        }
+        if (!breakSelected) {
+            displayTimeLeft(sessionInputValue * 60, false);
+            sessionSeconds = sessionInputValue * 60;
+        }
+        sessionMinutes.textContent = sessionInputValue;
+    }
+
+    confirmTimeChangeSession.addEventListener('click', runConfirmTimeChangeSession);
+    sessionInput.addEventListener('keydown', e => {
+        if (e.keyCode === 13) {
+            if (e.repeat) return;
+            runConfirmTimeChangeSession();
+        }
+    });
+
+    function runConfirmTimeChangeBreak() {
+        let breakInputValue = breakInput.value;
+        if (breakInputValue > 6000) {
+            breakInputValue = 6000;
+            breakInput.value = 6000;
+        } else if (breakInputValue < 1) {
+            breakInputValue = 1;
+            breakInput.value = 1;
+        }
+        if (breakSelected) {
+            displayTimeLeft(breakInputValue * 60, false);
+            sessionSeconds = breakInputValue * 60;
+        }
+        breakMinutes.textContent = breakInputValue;
+    }
+
+    confirmTimeChangeBreak.addEventListener('click', runConfirmTimeChangeBreak);
+    breakInput.addEventListener('keydown', e => {
+        if (e.keyCode === 13) {
+            if (e.repeat) return;
+            runConfirmTimeChangeBreak();
+        }
+    });
+}
+
 function mainTimer() {
     timerDisplay(sessionSeconds, true, false);
     timerSession(increaseSession, sessionMinutes, decreaseSession, true);
@@ -410,6 +482,7 @@ function mainTimer() {
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
     toggleNotifications(notifications);
+    changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput);
 }
 
 window.onload = mainTimer();

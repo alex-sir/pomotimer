@@ -106,7 +106,7 @@ button:focus {
 }
 
 .minutes>p {
-    width: 70px;
+    width: 100px;
     text-align: center;
     font-size: 7vw;
 }
@@ -281,7 +281,7 @@ button:focus {
 /* small height */
 @media only screen and (max-height: 700px) {
     main {
-        width: 90vw;
+        width: 100vw;
         gap: 5%;
     }
 
@@ -374,5 +374,13 @@ button:focus {
 @media only screen and (max-height: 410px) {
     body {
         overflow-x: auto;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+
+    .main-header,
+    nav {
+        min-width: 350px;
     }
 }
