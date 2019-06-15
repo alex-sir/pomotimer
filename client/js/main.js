@@ -31,7 +31,9 @@ const sessionInput = document.querySelector('#session-input');
 const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
 const breakInput = document.querySelector('#break-input');
 
+
 // TODO: Add documentation on GitHub.
+// TODO: Add option to select long break through keyboard shortcut (ALT + l) and clicking on fourth pomodoro.
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
