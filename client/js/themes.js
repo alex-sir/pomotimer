@@ -37,16 +37,16 @@ function colorPicker() {
         customValueContent = $('#color-picker-content').spectrum('get');
     });
     applyCustomTheme.addEventListener('click', () => {
-        if (timerStarted || pomodorosCount >= 1) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueContent);
+        if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueContent);
         else {
             customThemeActive = true;
-            customThemeChanger(customValueBody, customValueContent);
+            customThemeChanger(customValueBody, customValueContent, false);
             if (breakSelected) titleBorderColor(true);
         }
     });
 }
 
-function customThemeChanger(bodyValue, contentValue) {
+function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
     body.setAttribute('style', `background-color: ${bodyValue}; color: ${contentValue};`)
     themeColor.forEach(element => {
         element.setAttribute('style', `color: ${contentValue};`);
@@ -58,7 +58,8 @@ function customThemeChanger(bodyValue, contentValue) {
     else sessionTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
     themeTitle.setAttribute('style', `color: ${contentValue}`);
     pomodoros.forEach(pomodoro => {
-        pomodoro.setAttribute('style', `border-color: ${contentValue}`);
+        pomodoro.style.borderColor = contentValue;
+        if (longBreakTimeSelected && !isTimerStarted) pomodoro.style.backgroundColor = contentValue;
     });
     hideModalSettings(modalSettings, settings);
 }
@@ -88,7 +89,7 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
         stopTimerHard(stop, sessionSeconds);
-        executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings);
+        executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, true);
         if (customThemeActive) {
             removeCustomTheme(true);
         }
@@ -114,7 +115,7 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
         sessionTimeSelected = true;
         breakTimeSelected = false;
         breakSelected = false;
-        customThemeChanger(bodyValue, contentValue);
+        customThemeChanger(bodyValue, contentValue, true);
         titleBorderColor(true)
         themeWarning.style.display = 'none';
     });
@@ -129,13 +130,13 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
 function changeTheme(themes) {
     themes.forEach(theme => {
         theme.addEventListener('click', function () {
-            if (timerStarted || pomodorosCount >= 1) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
+            if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
             else {
                 if (customThemeActive) removeCustomTheme(true);
                 setTimeout(() => {
                     if (breakSelected) titleBorderColor(false);
                 }, 0);
-                executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings);
+                executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
             }
         });
     });
@@ -156,7 +157,7 @@ function titleBorderColor(customThemeReset) {
     }
 }
 
-function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings) {
+function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
     body.classList = '';
     body.classList.add(theme.classList[1]);
     themeColor.forEach(element => {
@@ -175,6 +176,7 @@ function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTi
     pomodoros.forEach(pomodoro => {
         pomodoro.classList = '';
         pomodoro.classList.add('pomodoro', `${theme.classList[1]}-border`);
+        if (longBreakTimeSelected && !isTimerStarted) pomodoro.classList.add('pomodoro', `${theme.classList[1]}-background`);
     });
     hideModalSettings(modalSettings, settings);
 }

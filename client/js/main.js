@@ -24,17 +24,21 @@ const tabTitleTime = document.querySelector('#tab-title-time');
 let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
+let longBreakTimeSelected = false;
 let longBreak = 15;
 const notificationIcon = 'favicon/android-chrome-192x192.png';
 const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
 const sessionInput = document.querySelector('#session-input');
 const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
 const breakInput = document.querySelector('#break-input');
+const confirmTimeChangeLongBreak = document.querySelector('.confirm-time-change-long-break');
+const longBreakInput = document.querySelector('#long-break-input');
+const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
 
 
-// TODO: Add documentation on GitHub.
-// TODO: Add option to select long break through keyboard shortcut (ALT + l) and clicking on fourth pomodoro.
-// TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description).
+// TODO: Add documentation on GitHub
+// TODO: Add preference to NOT have break and long break linked together
+// TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -64,13 +68,16 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (secondsLeft < 1) {
                 clearInterval(countdown);
                 if (autoStart.checked) {
-                    currentActive = titleBorderChange();
+                    currentActive = titleBorderChange(false);
                     if (pomodorosCount === 4) {
                         Push.create('Long break over!', {
                             body: 'Session started.',
                             icon: notificationIcon
                         });
                         breakSelected = false;
+                        breakTimeSelected = true;
+                        sessionTimeSelected = false;
+                        longBreakTimeSelected = false;
                         pomodorosCount = 0;
                         pomodoros.forEach((pomodoro) => {
                             if (!customThemeActive) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
@@ -81,6 +88,8 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         play.disabled = false;
                     } else if (breakTime && !breakSelected) {
                         breakSelected = true;
+                        breakTimeSelected = true;
+                        sessionTimeSelected = false;
                         pomodorosCount++;
                         if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
                         else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
@@ -90,6 +99,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                 body: 'Long break started.',
                                 icon: notificationIcon
                             });
+                            longBreakTimeSelected = true;
                         } else {
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
                             Push.create('Session over!', {
@@ -105,6 +115,8 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             icon: notificationIcon
                         });
                         breakSelected = false;
+                        breakTimeSelected = false;
+                        sessionTimeSelected = true;
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
                         play.disabled = false;
@@ -125,35 +137,63 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     play.addEventListener('click', runTimerDisplay);
 }
 
-function sessionBreakSelect(sessionTime, breakTime) {
+function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
     // TODO: pop up warning if timer has started
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
+        if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
         breakSelected = false;
+        longBreakTimeSelected = false;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+        pomodorosCount = 0;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, true, true);
         if (sessionTimeSelected) null;
         else if (breakTimeSelected) {
             breakTimeSelected = false;
             sessionTimeSelected = true;
-            titleBorderChange();
+            titleBorderChange(false);
         }
     }
 
     function runBreakSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
+        if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
         breakSelected = true;
+        longBreakTimeSelected = false;
         sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+        pomodorosCount = 0;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, false, true);
         if (breakTimeSelected) null;
         else if (sessionTimeSelected) {
             breakTimeSelected = true;
             sessionTimeSelected = false;
-            titleBorderChange();
+            titleBorderChange(false);
         }
     }
+
+    function runLongBreakSelect() {
+        if (timerStarted) stopTimerHard(stop, sessionSeconds);
+        breakSelected = true;
+        longBreakTimeSelected = true;
+        sessionSeconds = parseInt(longBreak) * 60;
+        displayTimeLeft(sessionSeconds, false);
+        timerDisplay(sessionSeconds, false, true);
+        currentActive = titleBorderChange(true);
+        pomodorosCount = 4;
+        pomodoros.forEach(pomodoro => {
+            if (!customThemeActive) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
+            else pomodoro.setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
+        });
+        if (breakTimeSelected) null;
+        else if (sessionTimeSelected) {
+            breakTimeSelected = true;
+            sessionTimeSelected = false;
+            titleBorderChange(false);
+        }
+    }
+
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 80) {
             if (e.repeat) return
@@ -168,16 +208,26 @@ function sessionBreakSelect(sessionTime, breakTime) {
         }
     });
     breakTime.addEventListener('click', runBreakSelect);
+    document.addEventListener('keydown', e => {
+        if (e.altKey && e.keyCode === 76) {
+            if (e.repeat) return;
+            runLongBreakSelect();
+        }
+    });
+    longBreakPomodoro.addEventListener('click', runLongBreakSelect);
 }
 
-function titleBorderChange() {
+function titleBorderChange(noTitleToggle) {
     let currentActive;
     if (!customThemeActive) {
         sessionTitle.classList.length >= 1 ?
             currentActive = sessionTitle.classList[sessionTitle.classList.length - 1] :
             currentActive = breakTitle.classList[breakTitle.classList.length - 1];
+        if (noTitleToggle) return currentActive;
         breakTitle.classList.toggle(currentActive);
         sessionTitle.classList.toggle(currentActive);
+    } else if (noTitleToggle) {
+        return;
     } else {
         sessionTitle.classList = '';
         breakTitle.classList = '';
@@ -214,7 +264,8 @@ function timerSession(increase, minutes, decrease, session = true) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds += 60;
             } else if (breakSelected) {
-                displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                if (breakTimeSelected && longBreakTimeSelected) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
+                else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds += 60;
             }
         }
@@ -240,7 +291,8 @@ function timerSession(increase, minutes, decrease, session = true) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds -= 60;
             } else if (breakSelected) {
-                displayTimeLeft(parseInt(minutes.textContent) * 60, false);
+                if (breakTimeSelected && longBreakTimeSelected) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
+                else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds -= 60;
             }
         }
@@ -422,15 +474,23 @@ function toggleNotifications(notifications) {
     });
 }
 
+// TODO: Input for long break
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput) {
-    function runConfirmTimeChange(input, confirmTimeChange, minutes, isSession) {
+    function checkIsDigit(e) {
+        if (e.keyCode === 189 ||
+            e.keyCode === 187 ||
+            e.keyCode === 69 ||
+            e.keyCode === 190) e.preventDefault();
+    }
+
+    function runConfirmTimeChange(input, minutes, isSession) {
         let inputValue = input.value;
         if (inputValue > 6000) {
             inputValue = 6000;
             input.value = 6000;
-        } else if (inputValue < 1) {
+        } else if (inputValue < 1 || input.length === 0) {
             inputValue = 1;
-            sessionInput.value = 1;
+            input.value = 1;
         }
         if (isSession) {
             if (!breakSelected) {
@@ -443,39 +503,40 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
                 sessionSeconds = inputValue * 60;
             }
         }
-        minutes.textContent = inputValue;
-        confirmTimeChange.style.color = 'green';
-        setTimeout(() => {
-            confirmTimeChange.style.color = '#202020';
-        }, 800);
+        minutes.textContent = parseInt(inputValue, 10);
     }
 
     confirmTimeChangeSession.addEventListener('click', () => {
-        runConfirmTimeChange(sessionInput, confirmTimeChangeSession, sessionMinutes, true);
+        runConfirmTimeChange(sessionInput, sessionMinutes, true);
     });
     sessionInput.addEventListener('keydown', e => {
+        checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChange(sessionInput, confirmTimeChangeSession, sessionMinutes, true);
+            runConfirmTimeChange(sessionInput, sessionMinutes, true);
         }
     });
 
     confirmTimeChangeBreak.addEventListener('click', () => {
-        runConfirmTimeChange(breakInput, confirmTimeChangeBreak, breakMinutes, false);
+        runConfirmTimeChange(breakInput, breakMinutes, false);
     });
     breakInput.addEventListener('keydown', e => {
+        checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChange(breakInput, confirmTimeChangeBreak, breakMinutes, false);
+            runConfirmTimeChange(breakInput, breakMinutes, false);
         }
     });
+    // TEMP: Disabled because no functionality
+    longBreakInput.disabled = true;
+    confirmTimeChangeLongBreak.style.pointerEvents = 'none';
 }
 
 function mainTimer() {
     timerDisplay(sessionSeconds, true, false);
     timerSession(increaseSession, sessionMinutes, decreaseSession, true);
     timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
-    sessionBreakSelect(sessionTitle, breakTitle);
+    sessionBreakSelect(sessionTitle, breakTitle, longBreakPomodoro);
     pauseTimer(pause, true);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);

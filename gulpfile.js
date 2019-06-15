@@ -11,6 +11,7 @@ const {
 const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const del = require('del');
+const htmlmin = require('gulp-htmlmin');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 const scripts = ['client/js/main.js', 'client/js/modal.js', 'client/js/themes.js'];
@@ -54,6 +55,9 @@ function concatVendor() {
 // Copy tasks
 function copyIndex() {
     return src('client/index.html')
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
         .pipe(dest('dist/'));
 }
 

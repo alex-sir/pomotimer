@@ -6,9 +6,16 @@
 
 #time-inputs-wrapper {
     display: flex;
-    flex-direction: column;
-    margin-left: 15px;
+    flex-direction: row;
     font-size: 1.3em;
+}
+
+.time-input-wrapper:first-child {
+    margin-left: 15px;
+}
+
+.time-input-wrapper:not(:first-child) {
+    margin-left: 20px;
 }
 
 .time-input {
@@ -28,16 +35,88 @@
     cursor: pointer;
 }
 
-.confirm-time-change-session,
-.confirm-time-change-break {
-    transition: transform 0.1s ease-in-out, color 0.3s ease-in-out;
+.confirm-time-change {
+    transform: scale(1);
+    transition: transform 0.1s ease-in-out;
 }
 
-.confirm-time-change-session:hover,
-.confirm-time-change-break:hover {
-    transform: scale(1.1);
+.confirm-time-change:active {
+    transform: scale(0.9);
 }
 
 .time-change-confirmed {
     color: green;
+}
+
+/* TEMP */
+#long-break-input,
+.time-input-wrapper:last-child>label {
+    text-decoration: line-through;
+}
+
+#long-break-input,
+.time-input-wrapper:last-child>label,
+.confirm-time-change-long-break {
+    opacity: 0.6;
+}
+
+@media only screen and (max-width: 960px) {
+    #time-inputs-wrapper {
+        justify-content: space-between;
+    }
+
+    .time-input-wrapper:first-child {
+        margin-left: 0;
+    }
+
+    .time-input-wrapper:not(:first-child) {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #time-inputs-wrapper {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .time-input {
+        width: 94%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .time-input {
+        width: 93%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .time-input {
+        width: 92%;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .time-input {
+        width: 91%;
+    }
+}
+
+@media only screen and (max-width: 555px) {
+    .time-input {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .time-input {
+        width: 89%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    .time-input {
+        width: 88%;
+    }
 }

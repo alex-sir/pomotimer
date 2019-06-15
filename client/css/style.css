@@ -149,6 +149,10 @@ button:focus {
     border-radius: 50%;
 }
 
+.pomodoro:last-of-type {
+    cursor: pointer;
+}
+
 /* break */
 .break-title {
     display: flex;
