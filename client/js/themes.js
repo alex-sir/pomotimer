@@ -15,14 +15,14 @@ let customThemeActive = false;
 
 function colorPicker() {
     $('#color-picker-body').spectrum({
-        color: '#3C1053',
+        color: '#000080',
         showInput: true,
         showInitial: true,
         showAlpha: true,
         preferredFormat: 'hex'
     });
     $('#color-picker-content').spectrum({
-        color: '#FC466B',
+        color: '#C8C8C8',
         showInput: true,
         showInitial: true,
         showAlpha: true,
@@ -96,6 +96,7 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
         sessionTimeSelected = true;
         breakTimeSelected = false;
         breakSelected = false;
+        longBreakTimeSelected = false;
         themeWarning.style.display = 'none';
     });
     decline.addEventListener('click', () => {
@@ -115,6 +116,7 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
         sessionTimeSelected = true;
         breakTimeSelected = false;
         breakSelected = false;
+        longBreakTimeSelected = false;
         customThemeChanger(bodyValue, contentValue, true);
         titleBorderColor(true)
         themeWarning.style.display = 'none';

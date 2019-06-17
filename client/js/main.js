@@ -41,8 +41,11 @@ const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
 const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
 
 
-// TODO: Add documentation on GitHub and on info modal
+// TODO: Add guide on info modal
+// TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
+// TODO: Wrap all logic in a function to avoid polluting the global space
+// FIXME: Having the display time be an hour or longer breaks the nav and results in x-overflow. Prevent this by making the font smaller at an hour or longer of time, up to 6000 minutes
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -153,7 +156,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
 }
 
 function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
-    // TODO: pop up warning if timer has started
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
         if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
@@ -308,7 +310,7 @@ function timerSession(increase, minutes, decrease, session = true) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 sessionSeconds -= 60;
             } else if (breakSelected) {
-                if (breakTimeSelected && longBreakTimeSelected) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
+                if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
                 else if (longBreakTimeSelected) null;
                 else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!longBreakTimeSelected) sessionSeconds -= 60;
@@ -506,6 +508,7 @@ function resetTimer(reset) {
             arrow.disabled = false;
         });
         play.disabled = false;
+        pause.disabled = true;
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         document.title = 'Pomodoro';

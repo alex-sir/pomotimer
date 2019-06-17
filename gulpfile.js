@@ -12,6 +12,7 @@ const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const del = require('del');
 const htmlmin = require('gulp-htmlmin');
+const insert = require('gulp-insert');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 const scripts = ['client/js/main.js', 'client/js/modal.js', 'client/js/themes.js'];
@@ -24,6 +25,9 @@ function concatScripts() {
         .pipe(concat('bundle.min.js'))
         .pipe(sourcemaps.init({
             loadMaps: true
+        }))
+        .pipe(insert.transform((contents) => {
+            return `(function () {${contents}})();`;
         }))
         .pipe(uglify())
         .pipe(sourcemaps.write('/'))
