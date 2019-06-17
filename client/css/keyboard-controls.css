@@ -21,10 +21,6 @@
         display: block;
     }
 
-    .keyboard-action-description::before {
-        content: "- ";
-    }
-
     .keyboard-action-dash {
         display: none;
     }

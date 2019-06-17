@@ -48,16 +48,17 @@
     color: green;
 }
 
-/* TEMP */
-#long-break-input,
-.time-input-wrapper:last-child>label {
+/* Long break disabled */
+.line-through-long-break {
     text-decoration: line-through;
 }
 
-#long-break-input,
-.time-input-wrapper:last-child>label,
-.confirm-time-change-long-break {
+.opacity-long-break {
     opacity: 0.6;
+}
+
+.pointer-events-long-break {
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 960px) {
