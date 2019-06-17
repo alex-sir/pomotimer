@@ -1,11 +1,11 @@
 :root {
     /* colors */
     --dark-color: #202020;
-    --light-color: #e8e8e8;
-    --white-color: #FFF;
-    --red-color: #F03D2C;
-    --magenta-color: #85144B;
-    --yellow-color: #FFDC00;
+    --light-color: #E8E8E8;
+    --white-color: #E7ECEF;
+    --cyan-color: #04ACAC;
+    --red-color: #e92727;
+    --black-color: #151515;
     /* pomodoros */
     --pomodoro-size: 100% 1.5px;
     --pomodoro-position: left bottom;
@@ -67,58 +67,58 @@
     color: var(--dark-color);
 }
 
-/* premier */
-.premier {
+/* winter */
+.winter {
     background-color: var(--white-color);
-    color: var(--red-color);
+    color: var(--cyan-color);
 }
 
-.premier-color {
-    color: var(--red-color);
+.winter-color {
+    color: var(--cyan-color);
 }
 
-.premier-background {
+.winter-background {
+    background-color: var(--cyan-color);
+}
+
+.winter-border {
+    border-color: var(--cyan-color);
+}
+
+.winter-active {
+    background: linear-gradient(to right, var(--cyan-color), var(--cyan-color)) no-repeat;
+    background-size: var(--pomodoro-size);
+    background-position: var(--pomodoro-position);
+}
+
+.winter-title {
+    color: var(--cyan-color);
+}
+
+/* sinister */
+.sinister {
     background-color: var(--red-color);
+    color: var(--black-color);
 }
 
-.premier-border {
-    border-color: var(--red-color);
+.sinister-color {
+    color: var(--black-color);
 }
 
-.premier-active {
-    background: linear-gradient(to right, var(--red-color), var(--red-color)) no-repeat;
+.sinister-background {
+    background-color: var(--black-color);
+}
+
+.sinister-border {
+    border-color: var(--black-color);
+}
+
+.sinister-active {
+    background: linear-gradient(to right, var(--black-color), var(--black-color)) no-repeat;
     background-size: var(--pomodoro-size);
     background-position: var(--pomodoro-position);
 }
 
-.premier-title {
-    color: var(--red-color);
-}
-
-/* royal */
-.royal {
-    background-color: var(--magenta-color);
-    color: var(--yellow-color);
-}
-
-.royal-color {
-    color: var(--yellow-color);
-}
-
-.royal-background {
-    background-color: var(--yellow-color);
-}
-
-.royal-border {
-    border-color: var(--yellow-color);
-}
-
-.royal-active {
-    background: linear-gradient(to right, var(--yellow-color), var(--yellow-color)) no-repeat;
-    background-size: var(--pomodoro-size);
-    background-position: var(--pomodoro-position);
-}
-
-.royal-title {
-    color: var(--yellow-color);
+.sinister-title {
+    color: var(--black-color);
 }
