@@ -27,7 +27,7 @@ function concatScripts() {
             loadMaps: true
         }))
         .pipe(insert.transform((contents) => {
-            return `(function () {${contents}})();`;
+            return `(function(){${contents}})();`;
         }))
         .pipe(uglify())
         .pipe(sourcemaps.write('/'))
