@@ -44,7 +44,6 @@ const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// TODO: Modularize 'for' loops about time inputs
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -154,6 +153,15 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     play.addEventListener('click', runTimerDisplay);
 }
 
+function checkTimerFont(seconds, timer) {
+    if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) timer.style.fontSize = '4.688rem';
+    else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
+        timer.style.fontSize = '5rem';
+    } else {
+        timer.style.fontSize = '5.625rem';
+    }
+}
+
 function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
@@ -170,6 +178,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
             sessionTimeSelected = true;
             titleBorderChange(false);
         }
+        checkTimerFont(sessionSeconds, timer);
     }
 
     function runBreakSelect() {
@@ -187,6 +196,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
             sessionTimeSelected = false;
             titleBorderChange(false);
         }
+        checkTimerFont(sessionSeconds, timer);
     }
 
     function runLongBreakSelect() {
@@ -208,6 +218,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
             sessionTimeSelected = false;
             titleBorderChange(false);
         }
+        checkTimerFont(sessionSeconds, timer);
     }
 
     document.addEventListener('keydown', e => {
@@ -268,13 +279,6 @@ function titleBorderChange(noTitleToggle) {
     return currentActive;
 }
 
-function checkFont(seconds, element) {
-    if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) element.style.fontSize = '75px';
-    else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) element.style.fontSize = '80px';
-    else element.style.fontSize = '90px';
-}
-
-// TODO: Keyboard shortcuts should increase/decrease long break time when it is selected
 function timerSession(increase, minutes, decrease, session = true) {
     function runIncrease(isThroughKey = false) {
         if ((parseInt(minutes.textContent) >= 6000) ||
@@ -282,7 +286,11 @@ function timerSession(increase, minutes, decrease, session = true) {
             (session && breakSelected && isThroughKey)) {
             return;
         } else {
-            minutes.textContent = parseInt(minutes.textContent) + 1;
+            if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
+                sessionSeconds += 60;
+                longBreak += 1;
+                displayTimeLeft(sessionSeconds, false);
+            } else minutes.textContent = parseInt(minutes.textContent) + 1;
             if (session) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!breakSelected && !longBreakTimeSelected) sessionSeconds += 60;
@@ -298,12 +306,12 @@ function timerSession(increase, minutes, decrease, session = true) {
     }
     increase.addEventListener('click', () => {
         runIncrease(false);
-        checkFont(sessionSeconds, timer);
+        checkTimerFont(sessionSeconds, timer);
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 38 && !timerStarted) {
             runIncrease(true);
-            checkFont(sessionSeconds, timer);
+            checkTimerFont(sessionSeconds, timer);
         }
     });
 
@@ -313,7 +321,11 @@ function timerSession(increase, minutes, decrease, session = true) {
             (session && breakSelected && isThroughKey)) {
             return;
         } else {
-            minutes.textContent = parseInt(minutes.textContent) - 1;
+            if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
+                sessionSeconds -= 60;
+                longBreak -= 1;
+                displayTimeLeft(sessionSeconds, false);
+            } else minutes.textContent = parseInt(minutes.textContent) - 1;
             if (session) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!breakSelected && !longBreakTimeSelected) sessionSeconds -= 60;
@@ -329,12 +341,12 @@ function timerSession(increase, minutes, decrease, session = true) {
     }
     decrease.addEventListener('click', () => {
         runDecrease(false);
-        checkFont(sessionSeconds, timer);
+        checkTimerFont(sessionSeconds, timer);
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 40 && !timerStarted) {
             runDecrease(true);
-            checkFont(sessionSeconds, timer);
+            checkTimerFont(sessionSeconds, timer);
         }
     });
 }
@@ -386,6 +398,23 @@ function breakSessionTitleReset() {
     }
 }
 
+function changeTimeInputsStyle() {
+    for (let i = 0; i < timeInputs.length; i++) {
+        if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
+        else {
+            timeInputs[i].disabled = false;
+            timeInputs[i].classList.remove('line-through-long-break', 'opacity-long-break');
+        }
+        if (confirmTimeChanges[i].classList.contains('confirm-time-change-long-break') && breakLongBreakLink.checked) null;
+        else {
+            confirmTimeChanges[i].style.pointerEvents = 'auto';
+            confirmTimeChanges[i].classList.remove('opacity-long-break', 'pointer-events-long-break');
+        }
+        if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
+        else timeInputLabels[i].classList.remove('line-through-long-break', 'opacity-long-break');
+    }
+}
+
 function stopTimer(stop, seconds) {
     stop.disabled = true;
 
@@ -402,26 +431,14 @@ function stopTimer(stop, seconds) {
         play.disabled = false;
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
-        for (let i = 0; i < timeInputs.length; i++) {
-            if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
-            else {
-                timeInputs[i].disabled = false;
-                timeInputs[i].classList.remove('line-through-long-break', 'opacity-long-break');
-            }
-            if (confirmTimeChanges[i].classList.contains('confirm-time-change-long-break') && breakLongBreakLink.checked) null;
-            else {
-                confirmTimeChanges[i].style.pointerEvents = 'auto';
-                confirmTimeChanges[i].classList.remove('opacity-long-break', 'pointer-events-long-break');
-            }
-            if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
-            else timeInputLabels[i].classList.remove('line-through-long-break', 'opacity-long-break');
-        }
+        changeTimeInputsStyle();
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
         document.title = 'Pomodoro';
         if (breakSelected) timerDisplay(seconds, false, true);
         else timerDisplay(seconds, true, true);
+        checkTimerFont(sessionSeconds, timer);
     }
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 83) {
@@ -450,25 +467,13 @@ function stopTimerHard(stop, seconds) {
     play.disabled = false;
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
-    for (let i = 0; i < timeInputs.length; i++) {
-        if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
-        else {
-            timeInputs[i].disabled = false;
-            timeInputs[i].classList.remove('line-through-long-break', 'opacity-long-break');
-        }
-        if (confirmTimeChanges[i].classList.contains('confirm-time-change-long-break') && breakLongBreakLink.checked) null;
-        else {
-            confirmTimeChanges[i].style.pointerEvents = 'auto';
-            confirmTimeChanges[i].classList.remove('opacity-long-break', 'pointer-events-long-break');
-        }
-        if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
-        else timeInputLabels[i].classList.remove('line-through-long-break', 'opacity-long-break');
-    }
+    changeTimeInputsStyle();
     arrow.forEach(arrow => {
         arrow.disabled = false;
     });
     document.title = 'Pomodoro';
     timerDisplay(seconds, true, true);
+    checkTimerFont(sessionSeconds, timer);
 }
 
 function resetPomodoros(pomodoros) {
@@ -495,20 +500,7 @@ function resetTimer(reset) {
         breakSelected = false;
         sessionTimeSelected = true;
         breakTimeSelected = false;
-        for (let i = 0; i < timeInputs.length; i++) {
-            if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
-            else {
-                timeInputs[i].disabled = false;
-                timeInputs[i].classList.remove('line-through-long-break', 'opacity-long-break');
-            }
-            if (confirmTimeChanges[i].classList.contains('confirm-time-change-long-break') && breakLongBreakLink.checked) null;
-            else {
-                confirmTimeChanges[i].style.pointerEvents = 'auto';
-                confirmTimeChanges[i].classList.remove('opacity-long-break', 'pointer-events-long-break');
-            }
-            if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
-            else timeInputLabels[i].classList.remove('line-through-long-break', 'opacity-long-break');
-        }
+        changeTimeInputsStyle();
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
@@ -523,6 +515,7 @@ function resetTimer(reset) {
         breakLongBreakLink.disabled = false;
         document.title = 'Pomodoro';
         timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60, true, true);
+        checkTimerFont(sessionSeconds, timer);
     }
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 82) {
@@ -576,38 +569,38 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
 
     confirmTimeChangeSession.addEventListener('click', () => {
         runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
-        checkFont(sessionSeconds, timer);
+        checkTimerFont(sessionSeconds, timer);
     });
     sessionInput.addEventListener('keydown', e => {
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
-            checkFont(sessionSeconds, timer);
+            checkTimerFont(sessionSeconds, timer);
         }
     });
 
     confirmTimeChangeBreak.addEventListener('click', () => {
         runConfirmTimeChange(breakInput, breakMinutes, false, false);
-        checkFont(sessionSeconds, timer);
+        checkTimerFont(sessionSeconds, timer);
     });
     breakInput.addEventListener('keydown', e => {
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(breakInput, breakMinutes, false, false);
-            checkFont(sessionSeconds, timer);
+            checkTimerFont(sessionSeconds, timer);
         }
     });
     confirmTimeChangeLongBreak.addEventListener('click', () => {
         runConfirmTimeChange(longBreakInput, longBreak, false, true);
-        checkFont(sessionSeconds, timer);
+        checkTimerFont(sessionSeconds, timer);
     });
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(longBreakInput, longBreak, false, true);
-            checkFont(sessionSeconds, timer);
+            checkTimerFont(sessionSeconds, timer);
         }
     });
 }

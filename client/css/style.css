@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-/* TODO: Change font sizes to use em or rem */
-
 * {
     box-sizing: border-box;
 }
@@ -215,19 +213,19 @@ button:focus {
     }
 
     .minutes>p {
-        font-size: 45px;
+        font-size: 2.813rem;
     }
 
     .timer-controls>button {
-        font-size: 50px;
+        font-size: 3.125rem;
     }
 
     #timer {
-        font-size: 90px;
+        font-size: 5.625rem;
     }
 
     .arrow {
-        font-size: 60px;
+        font-size: 3.750rem;
     }
 
     /* Grid display */
@@ -297,24 +295,24 @@ button:focus {
 
     .session-title,
     .break-title {
-        font-size: 30px;
+        font-size: 1.875rem;
     }
 
     .minutes>p {
-        font-size: 35px;
+        font-size: 2.188rem;
     }
 
     .timer-controls>button {
-        font-size: 45px;
+        font-size: 2.813rem;
     }
 
     #timer {
-        font-size: 95px;
+        font-size: 5.938rem;
         margin-bottom: 2%;
     }
 
     .arrow {
-        font-size: 55px;
+        font-size: 3.438rem;
     }
 }
 
@@ -326,23 +324,23 @@ button:focus {
 
     .session-title,
     .break-title {
-        font-size: 20px;
+        font-size: 1.250rem;
     }
 
     .minutes>p {
-        font-size: 25px;
+        font-size: 1.563rem;
     }
 
     .timer-controls>button {
-        font-size: 35px;
+        font-size: 2.188rem;
     }
 
     #timer {
-        font-size: 85px;
+        font-size: 5.313rem;
     }
 
     .arrow {
-        font-size: 45px;
+        font-size: 2.813rem;
     }
 }
 
@@ -360,19 +358,19 @@ button:focus {
     }
 
     .minutes>p {
-        font-size: 30px;
+        font-size: 1.875rem;
     }
 
     .timer-controls>button {
-        font-size: 40px;
+        font-size: 2.5rem;
     }
 
     #timer {
-        font-size: 90px;
+        font-size: 5.625rem;
     }
 
     .arrow {
-        font-size: 50px;
+        font-size: 3.125remw;
     }
 }
 
