@@ -15,12 +15,23 @@ const htmlmin = require('gulp-htmlmin');
 const insert = require('gulp-insert');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
-const scripts = ['client/js/main.js', 'client/js/modal.js', 'client/js/themes.js'];
+const scripts = ['client/js/**/*.js'];
 const vendorScripts = ['node_modules/jquery/dist/jquery.min.js', 'node_modules/spectrum-colorpicker/spectrum.js', 'node_modules/push.js/bin/push.min.js', 'node_modules/push.js/bin/serviceWorker.min.js'];
 const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
 
 // Concat tasks
 function concatScripts() {
+    return src(scripts)
+        .pipe(concat('bundle.min.js'))
+        .pipe(sourcemaps.init({
+            loadMaps: true
+        }))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('/'))
+        .pipe(dest('dist/'));
+}
+
+function concatScriptsProduction() {
     return src(scripts)
         .pipe(concat('bundle.min.js'))
         .pipe(sourcemaps.init({
@@ -79,6 +90,7 @@ function cleanVendor() {
     return del('dist/vendor');
 }
 
+// Development
 task('concat', parallel(concatScripts, concatStylesheets));
 task('copy', parallel(copyIndex, concatVendor, copyFavicon));
 task('build', parallel('concat', 'copy'));
@@ -88,3 +100,8 @@ task('default', series(cleanAll, 'build'));
 exports.watch = () => {
     watch(watchGlobs, parallel('default'));
 }
+
+// Production
+task('concatProduction', parallel(concatScriptsProduction, concatStylesheets));
+task('buildProduction', parallel('concatProduction', 'copy'));
+task('production', series(cleanAll, 'buildProduction'));

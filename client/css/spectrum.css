@@ -482,7 +482,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     z-index: 0;
 }
 
-/* small width */
+/* Small width */
 @media only screen and (max-width: 960px) {
     .sp-replacer:first-of-type {
         margin: 10px 0 10px 0;

@@ -13,6 +13,8 @@ let customValueContent;
 const applyCustomTheme = document.querySelector('#apply-custom-theme');
 let customThemeActive = false;
 
+// TODO: Modal should also change color OR make it dark mode (not sure which one is better)
+
 function colorPicker() {
     $('#color-picker-body').spectrum({
         color: '#000080',

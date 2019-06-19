@@ -44,8 +44,7 @@ const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// TODO: Wrap all logic in a function to avoid polluting the global space
-// FIXME: Having the display time be an hour or longer breaks the nav and results in x-overflow. Prevent this by making the font smaller at an hour or longer of time, up to 6000 minutes
+// TODO: Modularize 'for' loops about time inputs
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
@@ -269,6 +268,13 @@ function titleBorderChange(noTitleToggle) {
     return currentActive;
 }
 
+function checkFont(seconds, element) {
+    if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) element.style.fontSize = '75px';
+    else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) element.style.fontSize = '80px';
+    else element.style.fontSize = '90px';
+}
+
+// TODO: Keyboard shortcuts should increase/decrease long break time when it is selected
 function timerSession(increase, minutes, decrease, session = true) {
     function runIncrease(isThroughKey = false) {
         if ((parseInt(minutes.textContent) >= 6000) ||
@@ -279,7 +285,7 @@ function timerSession(increase, minutes, decrease, session = true) {
             minutes.textContent = parseInt(minutes.textContent) + 1;
             if (session) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-                sessionSeconds += 60;
+                if (!breakSelected && !longBreakTimeSelected) sessionSeconds += 60;
             } else if (breakSelected) {
                 if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
                 else if (longBreakTimeSelected) null;
@@ -292,10 +298,12 @@ function timerSession(increase, minutes, decrease, session = true) {
     }
     increase.addEventListener('click', () => {
         runIncrease(false);
+        checkFont(sessionSeconds, timer);
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 38 && !timerStarted) {
             runIncrease(true);
+            checkFont(sessionSeconds, timer);
         }
     });
 
@@ -308,7 +316,7 @@ function timerSession(increase, minutes, decrease, session = true) {
             minutes.textContent = parseInt(minutes.textContent) - 1;
             if (session) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-                sessionSeconds -= 60;
+                if (!breakSelected && !longBreakTimeSelected) sessionSeconds -= 60;
             } else if (breakSelected) {
                 if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
                 else if (longBreakTimeSelected) null;
@@ -321,10 +329,12 @@ function timerSession(increase, minutes, decrease, session = true) {
     }
     decrease.addEventListener('click', () => {
         runDecrease(false);
+        checkFont(sessionSeconds, timer);
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 40 && !timerStarted) {
             runDecrease(true);
+            checkFont(sessionSeconds, timer);
         }
     });
 }
@@ -566,32 +576,38 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
 
     confirmTimeChangeSession.addEventListener('click', () => {
         runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
+        checkFont(sessionSeconds, timer);
     });
     sessionInput.addEventListener('keydown', e => {
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
+            checkFont(sessionSeconds, timer);
         }
     });
 
     confirmTimeChangeBreak.addEventListener('click', () => {
         runConfirmTimeChange(breakInput, breakMinutes, false, false);
+        checkFont(sessionSeconds, timer);
     });
     breakInput.addEventListener('keydown', e => {
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(breakInput, breakMinutes, false, false);
+            checkFont(sessionSeconds, timer);
         }
     });
     confirmTimeChangeLongBreak.addEventListener('click', () => {
         runConfirmTimeChange(longBreakInput, longBreak, false, true);
+        checkFont(sessionSeconds, timer);
     });
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(longBreakInput, longBreak, false, true);
+            checkFont(sessionSeconds, timer);
         }
     });
 }

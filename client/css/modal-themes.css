@@ -29,7 +29,7 @@
     cursor: pointer;
 }
 
-/* theme warning */
+/* Theme warning */
 .theme-warning-background {
     position: fixed;
     z-index: 2;
@@ -76,7 +76,7 @@
     width: 25%;
 }
 
-/* phone/tablet modal */
+/* Phone/tablet modal */
 @media only screen and (max-width: 960px) {
     .themes {
         display: flex;
@@ -101,7 +101,7 @@
     }
 }
 
-/* phone warning */
+/* Phone warning */
 @media only screen and (max-width: 770px) {
     .theme-warning {
         width: 60%;
@@ -120,14 +120,14 @@
     }
 }
 
-/* warning small height */
+/* Warning small height */
 @media only screen and (max-height: 700px) {
     .theme-warning {
         height: 30%;
     }
 }
 
-/* warning min-height */
+/* Warning min-height */
 @media only screen and (max-height: 500px) {
     .theme-warning {
         min-height: 150px;

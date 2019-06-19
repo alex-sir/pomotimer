@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/* TODO: Change font sizes to use em or rem */
+
 * {
     box-sizing: border-box;
 }
@@ -10,7 +12,7 @@ body {
     font-family: "Inconsolata", monospace;
 }
 
-/* header */
+/* Header */
 .main-header {
     border-bottom: 1px solid #E8E8E8;
 }
@@ -52,7 +54,7 @@ nav>h1,
     cursor: pointer;
 }
 
-/* main content */
+/* Main content */
 .container {
     display: flex;
     justify-content: center;
@@ -86,7 +88,7 @@ button:focus {
     opacity: 0.7;
 }
 
-/* session */
+/* Session */
 .session-title {
     display: flex;
     grid-area: session;
@@ -130,7 +132,7 @@ button:focus {
     margin: 0 auto auto auto auto;
 }
 
-/* pomodoros */
+/* Pomodoros */
 .pomodoros {
     grid-area: pomodoro;
     display: flex;
@@ -153,7 +155,7 @@ button:focus {
     cursor: pointer;
 }
 
-/* break */
+/* Break */
 .break-title {
     display: flex;
     grid-area: break;
@@ -168,7 +170,7 @@ button:focus {
     align-items: flex-start;
 }
 
-/* time */
+/* Time */
 .timer-display {
     display: flex;
     grid-area: time;
@@ -181,7 +183,7 @@ button:focus {
     font-size: 20vw;
 }
 
-/* timer controls */
+/* Timer controls */
 .timer-controls {
     display: inline-flex;
     justify-content: space-around;
@@ -194,7 +196,7 @@ button:focus {
     margin-bottom: 5%;
 }
 
-/* desktop */
+/* Desktop */
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
@@ -228,7 +230,7 @@ button:focus {
         font-size: 60px;
     }
 
-    /* grid display */
+    /* Grid display */
     .timer-controls {
         align-items: flex-end;
     }
@@ -263,7 +265,7 @@ button:focus {
     }
 }
 
-/* tablet */
+/* Tablet */
 @media only screen and (min-width: 600px) and (max-width: 1200px) {
     main {
         width: 70vw;
@@ -271,7 +273,7 @@ button:focus {
     }
 }
 
-/* small tablet, large phone */
+/* Small tablet, large phone */
 @media only screen and (min-width: 600px) and (max-width: 900px) {
     main {
         width: 90vw;
@@ -282,7 +284,7 @@ button:focus {
     }
 }
 
-/* small height */
+/* Small height */
 @media only screen and (max-height: 700px) {
     main {
         width: 100vw;
@@ -316,7 +318,7 @@ button:focus {
     }
 }
 
-/* small phone */
+/* Small phone */
 @media only screen and (max-height: 700px) and (max-width: 370px) {
     main {
         gap: 2.5%;
@@ -344,7 +346,7 @@ button:focus {
     }
 }
 
-/* small width */
+/* Small width */
 @media only screen and (max-width: 600px) {
 
     body,
@@ -374,7 +376,7 @@ button:focus {
     }
 }
 
-/* small height overflow */
+/* Small height overflow */
 @media only screen and (max-height: 410px) {
     body {
         overflow-x: auto;

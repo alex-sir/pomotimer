@@ -1,17 +1,17 @@
 :root {
-    /* colors */
+    /* Colors */
     --dark-color: #202020;
     --light-color: #E8E8E8;
     --white-color: #E7ECEF;
     --cyan-color: #04ACAC;
     --red-color: #e92727;
     --black-color: #151515;
-    /* pomodoros */
+    /* Pomodoros */
     --pomodoro-size: 100% 1.5px;
     --pomodoro-position: left bottom;
 }
 
-/* dark */
+/* Dark */
 .dark {
     background-color: var(--dark-color);
     color: var(--light-color);
@@ -39,7 +39,7 @@
     color: var(--light-color);
 }
 
-/* light */
+/* Light */
 .light {
     background-color: var(--light-color);
     color: var(--dark-color);
@@ -67,7 +67,7 @@
     color: var(--dark-color);
 }
 
-/* winter */
+/* Winter */
 .winter {
     background-color: var(--white-color);
     color: var(--cyan-color);
@@ -95,7 +95,7 @@
     color: var(--cyan-color);
 }
 
-/* sinister */
+/* Sinister */
 .sinister {
     background-color: var(--red-color);
     color: var(--black-color);
