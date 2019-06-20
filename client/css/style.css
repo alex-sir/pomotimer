@@ -127,7 +127,7 @@ button:focus {
 
 .arrow,
 .minutes {
-    margin: 0 auto auto auto auto;
+    margin: 0 auto auto auto;
 }
 
 /* Pomodoros */
@@ -358,7 +358,8 @@ button:focus {
     }
 
     .minutes>p {
-        font-size: 1.875rem;
+        /* font-size: 1.875rem; */
+        font-size: 2.2rem;
     }
 
     .timer-controls>button {
@@ -370,7 +371,7 @@ button:focus {
     }
 
     .arrow {
-        font-size: 3.125remw;
+        font-size: 3.125rem;
     }
 }
 
