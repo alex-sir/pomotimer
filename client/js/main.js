@@ -281,9 +281,11 @@ function titleBorderChange(noTitleToggle) {
 
 function timerSession(increase, minutes, decrease, session = true) {
     function runIncrease(isThroughKey = false) {
-        if ((parseInt(minutes.textContent) >= 6000) ||
+        if ((parseInt(minutes.textContent) >= 6000 && !longBreakTimeSelected) ||
+            (longBreak >= 6000 && longBreakTimeSelected) ||
             (!session && !breakSelected && isThroughKey) ||
-            (session && breakSelected && isThroughKey)) {
+            (session && breakSelected && isThroughKey) ||
+            (sessionSeconds === 360000)) {
             return;
         } else {
             if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
@@ -316,9 +318,12 @@ function timerSession(increase, minutes, decrease, session = true) {
     });
 
     function runDecrease(isThroughKey = false) {
-        if ((parseInt(minutes.textContent) <= 1) ||
+        if ((parseInt(minutes.textContent) <= 1 && !longBreakTimeSelected) ||
+            (longBreak <= 1 && longBreakTimeSelected) ||
             (!session && !breakSelected && isThroughKey) ||
-            (session && breakSelected && isThroughKey)) {
+            (session && breakSelected && isThroughKey) ||
+            (sessionSeconds === 60) ||
+            (breakLongBreakLink.checked && sessionSeconds === 180)) {
             return;
         } else {
             if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
@@ -462,6 +467,7 @@ function stopTimerHard(stop, seconds) {
     breakSelected = false;
     sessionTimeSelected = true;
     breakTimeSelected = false;
+    longBreakTimeSelected = false;
     stop.disabled = true;
     pause.disabled = true;
     play.disabled = false;
@@ -500,6 +506,7 @@ function resetTimer(reset) {
         breakSelected = false;
         sessionTimeSelected = true;
         breakTimeSelected = false;
+        longBreakTimeSelected = false;
         changeTimeInputsStyle();
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
@@ -532,7 +539,7 @@ function toggleNotifications(notifications) {
     });
 }
 
-function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput, breakMinutes) {
+function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput) {
     function checkIsDigit(e) {
         if (e.keyCode === 189 ||
             e.keyCode === 187 ||
@@ -551,19 +558,29 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         }
         if (isSession) {
             if (!breakSelected) {
-                displayTimeLeft(inputValue * 60, false);
                 sessionSeconds = inputValue * 60;
+                displayTimeLeft(sessionSeconds, false);
             }
         } else if (!isSession) {
-            if (breakSelected && !isLongBreak) {
-                displayTimeLeft(inputValue * 60, false);
+            if (longBreakTimeSelected && breakLongBreakLink.checked) {
+                longBreak = inputValue * 3;
+                sessionSeconds = longBreak * 60;
+                displayTimeLeft(sessionSeconds, false)
+            } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {
+                if (isLongBreak) {
+                    sessionSeconds = inputValue * 60;
+                    displayTimeLeft(sessionSeconds, false);
+                }
+            } else if (breakSelected && !isLongBreak) {
                 sessionSeconds = inputValue * 60;
+                displayTimeLeft(sessionSeconds, false);
             } else if (isLongBreak && longBreakTimeSelected) {
-                displayTimeLeft(inputValue * 60, false);
                 sessionSeconds = inputValue * 60;
+                displayTimeLeft(sessionSeconds, false);
             }
         }
         if (isLongBreak) longBreak = +inputValue;
+        if (breakLongBreakLink.checked && !isSession) longBreak = inputValue * 3;
         minutes.textContent = parseInt(inputValue, 10);
     }
 
