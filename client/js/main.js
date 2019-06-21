@@ -1,50 +1,61 @@
+// Timer
 let countdown;
 const timer = document.querySelector('#timer');
 let timerStarted = false;
+// Timer controls
 const play = document.querySelector('#play');
 const pause = document.querySelector('#pause');
 const stop = document.querySelector('#stop');
 const reset = document.querySelector('#reset');
 const arrow = document.querySelectorAll('.arrow');
+// Pomodoros
 const pomodoros = document.querySelectorAll('.pomodoro');
 let pomodorosCount = 0;
+// Session
 const sessionTitle = document.querySelector('.session-title h3');
 const increaseSession = document.querySelector('#increase-session');
 const sessionMinutes = document.querySelector('#session-minutes');
-let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-const breakTitle = document.querySelector('.break-title h3');
 const decreaseSession = document.querySelector('#decrease-session');
+// Break
+const breakTitle = document.querySelector('.break-title h3');
 const increaseBreak = document.querySelector('#increase-break');
 const breakMinutes = document.querySelector('#break-minutes');
 const decreaseBreak = document.querySelector('#decrease-break');
-let customThemeSwitch = true;
+// Long break
+let longBreak = 15;
+const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
+const longBreakInput = document.querySelector('#long-break-input');
+const confirmTimeChangeLongBreak = document.querySelector('.confirm-time-change-long-break');
+const timeInputLabelLongBreak = document.querySelector('.time-input-wrapper:last-child>label');
+// Current seconds
+let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+// Preferences
 const autoStart = document.querySelector('#auto-start');
 const notifications = document.querySelector('#notifications');
 const tabTitleTime = document.querySelector('#tab-title-time');
 const breakLongBreakLink = document.querySelector('#break-long-break-link');
+// Selections
 let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreakTimeSelected = false;
-let longBreak = 15;
-const notificationIcon = 'favicon/android-chrome-192x192.png';
+let customThemeSwitch = true;
+// Time inputs
+const timeInputs = document.querySelectorAll('.time-input');
+const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
+const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
 const sessionInput = document.querySelector('#session-input');
 const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
 const breakInput = document.querySelector('#break-input');
 const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
-const longBreakInput = document.querySelector('#long-break-input');
-const confirmTimeChangeLongBreak = document.querySelector('.confirm-time-change-long-break');
-const timeInputLabelLongBreak = document.querySelector('.time-input-wrapper:last-child>label');
-const timeInputs = document.querySelectorAll('.time-input');
-const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
-const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
-const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
-
+// Icon
+const notificationIcon = 'favicon/android-chrome-192x192.png';
 
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // TODO: Add comments around the code. Stuff if getting complicated...
+// FIXME: Delay in time for tab title. Use web workers to solve this
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
