@@ -1,4 +1,6 @@
-# Pomodoro
+<h1 align="center">Pomodoro</h1>
+
+<h4 align="center">Minimalist Pomodoro timer with customizable session/break times and colors.</h4>
 
 ## What is the Pomodoro Technique
 
@@ -10,7 +12,7 @@ The [*Pomodoro Technique*](https://en.wikipedia.org/wiki/Pomodoro_Technique) is 
 
 ### Time Options (TO)
 
-    Click on any of these to select it
+    Click to select
   
 1. Session
 2. Break
@@ -43,6 +45,15 @@ Change time length through the arrows next to session and break, or through the 
 * Change Time Length
   * ALT + ↑ - Increase time
   * ALT + ↓ - Decrease time
+
+## Features
+
+* Customizable Times - From one minute up to one hundred hours.
+* Pre-built Color Themes - Choose from a variety of hand-picked themes.
+* Custom Themes - Make a theme with any colors you want!
+* Keyboard Shortcuts - For faster use.
+* Preferences - Customize the timer in the settings menu.
+* Notifications - Get alerted when a time session finishes.
 
 ## Tech
 

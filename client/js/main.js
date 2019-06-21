@@ -282,11 +282,12 @@ function titleBorderChange(noTitleToggle) {
 
 function timerSession(increase, minutes, decrease, session = true) {
     function runIncrease(isThroughKey = false) {
+        const minutesTextContent = parseInt(minutes.textContent);
         if ((parseInt(minutes.textContent) >= 6000 && !longBreakTimeSelected) ||
-            (longBreak >= 6000 && longBreakTimeSelected && !session) ||
+            (longBreak >= 6000 && longBreakTimeSelected && !session && minutesTextContent >= 6000) ||
             (!session && !breakSelected && isThroughKey) ||
             (session && breakSelected && isThroughKey) ||
-            (breakLongBreakLink.checked && longBreak === 6000 && !session)) {
+            (breakLongBreakLink.checked && longBreak === 6000 && !session && minutesTextContent >= 6000)) {
             return;
         } else {
             if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
@@ -298,10 +299,11 @@ function timerSession(increase, minutes, decrease, session = true) {
                 if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!breakSelected && !longBreakTimeSelected) sessionSeconds += 60;
             } else if (breakSelected) {
-                if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
+                if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked && minutesTextContent < 2000) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
                 else if (longBreakTimeSelected) null;
                 else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!longBreakTimeSelected) sessionSeconds += 60;
+                else if (breakLongBreakLink.checked) null;
                 else if (breakLongBreakLink.checked) sessionSeconds += 60 * 3;
             }
         }
@@ -327,7 +329,7 @@ function timerSession(increase, minutes, decrease, session = true) {
             return;
         }
 
-        const breakMinutesContent = parseInt(breakMinutes.textContent * 3);
+        const breakMinutesContent = parseInt(breakMinutes.textContent) * 3;
 
         if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
             sessionSeconds -= 60;
@@ -342,6 +344,7 @@ function timerSession(increase, minutes, decrease, session = true) {
             else if (longBreakTimeSelected) null;
             else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
             if (!longBreakTimeSelected) sessionSeconds -= 60;
+            else if (breakLongBreakLink.checked && breakMinutesContent >= 2000) null;
             else if (breakLongBreakLink.checked) sessionSeconds -= 60 * 3;
         }
         if (breakLongBreakLink.checked && breakMinutesContent <= 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
