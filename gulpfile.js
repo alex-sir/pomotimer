@@ -27,7 +27,7 @@ function concatScripts() {
             loadMaps: true
         }))
         .pipe(uglify())
-        .pipe(sourcemaps.write('/'))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
 }
 
@@ -41,7 +41,7 @@ function concatScriptsProduction() {
             return `(function(){${contents}})();`;
         }))
         .pipe(uglify())
-        .pipe(sourcemaps.write('/'))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
 }
 
@@ -52,7 +52,7 @@ function concatStylesheets() {
             loadMaps: true
         }))
         .pipe(cleanCSS())
-        .pipe(sourcemaps.write('/'))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
 }
 
@@ -63,7 +63,7 @@ function concatVendor() {
             loadMaps: true
         }))
         .pipe(uglify())
-        .pipe(sourcemaps.write('/'))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/vendor/'));
 }
 

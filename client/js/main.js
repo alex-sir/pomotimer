@@ -54,19 +54,28 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// TODO: Add comments around the code. Stuff if getting complicated...
 // FIXME: Delay in time for tab title. Use web workers to solve this
+
+/**
+ * Runs core logic for displaying and counting down the timer.
+ * 
+ * @param {number} seconds
+ * @param {boolean} breakTime
+ * @param {boolean} returnRunTimerDisplay
+ * @return {function || void}
+ */
 function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     function runTimerDisplay() {
         if (!timerStarted) timerStarted = true;
         if (breakSelected && pomodorosCount !== 4 && !timerStarted) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
+        pause.disabled = false;
+        stop.disabled = false;
+        // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
         play.disabled = true;
-        pause.disabled = false;
-        stop.disabled = false;
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -107,6 +116,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = false;
                         longBreakTimeSelected = false;
                         pomodorosCount = 0;
+                        // Reset pomodoros to correct colors
                         pomodoros.forEach((pomodoro) => {
                             if (!customThemeActive) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
                             else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
@@ -115,10 +125,12 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         timerDisplay(sessionSeconds, true, true)();
                         play.disabled = false;
                     } else if (breakTime && !breakSelected) {
+                        // Session finishes, start break or long break
                         breakSelected = true;
                         breakTimeSelected = true;
                         sessionTimeSelected = false;
                         pomodorosCount++;
+                        // Fill in next pomodoro
                         if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
                         else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
                         if (pomodorosCount === 4) {
@@ -165,6 +177,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     play.addEventListener('click', runTimerDisplay);
 }
 
+/**
+ * Checks seconds to see if the timer font needs adjusting. Adjusts it if so.
+ * 
+ * @param {number} seconds
+ * @param {DOM element} timer
+ * @return {void}
+ */
 function checkTimerFont(seconds, timer) {
     if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) timer.style.fontSize = '4.688rem';
     else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
@@ -174,6 +193,15 @@ function checkTimerFont(seconds, timer) {
     }
 }
 
+/**
+ * Allows selection of a session, break, or long break.
+ * Displays correct time and selection.
+ * 
+ * @param {DOM element} sessionTime
+ * @param {DOM element} breakTime
+ * @param {DOM element} longBreakPomodoro
+ * @return {void}
+ */
 function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
@@ -220,6 +248,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
         timerDisplay(sessionSeconds, false, true);
         currentActive = titleBorderChange(true);
         pomodorosCount = 4;
+        // Fill in all four pomodoros
         pomodoros.forEach(pomodoro => {
             if (!customThemeActive) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
             else pomodoro.setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
@@ -256,6 +285,13 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
     longBreakPomodoro.addEventListener('click', runLongBreakSelect);
 }
 
+/**
+ * Changes border under session or select.
+ * Adjusts colors and classes as needed.
+ * 
+ * @param {boolean} noTitleToggle
+ * @return {DOM class || void}
+ */
 function titleBorderChange(noTitleToggle) {
     let currentActive;
     if (!customThemeActive) {
@@ -291,6 +327,15 @@ function titleBorderChange(noTitleToggle) {
     return currentActive;
 }
 
+/**
+ * Increase or decrease time relative to the desired time option.
+ * 
+ * @param {DOM element} increase
+ * @param {DOM element} minutes
+ * @param {DOM element} decrease
+ * @param {boolean} session
+ * @return {void}
+ */
 function timerSession(increase, minutes, decrease, session = true) {
     function runIncrease(isThroughKey = false) {
         const minutesTextContent = parseInt(minutes.textContent);
@@ -372,6 +417,11 @@ function timerSession(increase, minutes, decrease, session = true) {
     });
 }
 
+/**
+ * @param {number} seconds
+ * @param {boolean} title
+ * @return {void}
+ */
 function displayTimeLeft(seconds, title = true) {
     let minutes = Math.floor(seconds / 60);
     const remainderSeconds = seconds % 60;
@@ -391,9 +441,15 @@ function displayTimeLeft(seconds, title = true) {
     else document.title = `(${display}) Pomodoro`;
 }
 
+/**
+ * @param {DOM element} pause
+ * @param {boolean} clickRun
+ * @return {function || void}
+ */
 function pauseTimer(pause, clickRun) {
     function runPauseTimer() {
         clearInterval(countdown);
+        // Resume timer for session or break
         sessionTitle.classList >= 1 ? timerDisplay(0, true, true) : timerDisplay(0, false, true);
         pause.disabled = true;
         play.disabled = false;
@@ -406,6 +462,11 @@ function pauseTimer(pause, clickRun) {
     }
 }
 
+/**
+ * On timer reset, move bottom border indicator to session.
+ * 
+ * @return {void}
+ */
 function breakSessionTitleReset() {
     if (breakTitle.classList.length >= 1) {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
@@ -419,7 +480,10 @@ function breakSessionTitleReset() {
     }
 }
 
-function changeTimeInputsStyle() {
+/**
+ * @return {void}
+ */
+function enableTimeInputs() {
     for (let i = 0; i < timeInputs.length; i++) {
         if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
         else {
@@ -436,6 +500,11 @@ function changeTimeInputsStyle() {
     }
 }
 
+/**
+ * @param {DOM element} stop
+ * @param {number} seconds
+ * @return {void}
+ */
 function stopTimer(stop, seconds) {
     stop.disabled = true;
 
@@ -452,7 +521,7 @@ function stopTimer(stop, seconds) {
         play.disabled = false;
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
-        changeTimeInputsStyle();
+        enableTimeInputs();
         arrow.forEach(arrow => {
             arrow.disabled = false;
         });
@@ -463,13 +532,20 @@ function stopTimer(stop, seconds) {
     }
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 83) {
-            if (e.repeat) return
+            if (e.repeat) return;
             runStopTimer();
         }
     });
     stop.addEventListener('click', runStopTimer);
 }
 
+/**
+ * Stops timer and resets pomodoros.
+ * 
+ * @param {DOM element} stop
+ * @param {*} seconds
+ * @return {void}
+ */
 function stopTimerHard(stop, seconds) {
     seconds = parseInt(sessionMinutes.textContent) * 60;
     timerStarted = false;
@@ -489,7 +565,7 @@ function stopTimerHard(stop, seconds) {
     play.disabled = false;
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
-    changeTimeInputsStyle();
+    enableTimeInputs();
     arrow.forEach(arrow => {
         arrow.disabled = false;
     });
@@ -498,6 +574,10 @@ function stopTimerHard(stop, seconds) {
     checkTimerFont(sessionSeconds, timer);
 }
 
+/**
+ * @param {DOM elements} pomodoros
+ * @return {void}
+ */
 function resetPomodoros(pomodoros) {
     pomodoros.forEach((pomodoro) => {
         if (!customThemeActive) {
@@ -512,6 +592,10 @@ function resetPomodoros(pomodoros) {
     });
 }
 
+/**
+ * @param {DOM element} reset
+ * @return {void}
+ */
 function resetTimer(reset) {
     function runResetTimer() {
         timerStarted = false;
@@ -523,7 +607,7 @@ function resetTimer(reset) {
         sessionTimeSelected = true;
         breakTimeSelected = false;
         longBreakTimeSelected = false;
-        changeTimeInputsStyle();
+        enableTimeInputs();
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
@@ -549,12 +633,27 @@ function resetTimer(reset) {
     reset.addEventListener('click', runResetTimer);
 }
 
+/**
+ * @param {DOM element} notifications
+ * @return {void}
+ */
 function toggleNotifications(notifications) {
     notifications.addEventListener('change', e => {
         if (e.target.checked) Push.Permission.request();
     });
 }
 
+/**
+ * Change the time of a time option through input.
+ * 
+ * @param {DOM element} confirmTimeChangeSession
+ * @param {DOM element} sessionInput
+ * @param {DOM element} confirmTimeChangeBreak
+ * @param {DOM element} breakInput
+ * @param {DOM element} confirmTimeChangeLongBreak
+ * @param {DOM element} longBreakInput
+ * @return {void}
+ */
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput) {
     function checkIsDigit(e) {
         if (e.keyCode === 189 ||
@@ -563,6 +662,16 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             e.keyCode === 190) e.preventDefault();
     }
 
+    /**
+     * Check which time option is currently selected.
+     * Update time option text value, timer display, and session seconds accordingly.
+     * 
+     * @param {DOM element} input
+     * @param {DOM element} minutes
+     * @param {boolean} isSession
+     * @param {boolean} isLongBreak
+     * @return {void}
+     */
     function runConfirmTimeChange(input, minutes, isSession, isLongBreak) {
         let inputValue = input.value;
         if (inputValue > 6000) {
@@ -638,7 +747,17 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
     });
 }
 
-function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak) {
+/**
+ * Adjust long break time in conjunction with break if link active.
+ * 
+ * @param {DOM element} breakLongBreakLink
+ * @param {DOM element} longBreakInput
+ * @param {DOM element} confirmTimeChangeLongBreak
+ * @param {DOM element} timeInputLabelLongBreak
+ * @param {DOM element} breakMinutes
+ * @return {void}
+ */
+function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes) {
     breakLongBreakLink.addEventListener('change', e => {
         if (e.target.checked) {
             longBreakInput.classList.add('line-through-long-break', 'opacity-long-break');
