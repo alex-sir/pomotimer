@@ -55,9 +55,11 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// TODO: Add HTML local storage
+// TODO: Add option to clear all local storage
+// TODO: Update README to mention HTML local storage
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
+// FIXME: Loading local storage works, but isn't smooth. Find a way to have it loaded instantaneously
 
 function setStorage() {
     if (window.localStorage.length === 0) {
@@ -168,7 +170,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         pomodorosCount = 0;
                         // Reset pomodoros to correct colors
                         pomodoros.forEach((pomodoro) => {
-                            if (!customThemeActive) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
+                            if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
                             else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
                         });
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
@@ -181,7 +183,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = false;
                         pomodorosCount++;
                         // Fill in next pomodoro
-                        if (!customThemeActive) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
+                        if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
                         else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
@@ -300,7 +302,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
         pomodorosCount = 4;
         // Fill in all four pomodoros
         pomodoros.forEach(pomodoro => {
-            if (!customThemeActive) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
+            if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
             else pomodoro.setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
         });
         if (breakTimeSelected) null;
@@ -344,7 +346,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
  */
 function titleBorderChange(noTitleToggle) {
     let currentActive;
-    if (!customThemeActive) {
+    if (!JSON.parse(localStorage.getItem('customThemeActive'))) {
         sessionTitle.classList.length >= 1 ?
             currentActive = sessionTitle.classList[sessionTitle.classList.length - 1] :
             currentActive = breakTitle.classList[breakTitle.classList.length - 1];
@@ -525,7 +527,7 @@ function breakSessionTitleReset() {
     if (breakTitle.classList.length >= 1) {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
         breakTitle.classList = '';
-    } else if (customThemeActive) {
+    } else if (JSON.parse(localStorage.getItem('customThemeActive'))) {
         sessionTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
         sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
         sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
@@ -634,7 +636,7 @@ function stopTimerHard(stop, seconds) {
  */
 function resetPomodoros(pomodoros) {
     pomodoros.forEach((pomodoro) => {
-        if (!customThemeActive) {
+        if (!JSON.parse(localStorage.getItem('customThemeActive'))) {
             const pomodoroBorder = pomodoro.classList[1];
             pomodoro.classList = '';
             pomodoro.classList.add('pomodoro', pomodoroBorder);
