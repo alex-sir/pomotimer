@@ -54,7 +54,9 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
+// TODO: Add HTML local storage
 // FIXME: Delay in time for tab title. Use web workers to solve this
+// FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
 
 /**
  * Runs core logic for displaying and counting down the timer.
