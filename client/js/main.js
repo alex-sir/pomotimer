@@ -34,6 +34,7 @@ const autoStart = document.querySelector('#auto-start');
 const notifications = document.querySelector('#notifications');
 const tabTitleTime = document.querySelector('#tab-title-time');
 const breakLongBreakLink = document.querySelector('#break-long-break-link');
+const preferences = document.querySelectorAll('.preference');
 // Selections
 let breakSelected = false;
 let sessionTimeSelected = true;
@@ -41,13 +42,13 @@ let breakTimeSelected = false;
 let longBreakTimeSelected = false;
 let customThemeSwitch = true;
 // Time inputs
-const timeInputs = document.querySelectorAll('.time-input');
-const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
 const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
 const sessionInput = document.querySelector('#session-input');
 const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
 const breakInput = document.querySelector('#break-input');
 const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
+const timeInputs = document.querySelectorAll('.time-input');
+const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
 // Icon
 const notificationIcon = 'favicon/android-chrome-192x192.png';
 
@@ -57,6 +58,53 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Add HTML local storage
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
+
+function setStorage() {
+    if (window.localStorage.length === 0) {
+        // Time
+        localStorage.setItem('session', JSON.stringify(sessionMinutes.textContent));
+        localStorage.setItem('break', JSON.stringify(breakMinutes.textContent));
+        localStorage.setItem('longBreak', JSON.stringify(longBreak));
+        // Preferences
+        localStorage.setItem('autoStart', JSON.stringify(true));
+        autoStart.checked = true;
+        localStorage.setItem('notifications', JSON.stringify(false));
+        notifications.checked = false;
+        localStorage.setItem('tabTitleTime', JSON.stringify(true));
+        tabTitleTime.checked = true;
+        localStorage.setItem('breakLongBreakLink', JSON.stringify(true));
+        breakLongBreakLink.checked = true;
+    }
+}
+
+function setStorageTime() {
+    localStorage.setItem('session', JSON.stringify(sessionMinutes.textContent));
+    localStorage.setItem('break', JSON.stringify(breakMinutes.textContent));
+    localStorage.setItem('longBreak', JSON.stringify(longBreak));
+}
+
+function setStoragePreferences() {
+    preferences.forEach(preference => {
+        preference.addEventListener('change', () => {
+            localStorage.setItem(preference.getAttribute('data-preference'), JSON.stringify(preference.checked));
+        });
+    });
+}
+
+function loadStorage() {
+    // Time
+    sessionMinutes.textContent = JSON.parse(localStorage.getItem('session'));
+    sessionSeconds = +sessionMinutes.textContent * 60;
+    displayTimeLeft(sessionSeconds, false);
+    breakMinutes.textContent = JSON.parse(localStorage.getItem('break'));
+    longBreak = JSON.parse(localStorage.getItem('longBreak'));
+    // Preferences
+    autoStart.checked = JSON.parse(localStorage.getItem('autoStart'));
+    notifications.checked = JSON.parse(localStorage.getItem('notifications'));
+    tabTitleTime.checked = JSON.parse(localStorage.getItem('tabTitleTime'));
+    breakLongBreakLink.checked = JSON.parse(localStorage.getItem('breakLongBreakLink'));
+    breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, true)(breakLongBreakLink);
+}
 
 /**
  * Runs core logic for displaying and counting down the timer.
@@ -370,11 +418,13 @@ function timerSession(increase, minutes, decrease, session = true) {
     increase.addEventListener('click', () => {
         runIncrease(false);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 38 && !timerStarted) {
             runIncrease(true);
             checkTimerFont(sessionSeconds, timer);
+            setStorageTime();
         }
     });
 
@@ -410,11 +460,13 @@ function timerSession(increase, minutes, decrease, session = true) {
     decrease.addEventListener('click', () => {
         runDecrease(false);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 40 && !timerStarted) {
             runDecrease(true);
             checkTimerFont(sessionSeconds, timer);
+            setStorageTime();
         }
     });
 }
@@ -625,6 +677,7 @@ function resetTimer(reset) {
         document.title = 'Pomodoro';
         timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60, true, true);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     }
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 82) {
@@ -714,6 +767,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
     confirmTimeChangeSession.addEventListener('click', () => {
         runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     });
     sessionInput.addEventListener('keydown', e => {
         checkIsDigit(e);
@@ -721,12 +775,14 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             if (e.repeat) return;
             runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
             checkTimerFont(sessionSeconds, timer);
+            setStorageTime();
         }
     });
 
     confirmTimeChangeBreak.addEventListener('click', () => {
         runConfirmTimeChange(breakInput, breakMinutes, false, false);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     });
     breakInput.addEventListener('keydown', e => {
         checkIsDigit(e);
@@ -734,17 +790,20 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             if (e.repeat) return;
             runConfirmTimeChange(breakInput, breakMinutes, false, false);
             checkTimerFont(sessionSeconds, timer);
+            setStorageTime();
         }
     });
     confirmTimeChangeLongBreak.addEventListener('click', () => {
         runConfirmTimeChange(longBreakInput, longBreak, false, true);
         checkTimerFont(sessionSeconds, timer);
+        setStorageTime();
     });
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
             runConfirmTimeChange(longBreakInput, longBreak, false, true);
             checkTimerFont(sessionSeconds, timer);
+            setStorageTime();
         }
     });
 }
@@ -759,9 +818,9 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
  * @param {DOM element} breakMinutes
  * @return {void}
  */
-function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes) {
-    breakLongBreakLink.addEventListener('change', e => {
-        if (e.target.checked) {
+function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, returnRunBreakLongBreakLinkCheck) {
+    function runBreakLongBreakLinkCheck(link) {
+        if (link.checked) {
             longBreakInput.classList.add('line-through-long-break', 'opacity-long-break');
             timeInputLabelLongBreak.classList.add('line-through-long-break', 'opacity-long-break');
             confirmTimeChangeLongBreak.classList.add('opacity-long-break', 'pointer-events-long-break');
@@ -772,17 +831,24 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
                 displayTimeLeft(longBreak * 60, false);
                 sessionSeconds = longBreak * 60;
             }
-        } else if (!e.target.checked) {
+        } else if (!link.checked) {
             longBreakInput.classList.remove('line-through-long-break', 'opacity-long-break');
             timeInputLabelLongBreak.classList.remove('line-through-long-break', 'opacity-long-break');
             confirmTimeChangeLongBreak.classList.remove('opacity-long-break', 'pointer-events-long-break');
             confirmTimeChangeLongBreak.style.pointerEvents = 'auto';
             longBreakInput.disabled = false;
         }
+    }
+    breakLongBreakLink.addEventListener('change', () => {
+        runBreakLongBreakLinkCheck(breakLongBreakLink);
     });
+    if (returnRunBreakLongBreakLinkCheck) return runBreakLongBreakLinkCheck;
 }
 
 function mainTimer() {
+    setStorage();
+    setStoragePreferences();
+    loadStorage();
     timerDisplay(sessionSeconds, true, false);
     timerSession(increaseSession, sessionMinutes, decreaseSession, true);
     timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
@@ -792,7 +858,7 @@ function mainTimer() {
     resetTimer(reset);
     toggleNotifications(notifications);
     changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput);
-    breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes);
+    breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, false);
 }
 
 window.onload = mainTimer();
