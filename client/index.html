@@ -207,8 +207,10 @@
                     </div>
                     <div id="storage">
                         <h2 class="modal-section-heading">Storage:</h2>
-                        <button type="button" id="clear-storage">Clear</button>
-                        <!-- TODO: Add view storage log/current values -->
+                        <div class="btn-storage-container">
+                            <button type="button" id="clear-storage" class="btn-storage">Clear</button>
+                            <button type="button" id="log-storage" class="btn-storage">Log</button>
+                        </div>
                     </div>
                     <div class="storage-warning-background warning-background">
                         <div class="storage-warning warning">
@@ -219,6 +221,17 @@
                             <div class="storage-warning-options warning-options">
                                 <button id="accept-clear" class="btn-warning-option">Yes</button>
                                 <button id="decline-clear" class="btn-warning-option">No</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="storage-log-wrapper">
+                        <div class="storage-log-content">
+                            <div class="modal-header">
+                                <p id="close-btn-log" class="close-btn">&times;</p>
+                                <h2>Log</h2>
+                            </div>
+                            <div class="storage-log-body">
+                                <div id="storage-log-content"></div>
                             </div>
                         </div>
                     </div>

@@ -55,7 +55,6 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// TODO: Add option to clear all local storage
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
 
@@ -166,6 +165,7 @@ function clearStorage() {
         acceptClear.addEventListener('click', () => {
             localStorage.clear();
             storageWarningBackground.style.display = 'none';
+            location.reload(true);
         });
         declineClear.addEventListener('click', () => {
             storageWarningBackground.style.display = 'none';
@@ -173,6 +173,38 @@ function clearStorage() {
         window.addEventListener('click', function (e) {
             if (e.target === storageWarningBackground) storageWarningBackground.style.display = 'none';
         });
+    });
+}
+
+function logStorage() {
+    const logStorage = document.querySelector('#log-storage');
+    const storageLogWrapper = document.querySelector('.storage-log-wrapper');
+    const closeBtnLog = document.querySelector('#close-btn-log');
+    const storageLogContent = document.querySelector('#storage-log-content');
+
+    logStorage.addEventListener('click', () => {
+        storageLogWrapper.style.display = 'block';
+        for (let [key, value] of Object.entries(localStorage)) {
+            let localStorageProperty = document.createElement('div');
+            localStorageProperty.textContent = `${key}: ${value}`;
+            localStorageProperty.style.marginBottom = '10px';
+            storageLogContent.appendChild(localStorageProperty);
+        }
+        document.querySelector('#storage-log-content>div:last-child').style.marginBottom = '0';
+    });
+
+    function hideLogModal() {
+        storageLogWrapper.style.display = 'none';
+        storageLogContent.textContent = '';
+    }
+
+    closeBtnLog.addEventListener('click', () => {
+        hideLogModal();
+    });
+    window.addEventListener('click', e => {
+        if (e.target === storageLogWrapper) {
+            hideLogModal();
+        }
     });
 }
 
@@ -905,6 +937,7 @@ function mainTimer() {
     setStoragePreferences();
     loadStorage();
     clearStorage();
+    logStorage();
     // Timer
     timerDisplay(sessionSeconds, true, false);
     timerSession(increaseSession, sessionMinutes, decreaseSession, true);

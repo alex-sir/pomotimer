@@ -3,7 +3,12 @@
     flex-direction: column;
 }
 
-#clear-storage {
+.btn-storage-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-storage {
     font-size: 1rem;
     color: var(--light-color);
     background-color: var(--dark-color);
@@ -13,9 +18,54 @@
     margin-left: 15px;
 }
 
+/* Storage log */
+.storage-log-wrapper {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    overflow: auto;
+}
+
+.storage-log-content {
+    width: 60%;
+    min-width: 300px;
+    height: auto;
+    margin: 8% auto 0 auto;
+    background-color: var(--light-color);
+    padding: 15px;
+    font-size: 1.3rem;
+}
+
 @media only screen and (max-width: 960px) {
-    #clear-storage {
+    .btn-storage {
         margin-left: 0;
         width: 100%;
+    }
+
+    .btn-storage:not(:last-of-type) {
+        margin-bottom: 10px;
+    }
+
+    .btn-storage-container {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 790px) {
+    .storage-log-content {
+        width: 70%;
+        font-size: 1.2rem;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .storage-log-content {
+        margin-top: 10%;
+        width: 80%;
     }
 }

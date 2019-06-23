@@ -82,42 +82,42 @@
     }
 
     .time-input {
-        width: 94%;
+        width: 93%;
     }
 }
 
 @media only screen and (max-width: 800px) {
     .time-input {
-        width: 93%;
+        width: 92%;
     }
 }
 
 @media only screen and (max-width: 700px) {
     .time-input {
-        width: 92%;
+        width: 91%;
     }
 }
 
 @media only screen and (max-width: 620px) {
     .time-input {
-        width: 91%;
+        width: 90%;
     }
 }
 
 @media only screen and (max-width: 555px) {
     .time-input {
-        width: 90%;
+        width: 89%;
     }
 }
 
 @media only screen and (max-width: 450px) {
     .time-input {
-        width: 89%;
+        width: 88%;
     }
 }
 
 @media only screen and (max-width: 410px) {
     .time-input {
-        width: 88%;
+        width: 87%;
     }
 }
