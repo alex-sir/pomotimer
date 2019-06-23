@@ -143,14 +143,14 @@
                             <input type="text" id="color-picker-content">
                             <button type="button" id="apply-custom-theme">Apply</button>
                         </div>
-                        <div class="theme-warning-background">
-                            <div class="theme-warning">
-                                <div class="theme-warning-dialogue">
+                        <div class="theme-warning-background warning-background">
+                            <div class="theme-warning warning">
+                                <div class="theme-warning-dialogue warning-dialogue">
                                     <span>Restart the timer?</span>
                                 </div>
-                                <div class="theme-warning-options">
-                                    <button id="accept-restart">Yes</button>
-                                    <button id="decline-restart">No</button>
+                                <div class="theme-warning-options warning-options">
+                                    <button id="accept-restart" class="btn-warning-option">Yes</button>
+                                    <button id="decline-restart" class="btn-warning-option">No</button>
                                 </div>
                             </div>
                         </div>
@@ -159,19 +159,23 @@
                                 <h2 class="modal-section-heading">Preferences:</h2>
                             </div>
                             <div class="preferences-option">
-                                <input type="checkbox" id="auto-start" class=" preference preference-option-checkbox" data-preference="autoStart">
+                                <input type="checkbox" id="auto-start" class=" preference preference-option-checkbox"
+                                    data-preference="autoStart">
                                 <label for="auto-start">Auto start session/break</label>
                             </div>
                             <div class="preferences-option">
-                                <input type="checkbox" id="notifications" class=" preference preference-option-checkbox" data-preference="notifications">
+                                <input type="checkbox" id="notifications" class=" preference preference-option-checkbox"
+                                    data-preference="notifications">
                                 <label for="notifications">Notifications</label>
                             </div>
                             <div class="preferences-option">
-                                <input type="checkbox" id="tab-title-time" class=" preference preference-option-checkbox" data-preference="tabTitleTime">
+                                <input type="checkbox" id="tab-title-time"
+                                    class=" preference preference-option-checkbox" data-preference="tabTitleTime">
                                 <label for="tab-title-time">Time in tab title</label>
                             </div>
                             <div class="preferences-option">
-                                <input type="checkbox" id="break-long-break-link" class=" preference preference-option-checkbox" data-preference="breakLongBreakLink">
+                                <input type="checkbox" id="break-long-break-link"
+                                    class=" preference preference-option-checkbox" data-preference="breakLongBreakLink">
                                 <label for="break-long-break-link">Break & long break linked</label>
                             </div>
                         </div>
@@ -198,6 +202,23 @@
                                     class="time-input line-through-long-break opacity-long-break" value="15" disabled>
                                 <i
                                     class="fas fa-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="storage">
+                        <h2 class="modal-section-heading">Storage:</h2>
+                        <button type="button" id="clear-storage">Clear</button>
+                        <!-- TODO: Add view storage log/current values -->
+                    </div>
+                    <div class="storage-warning-background warning-background">
+                        <div class="storage-warning warning">
+                            <div class="storage-warning-dialogue warning-dialogue">
+                                <span>Are you sure?</span>
+                                <span class="warning-description">This will reset EVERYTHING to default</span>
+                            </div>
+                            <div class="storage-warning-options warning-options">
+                                <button id="accept-clear" class="btn-warning-option">Yes</button>
+                                <button id="decline-clear" class="btn-warning-option">No</button>
                             </div>
                         </div>
                     </div>

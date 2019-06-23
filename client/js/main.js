@@ -56,13 +56,41 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // TODO: Add option to clear all local storage
-// TODO: Update README to mention HTML local storage
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
-// FIXME: Loading local storage works, but isn't smooth. Find a way to have it loaded instantaneously
+
+/**
+ * https://mzl.la/2zJOaCZ
+ * 
+ * @param {string} type 
+ * @return {boolean}
+ */
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        const x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
 
 function setStorage() {
-    if (window.localStorage.length === 0) {
+    if (window.localStorage.length === 0 && storageAvailable('localStorage')) {
         // Time
         localStorage.setItem('session', JSON.stringify(sessionMinutes.textContent));
         localStorage.setItem('break', JSON.stringify(breakMinutes.textContent));
@@ -93,6 +121,23 @@ function setStoragePreferences() {
     });
 }
 
+/**
+ * Checks seconds to see if the timer font needs adjusting. Adjusts it if so.
+ * 
+ * @param {number} seconds
+ * @param {DOM element} timer
+ * @return {void}
+ */
+function checkTimerFont(seconds, timer) {
+    if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) {
+        timer.style.fontSize = '4.688rem';
+    } else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
+        timer.style.fontSize = '5rem';
+    } else {
+        timer.style.fontSize = '5.625rem';
+    }
+}
+
 function loadStorage() {
     // Time
     sessionMinutes.textContent = JSON.parse(localStorage.getItem('session'));
@@ -106,6 +151,29 @@ function loadStorage() {
     tabTitleTime.checked = JSON.parse(localStorage.getItem('tabTitleTime'));
     breakLongBreakLink.checked = JSON.parse(localStorage.getItem('breakLongBreakLink'));
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, true)(breakLongBreakLink);
+    // Timer font
+    checkTimerFont(sessionSeconds, timer);
+}
+
+function clearStorage() {
+    const clearStorage = document.querySelector('#clear-storage');
+    const storageWarningBackground = document.querySelector('.storage-warning-background');
+    const acceptClear = document.querySelector('#accept-clear');
+    const declineClear = document.querySelector('#decline-clear');
+
+    clearStorage.addEventListener('click', () => {
+        storageWarningBackground.style.display = 'block';
+        acceptClear.addEventListener('click', () => {
+            localStorage.clear();
+            storageWarningBackground.style.display = 'none';
+        });
+        declineClear.addEventListener('click', () => {
+            storageWarningBackground.style.display = 'none';
+        });
+        window.addEventListener('click', function (e) {
+            if (e.target === storageWarningBackground) storageWarningBackground.style.display = 'none';
+        });
+    });
 }
 
 /**
@@ -227,22 +295,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         }
     });
     play.addEventListener('click', runTimerDisplay);
-}
-
-/**
- * Checks seconds to see if the timer font needs adjusting. Adjusts it if so.
- * 
- * @param {number} seconds
- * @param {DOM element} timer
- * @return {void}
- */
-function checkTimerFont(seconds, timer) {
-    if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) timer.style.fontSize = '4.688rem';
-    else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
-        timer.style.fontSize = '5rem';
-    } else {
-        timer.style.fontSize = '5.625rem';
-    }
 }
 
 /**
@@ -848,16 +900,22 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
 }
 
 function mainTimer() {
+    // Storage
     setStorage();
     setStoragePreferences();
     loadStorage();
+    clearStorage();
+    // Timer
     timerDisplay(sessionSeconds, true, false);
     timerSession(increaseSession, sessionMinutes, decreaseSession, true);
     timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
+    // Time option select
     sessionBreakSelect(sessionTitle, breakTitle, longBreakPomodoro);
+    // Controls
     pauseTimer(pause, true);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
+    // Preferences
     toggleNotifications(notifications);
     changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput);
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, false);

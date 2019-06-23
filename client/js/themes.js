@@ -19,9 +19,11 @@ let bodyBackgroundColor = window.getComputedStyle(document.querySelector('body')
 let iconsColor = window.getComputedStyle(sessionTitle).getPropertyValue('color');
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
+// TODO: Add documentation to this file
 
 function setStorageTheme() {
-    if (window.localStorage.length === 0 || window.localStorage.length === 7) {
+    if ((window.localStorage.length === 0 || !localStorage.getItem('themeClass')) &&
+        storageAvailable('localStorage')) {
         // Theme
         localStorage.setItem('themeClass', JSON.stringify(themeClass));
         // Custom theme

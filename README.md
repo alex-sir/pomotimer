@@ -54,6 +54,7 @@ Change time length through the arrows next to session and break, or through the 
 * Keyboard Shortcuts - For faster use.
 * Preferences - Customize the timer in the settings menu.
 * Notifications - Get alerted when a time session finishes.
+* Local Storage - All preferences are saved locally.
 
 ## Tech
 
