@@ -52,7 +52,6 @@ const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
 // Icon
 const notificationIcon = 'favicon/android-chrome-192x192.png';
 
-// TODO: Add guide on info modal
 // TODO: Switch push.js notifications to use vanilla notifications API (maybe, have to do more research)
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this

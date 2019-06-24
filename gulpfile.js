@@ -18,7 +18,13 @@ const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 const scripts = ['client/js/**/*.js'];
 // TODO: Get rid of vendor and switch to browserify (if possible)
-const vendorScripts = ['node_modules/jquery/dist/jquery.min.js', 'node_modules/spectrum-colorpicker/spectrum.js', 'node_modules/push.js/bin/push.min.js', 'node_modules/push.js/bin/serviceWorker.min.js', 'node_modules/rgb-hex/index.js'];
+const vendorScripts = [
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/spectrum-colorpicker/spectrum.js',
+    'node_modules/push.js/bin/push.min.js',
+    'node_modules/push.js/bin/serviceWorker.min.js',
+    'node_modules/rgb-hex/index.js'
+];
 const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
 
 // Concat tasks
@@ -48,7 +54,7 @@ function concatScriptsProduction() {
 }
 
 function concatStylesheets() {
-    return src('client/*/**.css')
+    return src('client/**/**.css')
         .pipe(concat('bundle.min.css'))
         .pipe(sourcemaps.init({
             loadMaps: true
