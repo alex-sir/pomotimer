@@ -20,6 +20,7 @@ let iconsColor = window.getComputedStyle(sessionTitle).getPropertyValue('color')
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
 // TODO: Add documentation to this file
+// FIXME: User shouldn't be able to select two colors that are very similar, it'll make the icons invisible
 
 function setStorageTheme() {
     if ((window.localStorage.length === 0 || !localStorage.getItem('themeClass')) &&

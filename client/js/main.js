@@ -521,7 +521,7 @@ function timerSession(increase, minutes, decrease, session = true) {
                 else if (longBreakTimeSelected) null;
                 else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
                 if (!longBreakTimeSelected) sessionSeconds += 60;
-                else if (breakLongBreakLink.checked) null;
+                else if (breakLongBreakLink.checked && minutesTextContent >= 2000) null;
                 else if (breakLongBreakLink.checked) sessionSeconds += 60 * 3;
             }
         }
@@ -564,7 +564,7 @@ function timerSession(increase, minutes, decrease, session = true) {
             else if (longBreakTimeSelected) null;
             else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
             if (!longBreakTimeSelected) sessionSeconds -= 60;
-            else if (breakLongBreakLink.checked && breakMinutesContent >= 2000) null;
+            else if (breakLongBreakLink.checked && parseInt(breakMinutes.textContent) >= 2000) null;
             else if (breakLongBreakLink.checked) sessionSeconds -= 60 * 3;
         }
         if (breakLongBreakLink.checked && breakMinutesContent <= 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
@@ -678,7 +678,7 @@ function stopTimer(stop, seconds) {
         if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
         else if (pomodorosCount === 4) seconds = longBreak * 60;
         else seconds = parseInt(sessionMinutes.textContent) * 60;
-        if (!(pomodorosCount >= 1)) timerStarted = false;
+        if (!(pomodorosCount >= 1) || longBreakTimeSelected) timerStarted = false;
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
