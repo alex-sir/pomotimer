@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+/* FIXME: Layout is broken at very small width and very large height (e.g. 300x9999) */
+
 * {
     box-sizing: border-box;
 }
@@ -53,6 +55,12 @@ nav>h1,
 }
 
 /* Main content */
+main,
+nav,
+.modal-content {
+    max-width: 800px;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -201,7 +209,6 @@ button:focus {
     main {
         width: 50vw;
         gap: 3%;
-        margin-top: 1%;
     }
 
     nav {
@@ -269,7 +276,6 @@ button:focus {
 @media only screen and (min-width: 600px) and (max-width: 1400px) {
     main {
         width: 60vw;
-        margin-top: 1%;
     }
 }
 
@@ -388,7 +394,7 @@ button:focus {
 
     body,
     main {
-        min-width: 300px;
+        min-width: 350px;
     }
 
     .container {
@@ -397,6 +403,8 @@ button:focus {
 
     main {
         height: 50vh;
+        max-height: 425px;
+        margin-top: -5px;
     }
 
     .session-title,

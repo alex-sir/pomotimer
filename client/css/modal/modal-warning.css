@@ -5,8 +5,8 @@
     top: 0;
     left: 0;
     display: none;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
 }
@@ -51,6 +51,12 @@
     width: 25%;
 }
 
+.theme-warning,
+.storage-warning {
+    max-height: 170px;
+    max-width: 500px;
+}
+
 /* Storage warning */
 .storage-warning {
     height: 18%;
@@ -58,6 +64,16 @@
 
 .storage-warning-options {
     align-items: center;
+}
+
+@media only screen and (min-width: 1500px) {
+
+    .warning,
+    .theme-warning {
+        width: 40%;
+        height: 15%;
+        margin-top: 230px;
+    }
 }
 
 /* Tablet/landscape phone warning */
