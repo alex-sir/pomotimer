@@ -31,6 +31,17 @@
     margin-bottom: 5px;
 }
 
+.modal-section-heading {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    justify-self: flex-start;
+}
+
+.modal-section-heading-bold {
+    font-weight: bold;
+}
+
 .modal-header>h2 {
     font-size: 2.188rem;
     font-weight: 700;

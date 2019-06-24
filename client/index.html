@@ -32,8 +32,80 @@
                         <h2>About</h2>
                     </div>
                     <div class="modal-body">
+                        <div>
+                            <h2 id="how-to-use" class="modal-section-heading">How To Use</h2>
+                        </div>
+                        <!-- How To Use modal -->
+                        <div id="modal-how-to-use" class="modal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p id="close-btn-how-to-use" class="close-btn">&times;</p>
+                                    <h2>How To Use</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="pomodoro-guide" src="img/pomodoro-guide.png" alt="Pomodoro Guide">
+                                    <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time
+                                        Options (TO):</h2>
+                                    <div id="click-to-select" class="how-to-info">Click to select</div>
+                                    <ol class="how-to-options">
+                                        <li>Session</li>
+                                        <li>Break</li>
+                                        <li>Long Break</li>
+                                    </ol>
+                                    <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls
+                                        (C):</h2>
+                                    <ol class="how-to-options">
+                                        <li>Play - Start or resume the timer</li>
+                                        <li>Pause - Pause the timer</li>
+                                        <li>
+                                            Stop - Reset the currently selected time (this will not reset any pomodoros)
+                                        </li>
+                                        <li>
+                                            Reset - Reset the timer to its original values (this will reset all
+                                            pomodoros)
+                                        </li>
+                                        <ul id="time-option-defaults">
+                                            <li>Session - 25</li>
+                                            <li>Break - 5</li>
+                                            <li>Long Break - 15</li>
+                                        </ul>
+                                    </ol>
+                                    <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Change
+                                        Time Length:</h2>
+                                    <div class="how-to-info">
+                                        Change time length through the arrows next to session and break, or through the
+                                        settings.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pomodoro-about">
+                            <h2 id="what-is" class="modal-section-heading">
+                                What is the Pomodoro Technique?
+                            </h2>
+                        </div>
+                        <div id="modal-what-is" class="modal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p id="close-btn-what-is" class="close-btn">&times;</p>
+                                    <h2>What is the Pomodoro Technique?</h2>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="pomodoro-info">
+                                        The <a id="pomodoro-wiki" href="https://en.wikipedia.org/wiki/Pomodoro_Technique">Pomodoro Technique<a> is a method to manage time through work and break
+                                        intervals. Traditionally, the timer goes through four intervals of work (25
+                                        minutes) and breaks (5 minutes) with the last break being longer, usually around
+                                        15 minutes. One pomodoro equals one complete session. After four pomodoros are
+                                        complete the long break starts, and then the timer restarts to the beginning
+                                        with no pomodoros complete. Its purpose is to build discipline by enforcing
+                                        sessions of work with no distractions and breaks to let the mind relax for a
+                                        short amount of time before continuing with work.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div id="keyboard-controls">
-                            <h2 class="modal-section-heading">Keyboard controls:</h2>
+                            <h2 class="modal-section-heading">Keyboard Controls:</h2>
                             <ul id="keyboard-controls-list">
                                 <li>
                                     <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
@@ -56,7 +128,8 @@
                                     <span>
                                         <span class="keyboard-action-name">ALT + R</span>
                                         <span class="keyboard-action-dash"> - </span>
-                                        <span class="keyboard-action-description">Reset to original values (25/5)</span>
+                                        <span class="keyboard-action-description">Reset to original values
+                                            (25/5/15)</span>
                                     </span>
                                 </li>
                                 <li>
@@ -101,19 +174,18 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="pomodoro-about">
-                            <span>
-                                <span>What</span> is the <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
-                                    target="noopener">Pomodoro Technique</a>?
-                            </span>
-                        </div>
-                        <div id="author-wrapper">
-                            <span id="author">
-                                <span>Made by Alex Carbajal (alex-sir)</span>
+                        <div id="info-wrapper">
+                            <h2 class="modal-section-heading">Info:</h2>
+                            <span id="made-by">Made by Alex Carbajal (<a id="profile-link"
+                                    href="https://github.com/alex-sir" target="noopener">alex-sir</a>)</span>
+                            <div id="open-source">
+                                <span>This project is open source</span>
                                 <a href="https://github.com/alex-sir/pomodoro" target="noopener" title="GitHub Repo">
                                     <i class="fab fa-github"></i>
                                 </a>
-                            </span>
+                            </div>
+                            <span id="contact-me">Contact Me: <a
+                                    href="mailto:alexcarbajal710@gmail.com">Email</a></span>
                         </div>
                     </div>
                 </div>

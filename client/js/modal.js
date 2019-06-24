@@ -1,12 +1,21 @@
-// TODO: For modal, modularize HTML classes and id's, and JS functions and variables
+// Settings
 const modalSettings = document.querySelector('#simple-modal-settings');
-const modalAbout = document.querySelector('#simple-modal-about');
 const modalBtnSettings = document.querySelector('#modal-btn-settings');
-const modalBtnAbout = document.querySelector('#modal-btn-about');
 const closeBtnSettings = document.querySelector('#close-btn-settings');
-const closeBtnAbout = document.querySelector('#close-btn-about');
 const settings = document.querySelector('.settings');
+// About
+const modalAbout = document.querySelector('#simple-modal-about');
+const modalBtnAbout = document.querySelector('#modal-btn-about');
+const closeBtnAbout = document.querySelector('#close-btn-about');
 const about = document.querySelector('.about');
+// How To Use
+const modalHowToUse = document.querySelector('#modal-how-to-use');
+const closeBtnHowToUse = document.querySelector('#close-btn-how-to-use');
+const howToUse = document.querySelector('#how-to-use');
+// What is
+const modalWhatIs = document.querySelector('#modal-what-is');
+const closeBtnWhatIs = document.querySelector('#close-btn-what-is');
+const whatIs = document.querySelector('#what-is');
 
 function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     modalBtn.addEventListener('click', () => {
@@ -19,7 +28,7 @@ function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     closeBtn.addEventListener('click', () => {
         hideModalSettings(modal, settings);
     });
-    window.addEventListener('click', function (e) {
+    window.addEventListener('click', e => {
         if (e.target === modal) {
             hideModalSettings(modal, settings);
         }
@@ -46,7 +55,7 @@ function modalDisplayAbout(modal, modalBtn, closeBtn, about) {
     closeBtn.addEventListener('click', () => {
         hideModalAbout(modal);
     });
-    window.addEventListener('click', function (e) {
+    window.addEventListener('click', e => {
         if (e.target === modal) {
             hideModalAbout(modal);
         }
@@ -62,9 +71,33 @@ function hideModalAbout(modal) {
     body.style.overflow = 'auto';
 }
 
+function modalDisplayGeneric(modal, modalBtn, closeBtn) {
+    modalBtn.addEventListener('click', () => {
+        modal.style.visibility = 'visible';
+        modal.style.opacity = '1';
+        body.style.overflow = 'hidden';
+    });
+    closeBtn.addEventListener('click', () => {
+        hideModalGeneric(modal);
+    });
+    window.addEventListener('click', e => {
+        if (e.target === modal) hideModalGeneric(modal);
+    });
+}
+
+function hideModalGeneric(modal) {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+        modal.style.visibility = 'hidden';
+    }, 300);
+    body.style.overflow = 'auto';
+}
+
 function mainModal() {
     modalDisplaySettings(modalSettings, modalBtnSettings, closeBtnSettings, settings);
     modalDisplayAbout(modalAbout, modalBtnAbout, closeBtnAbout, about);
+    modalDisplayGeneric(modalHowToUse, howToUse, closeBtnHowToUse);
+    modalDisplayGeneric(modalWhatIs, whatIs, closeBtnWhatIs);
 }
 
 window.onload = mainModal();

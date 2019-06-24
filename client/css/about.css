@@ -1,35 +1,21 @@
 #pomodoro-about {
-    margin-top: 10px;
     font-size: 1.4em;
 }
 
-#pomodoro-about>span {
+#what-is {
+    color: var(--dark-color);
+    line-height: 1.1;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pomodoro-info {
+    font-size: 1.2rem;
     line-height: 1.1;
 }
 
-#pomodoro-about>span>span {
-    font-size: 1.5em;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-#pomodoro-about>span>a {
-    color: #202020;
+#pomodoro-wiki {
+    font-style: italic;
     text-decoration: underline;
-}
-
-/* Author */
-#author-wrapper {
-    display: inline-flex;
-    justify-content: flex-start;
-    width: 100%;
-    margin-top: 10px;
-}
-
-#author {
-    font-size: 1em;
-}
-
-.fa-github {
-    color: #202020;
+    color: var(--dark-color);
 }

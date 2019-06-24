@@ -12,6 +12,7 @@ const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const del = require('del');
 const htmlmin = require('gulp-htmlmin');
+const imagemin = require('gulp-imagemin');
 const insert = require('gulp-insert');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
@@ -82,6 +83,12 @@ function copyFavicon() {
         .pipe(dest('dist/favicon'));
 }
 
+function copyImg() {
+    return src('client/img/*')
+        .pipe(imagemin())
+        .pipe(dest('dist/img'));
+}
+
 // Clean tasks
 function cleanAll() {
     return del(['dist/*', '!dist/.git']);
@@ -93,7 +100,7 @@ function cleanVendor() {
 
 // Development
 task('concat', parallel(concatScripts, concatStylesheets));
-task('copy', parallel(copyIndex, concatVendor, copyFavicon));
+task('copy', parallel(copyIndex, concatVendor, copyFavicon, copyImg));
 task('build', parallel('concat', 'copy'));
 exports.cleanAll = cleanAll;
 exports.cleanVendor = cleanVendor;
