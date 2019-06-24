@@ -62,7 +62,6 @@ Change time length through the arrows next to session and break, or through the 
 * [Gulp](https://gulpjs.com/) - Streaming build system. Automates concatenating and minifying files.
 * [Spectrum](https://bgrins.github.io/spectrum/) - Color picker used to make a custom theme.
 * [jQuery](https://jquery.com/) - Serves up spectrum.
-* [Push](https://pushjs.org/) - Notifications for when sessions or breaks finish.
 
 The majority of the core application is made in vanilla HTML, CSS, and JavaScript.
 
