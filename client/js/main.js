@@ -56,6 +56,7 @@ const notificationTime = 5000;
 // TODO: Add statistics showing pomodoro completions and progress
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
+// FIXME: Notifications don't pop up on mobile
 // FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
 
 /**
@@ -259,11 +260,15 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                 if (autoStart.checked) {
                     currentActive = titleBorderChange(false);
                     if (pomodorosCount === 4) {
-                        const notificationLongBreakOver = new Notification('Long break over', {
-                            icon: notificationIcon,
-                            body: 'Session started'
-                        });
-                        setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
+                        try {
+                            const notificationLongBreakOver = new Notification('Long break over', {
+                                icon: notificationIcon,
+                                body: 'Session started'
+                            });
+                            setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
+                        } catch (e) {
+                            console.error(e);
+                        }
                         breakSelected = false;
                         breakTimeSelected = true;
                         sessionTimeSelected = false;
@@ -288,28 +293,40 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
-                            const notificationLongBreakStart = new Notification('Session over', {
-                                icon: notificationIcon,
-                                body: 'Long break started'
-                            });
-                            setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
+                            try {
+                                const notificationLongBreakStart = new Notification('Session over', {
+                                    icon: notificationIcon,
+                                    body: 'Long break started'
+                                });
+                                setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
+                            } catch (e) {
+                                console.error(e);
+                            }
                             longBreakTimeSelected = true;
                         } else {
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
-                            const notificationBreakStart = new Notification('Session over', {
-                                icon: notificationIcon,
-                                body: 'Break started'
-                            });
-                            setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
+                            try {
+                                const notificationBreakStart = new Notification('Session over', {
+                                    icon: notificationIcon,
+                                    body: 'Break started'
+                                });
+                                setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
+                            } catch (e) {
+                                console.error(e);
+                            }
                         }
                         timerDisplay(sessionSeconds, false, true)();
                         play.disabled = false;
                     } else {
-                        const notificationBreakOver = new Notification('Break over', {
-                            icon: notificationIcon,
-                            body: 'Session started'
-                        });
-                        setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
+                        try {
+                            const notificationBreakOver = new Notification('Break over', {
+                                icon: notificationIcon,
+                                body: 'Session started'
+                            });
+                            setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
+                        } catch (e) {
+                            console.error(e);
+                        }
                         breakSelected = false;
                         breakTimeSelected = false;
                         sessionTimeSelected = true;
@@ -661,7 +678,7 @@ function stopTimer(stop, seconds) {
         if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
         else if (pomodorosCount === 4) seconds = longBreak * 60;
         else seconds = parseInt(sessionMinutes.textContent) * 60;
-        timerStarted = false;
+        if (!(pomodorosCount >= 1)) timerStarted = false;
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
