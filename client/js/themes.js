@@ -1,25 +1,27 @@
-const themes = document.querySelectorAll('.theme');
+// Body
 const body = document.querySelector('body');
+// Theme
+const themes = document.querySelectorAll('.theme');
+let themeClass = document.querySelector('body').classList[0];
+const themeWarningBackground = document.querySelector('.theme-warning-background');
+// Theme color
 const themeColor = document.querySelectorAll('.dark-color');
 const themeBackground = document.querySelectorAll('.dark-background');
 const themeBorder = document.querySelectorAll('.dark-border');
 let themeActive = document.querySelector('.dark-active');
 const themeTitle = document.querySelector('.dark-title');
-const themeWarningBackground = document.querySelector('.theme-warning-background');
+// Restart
 const acceptRestart = document.querySelector('#accept-restart');
 const declineRestart = document.querySelector('#decline-restart');
-let customValueBody;
-let customValueContent;
-const applyCustomTheme = document.querySelector('#apply-custom-theme');
-let customThemeActive = false;
-// Theme
-let themeClass = document.querySelector('body').classList[0];
 // Custom theme
+let customValueBody;
+let customValueIcons;
 let bodyBackgroundColor = window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color');
 let iconsColor = window.getComputedStyle(sessionTitle).getPropertyValue('color');
+const applyCustomTheme = document.querySelector('#apply-custom-theme');
+let customThemeActive = false;
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
-// TODO: Add documentation to this file
 // FIXME: User shouldn't be able to select two colors that are very similar, it'll make the icons invisible
 
 function setStorageTheme() {
@@ -43,6 +45,12 @@ function loadStorageTheme() {
     else customThemeChanger(JSON.parse(localStorage.getItem('bodyBackgroundColor')), JSON.parse(localStorage.getItem('iconsColor'), false));
 }
 
+/**
+ * Sets color picking for Spectrum.
+ * Calls and checks application of custom theme.
+ * 
+ * @return {void}
+ */
 function colorPicker() {
     $('#color-picker-body').spectrum({
         color: `#${rgbHex(JSON.parse(localStorage.getItem('bodyBackgroundColor')))}`,
@@ -59,24 +67,32 @@ function colorPicker() {
         preferredFormat: 'hex'
     });
     customValueBody = $('#color-picker-body').spectrum('get');
-    customValueContent = $('#color-picker-content').spectrum('get');
+    customValueIcons = $('#color-picker-content').spectrum('get');
     $('#color-picker-body').on('change.spectrum', () => {
         customValueBody = $('#color-picker-body').spectrum('get');
     });
     $('#color-picker-content').on('change.spectrum', () => {
-        customValueContent = $('#color-picker-content').spectrum('get');
+        customValueIcons = $('#color-picker-content').spectrum('get');
     });
     applyCustomTheme.addEventListener('click', () => {
-        if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueContent);
+        if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueIcons);
         else {
             customThemeActive = true;
             localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
-            customThemeChanger(customValueBody, customValueContent, false);
+            customThemeChanger(customValueBody, customValueIcons, false);
             if (breakSelected) titleBorderColor(true);
         }
     });
 }
 
+/**
+ * Changes the current theme into tone with the selected custom values.
+ * 
+ * @param {string} bodyValue
+ * @param {string} contentValue
+ * @param {boolean} isTimerStarted
+ * @return {void}
+ */
 function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
     body.setAttribute('style', `background-color: ${bodyValue}; color: ${contentValue};`)
     themeColor.forEach(element => {
@@ -99,6 +115,12 @@ function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
     localStorage.setItem('iconsColor', JSON.stringify(iconsColor));
 }
 
+/**
+ * Removes the current custom theme and applies the new one.
+ * On full remove, a pre-built theme is applied.
+ * 
+ * @return {void}
+ */
 function removeCustomTheme(fullRemove = false) {
     if (fullRemove) {
         customThemeActive = false;
@@ -123,6 +145,15 @@ function removeCustomTheme(fullRemove = false) {
     });
 }
 
+/**
+ * Asks for a timer restart when a pre-built theme is applied on a timer with progress.
+ * 
+ * @param {DOM element} accept
+ * @param {DOM element} decline
+ * @param {DOM element} themeWarning
+ * @param {DOM element} theme
+ * @return {void}
+ */
 function timerRestartTheme(accept, decline, themeWarning, theme) {
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
@@ -145,6 +176,16 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
     });
 }
 
+/**
+ * Asks for a timer restart when a custom theme is applied on a timer with progress.
+ * 
+ * @param {DOM element} accept
+ * @param {DOM element} decline
+ * @param {DOM element} themeWarning
+ * @param {string} bodyValue
+ * @param {string} contentValue
+ * @return {void}
+ */
 function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, contentValue) {
     themeWarning.style.display = 'block';
     accept.addEventListener('click', () => {
@@ -168,6 +209,12 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
     });
 }
 
+/**
+ * Correctly switches the color of the border color under the session/break titles.
+ * 
+ * @param {boolean} customThemeReset 
+ * @return {void}
+ */
 function titleBorderColor(customThemeReset) {
     if (!JSON.parse(localStorage.getItem('customThemeActive')) && !customThemeReset) {
         let currentActive = sessionTitle.classList[sessionTitle.classList.length - 1];
@@ -183,6 +230,13 @@ function titleBorderColor(customThemeReset) {
     }
 }
 
+/**
+ * Sets picking for pre-built themes.
+ * Calls and checks application od custom theme.
+ * 
+ * @param {DOM element} themes 
+ * @return {void}
+ */
 function changeTheme(themes) {
     themes.forEach(theme => {
         theme.addEventListener('click', function () {
@@ -198,6 +252,20 @@ function changeTheme(themes) {
     });
 }
 
+/**
+ * Changes current theme into the selected pre-built theme.
+ * Uses class switching to achieve this.
+ * 
+ * @param {DOM element} theme
+ * @param {DOM element} themeColor
+ * @param {DOM element} themeBorder
+ * @param {DOM element} themeActive
+ * @param {DOM element} themeTitle
+ * @param {DOM elements} pomodoros
+ * @param {DOM element} modalSettings
+ * @param {boolean} isTimerStarted
+ * @return {void}
+ */
 function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
     body.classList = '';
     body.classList.add(theme.classList[1]);

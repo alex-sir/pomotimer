@@ -71,6 +71,12 @@ function hideModalAbout(modal) {
     body.style.overflow = 'auto';
 }
 
+/**
+ * @param {DOM element} modal
+ * @param {DOM element} modalBtn
+ * @param {DOM element} closeBtn
+ * @return {void}
+ */
 function modalDisplayGeneric(modal, modalBtn, closeBtn) {
     modalBtn.addEventListener('click', () => {
         modal.style.visibility = 'visible';
@@ -85,6 +91,10 @@ function modalDisplayGeneric(modal, modalBtn, closeBtn) {
     });
 }
 
+/**
+ * @param {DOM element} modal
+ * @return {void}
+ */
 function hideModalGeneric(modal) {
     modal.style.opacity = '0';
     setTimeout(() => {

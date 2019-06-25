@@ -277,7 +277,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         // Reset pomodoros to correct colors
                         pomodoros.forEach((pomodoro) => {
                             if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoro.classList.remove(`${currentActive.split('-')[0]}-background`);
-                            else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueContent};`);
+                            else pomodoro.setAttribute('style', `background-color: ${customValueBody}; border-color: ${customValueIcons};`);
                         });
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
@@ -290,7 +290,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         pomodorosCount++;
                         // Fill in next pomodoro
                         if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
-                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
+                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
                             try {
@@ -413,7 +413,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
         // Fill in all four pomodoros
         pomodoros.forEach(pomodoro => {
             if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
-            else pomodoro.setAttribute('style', `background-color: ${customValueContent}; border-color: ${customValueContent};`);
+            else pomodoro.setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
         });
         if (breakTimeSelected) null;
         else if (sessionTimeSelected) {
@@ -473,7 +473,7 @@ function titleBorderChange(noTitleToggle) {
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
-            breakTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
+            breakTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         } else {
@@ -481,7 +481,7 @@ function titleBorderChange(noTitleToggle) {
             breakTitle.style.background = '';
             breakTitle.style.backgroundSize = '';
             breakTitle.style.backgroundPosition = '';
-            sessionTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
+            sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
             sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         }
@@ -638,7 +638,7 @@ function breakSessionTitleReset() {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
         breakTitle.classList = '';
     } else if (JSON.parse(localStorage.getItem('customThemeActive'))) {
-        sessionTitle.style.background = `linear-gradient(to right, ${customValueContent}, ${customValueContent}) no-repeat`;
+        sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
         sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
         sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         breakTitle.style.background = '';

@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-/* FIXME: Layout is broken at very small width and very large height (e.g. 300x9999) */
-
 * {
     box-sizing: border-box;
 }

@@ -1,5 +1,12 @@
 const timerFontMediaQuery = window.matchMedia('(max-width: 420px)');
 
+/**
+ * Changes font size for small screens on large time quantities.
+ * Prevents overflow.
+ * 
+ * @param {media query} e 
+ * @return {void}
+ */
 function timerFontListener(e) {
     if (e.matches) {
         if (sessionSeconds === 360000) timer.style.fontSize = '4.688rem';
