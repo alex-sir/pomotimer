@@ -4,8 +4,8 @@
     --light-color: #E8E8E8;
     --white-color: #E7ECEF;
     --cyan-color: #04ACAC;
-    --red-color: #e92727;
-    --black-color: #151515;
+    --pink-color: #ffb0aa;
+    --brown-color: #AA4139;
     /* Pomodoros */
     --pomodoro-size: 100% 0.094rem;
     --pomodoro-position: left bottom;
@@ -95,30 +95,30 @@
     color: var(--cyan-color);
 }
 
-/* Sinister */
-.sinister {
-    background-color: var(--red-color);
-    color: var(--black-color);
+/* Blossom */
+.blossom {
+    background-color: var(--pink-color);
+    color: var(--brown-color);
 }
 
-.sinister-color {
-    color: var(--black-color);
+.blossom-color {
+    color: var(--brown-color);
 }
 
-.sinister-background {
-    background-color: var(--black-color);
+.blossom-background {
+    background-color: var(--brown-color);
 }
 
-.sinister-border {
-    border-color: var(--black-color);
+.blossom-border {
+    border-color: var(--brown-color);
 }
 
-.sinister-active {
-    background: linear-gradient(to right, var(--black-color), var(--black-color)) no-repeat;
+.blossom-active {
+    background: linear-gradient(to right, var(--brown-color), var(--brown-color)) no-repeat;
     background-size: var(--pomodoro-size);
     background-position: var(--pomodoro-position);
 }
 
-.sinister-title {
-    color: var(--black-color);
+.blossom-title {
+    color: var(--brown-color);
 }
