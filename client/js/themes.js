@@ -16,10 +16,12 @@ const declineRestart = document.querySelector('#decline-restart');
 // Custom theme
 let customValueBody;
 let customValueIcons;
-let bodyBackgroundColor = window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color');
-let iconsColor = window.getComputedStyle(sessionTitle).getPropertyValue('color');
+let bodyBackgroundColor = `#${rgbHex(window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color'))}`;
+let iconsColor = `#${rgbHex(window.getComputedStyle(sessionTitle).getPropertyValue('color'))}`;
 const applyCustomTheme = document.querySelector('#apply-custom-theme');
 let customThemeActive = false;
+// Tab
+const themeColorTab = document.querySelector('meta[name="theme-color"]');
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
 // FIXME: User shouldn't be able to select two colors that are very similar, it'll make the icons invisible
@@ -31,8 +33,10 @@ function setStorageTheme() {
         localStorage.setItem('themeClass', JSON.stringify(themeClass));
         // Custom theme
         localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
-        localStorage.setItem('bodyBackgroundColor', JSON.stringify('rgb(0, 0, 128)'));
-        localStorage.setItem('iconsColor', JSON.stringify('rgb(200, 200, 200)'));
+        localStorage.setItem('bodyBackgroundColor', JSON.stringify('#202020'));
+        localStorage.setItem('iconsColor', JSON.stringify('#E8E8E8'));
+        localStorage.setItem('customBodyBackgroundColor', JSON.stringify('#000080'));
+        localStorage.setItem('customIconsColor', JSON.stringify('#c8c8c8'));
     }
 }
 
@@ -42,7 +46,9 @@ function loadStorageTheme() {
         if (theme.classList.contains(JSON.parse(localStorage.getItem('themeClass')))) storageTheme = theme;
     })
     if (!JSON.parse(localStorage.getItem('customThemeActive'))) executeChangeTheme(storageTheme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
-    else customThemeChanger(JSON.parse(localStorage.getItem('bodyBackgroundColor')), JSON.parse(localStorage.getItem('iconsColor'), false));
+    else {
+        customThemeChanger(JSON.parse(localStorage.getItem('customBodyBackgroundColor')), JSON.parse(localStorage.getItem('customIconsColor'), false));
+    }
 }
 
 /**
@@ -53,14 +59,14 @@ function loadStorageTheme() {
  */
 function colorPicker() {
     $('#color-picker-body').spectrum({
-        color: `#${rgbHex(JSON.parse(localStorage.getItem('bodyBackgroundColor')))}`,
+        color: `${JSON.parse(localStorage.getItem('customBodyBackgroundColor'))}`,
         showInput: true,
         showInitial: true,
         showAlpha: true,
         preferredFormat: 'hex'
     });
     $('#color-picker-content').spectrum({
-        color: `#${rgbHex(JSON.parse(localStorage.getItem('iconsColor')))}`,
+        color: `${JSON.parse(localStorage.getItem('customIconsColor'))}`,
         showInput: true,
         showInitial: true,
         showAlpha: true,
@@ -109,10 +115,12 @@ function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
         if (longBreakTimeSelected && !isTimerStarted) pomodoro.style.backgroundColor = contentValue;
     });
     hideModalSettings(modalSettings, settings);
-    bodyBackgroundColor = window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color');
-    iconsColor = window.getComputedStyle(sessionTitle).getPropertyValue('color');
-    localStorage.setItem('bodyBackgroundColor', JSON.stringify(bodyBackgroundColor));
-    localStorage.setItem('iconsColor', JSON.stringify(iconsColor));
+    // Update tab and local storage properties
+    bodyBackgroundColor = `#${rgbHex(window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color'))}`;
+    iconsColor = `#${rgbHex(window.getComputedStyle(sessionTitle).getPropertyValue('color'))}`;
+    themeColorTab.setAttribute('content', bodyBackgroundColor);
+    localStorage.setItem('customBodyBackgroundColor', JSON.stringify(bodyBackgroundColor));
+    localStorage.setItem('customIconsColor', JSON.stringify(iconsColor));
 }
 
 /**
@@ -288,7 +296,15 @@ function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTi
         if (longBreakTimeSelected && !isTimerStarted) pomodoro.classList.add('pomodoro', `${theme.classList[1]}-background`);
     });
     hideModalSettings(modalSettings, settings);
-    localStorage.setItem('themeClass', JSON.stringify(document.querySelector('body').classList[0]));
+    // Update tab and local storage properties
+    setTimeout(() => {
+        bodyBackgroundColor = `#${rgbHex(window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color'))}`;
+        iconsColor = `#${rgbHex(window.getComputedStyle(sessionTitle).getPropertyValue('color'))}`;
+        themeColorTab.setAttribute('content', bodyBackgroundColor);
+        localStorage.setItem('themeClass', JSON.stringify(document.querySelector('body').classList[0]));
+        localStorage.setItem('bodyBackgroundColor', JSON.stringify(bodyBackgroundColor));
+        localStorage.setItem('iconsColor', JSON.stringify(iconsColor));
+    }, 0);
 }
 
 function mainThemes() {

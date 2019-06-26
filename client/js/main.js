@@ -54,6 +54,7 @@ const notificationIcon = 'favicon/android-chrome-192x192.png';
 const notificationTime = 5000;
 
 // TODO: Add statistics showing pomodoro completions and progress
+// TODO: Use map for logging localStorage to keep consistency
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile
