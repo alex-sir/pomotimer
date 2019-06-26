@@ -874,7 +874,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         }
         if (isLongBreak) longBreak = +inputValue;
         if (breakLongBreakLink.checked && !isSession) longBreak = Math.min(inputValue * 3, 6000);
-        minutes.textContent = parseInt(inputValue, 10);
+        if (!isLongBreak) minutes.textContent = parseInt(inputValue, 10);
     }
 
     confirmTimeChangeSession.addEventListener('click', () => {
