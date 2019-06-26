@@ -206,7 +206,7 @@ button:focus {
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
-        gap: 3%;
+        gap: 1%;
     }
 
     nav {
@@ -236,27 +236,15 @@ button:focus {
     }
 
     /* Grid display */
-    .timer-controls {
-        align-items: flex-end;
-    }
-
-    .timer-display {
-        align-items: center;
-    }
-
-    .session-title {
-        align-items: flex-end;
-    }
-
-    .session-step {
-        align-items: center;
-    }
-
-    .break-title {
-        align-items: flex-end;
-    }
-
+    .timer-display,
+    .session-step,
     .break-step {
+        align-items: flex-start;
+    }
+
+    .session-title,
+    .break-title,
+    .timer-controls {
         align-items: center;
     }
 
