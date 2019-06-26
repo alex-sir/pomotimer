@@ -259,7 +259,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (secondsLeft < 1) {
                 clearInterval(countdown);
                 if (autoStart.checked) {
-                    currentActive = titleBorderChange(false);
+                    let currentActive = titleBorderChange(false);
                     if (pomodorosCount === 4) {
                         try {
                             const notificationLongBreakOver = new Notification('Long break over', {
@@ -409,7 +409,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
         sessionSeconds = parseInt(longBreak) * 60;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, false, true);
-        currentActive = titleBorderChange(true);
+        let currentActive = titleBorderChange(true);
         pomodorosCount = 4;
         // Fill in all four pomodoros
         pomodoros.forEach(pomodoro => {
