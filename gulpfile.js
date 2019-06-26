@@ -8,12 +8,15 @@ const {
     watch,
     task
 } = require('gulp');
+const autoprefixer = require('autoprefixer');
+const babel = require('gulp-babel');
 const cleanCSS = require('gulp-clean-css');
 const concat = require('gulp-concat');
 const del = require('del');
 const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
 const insert = require('gulp-insert');
+const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 const scripts = ['client/js/**/*.js'];
@@ -21,8 +24,6 @@ const scripts = ['client/js/**/*.js'];
 const vendorScripts = [
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/spectrum-colorpicker/spectrum.js',
-    'node_modules/push.js/bin/push.min.js',
-    'node_modules/push.js/bin/serviceWorker.min.js',
     'node_modules/rgb-hex/index.js'
 ];
 const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
@@ -30,10 +31,13 @@ const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.cs
 // Concat tasks
 function concatScripts() {
     return src(scripts)
-        .pipe(concat('bundle.min.js'))
         .pipe(sourcemaps.init({
             loadMaps: true
         }))
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(concat('bundle.min.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
@@ -41,10 +45,13 @@ function concatScripts() {
 
 function concatScriptsProduction() {
     return src(scripts)
-        .pipe(concat('bundle.min.js'))
         .pipe(sourcemaps.init({
             loadMaps: true
         }))
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(concat('bundle.min.js'))
         .pipe(insert.transform((contents) => {
             return `(function(){${contents}})();`;
         }))
@@ -55,10 +62,11 @@ function concatScriptsProduction() {
 
 function concatStylesheets() {
     return src('client/**/**.css')
-        .pipe(concat('bundle.min.css'))
         .pipe(sourcemaps.init({
             loadMaps: true
         }))
+        .pipe(postcss([autoprefixer()]))
+        .pipe(concat('bundle.min.css'))
         .pipe(cleanCSS())
         .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
@@ -66,9 +74,29 @@ function concatStylesheets() {
 
 function concatVendor() {
     return src(vendorScripts)
-        .pipe(concat('vendor-bundle.min.js'))
         .pipe(sourcemaps.init({
             loadMaps: true
+        }))
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(concat('vendor-bundle.min.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
+        .pipe(dest('dist/vendor/'));
+}
+
+function concatVendorProduction() {
+    return src(vendorScripts)
+        .pipe(sourcemaps.init({
+            loadMaps: true
+        }))
+        .pipe(babel({
+            presets: ['@babel/env']
+        }))
+        .pipe(concat('vendor-bundle.min.js'))
+        .pipe(insert.transform((contents) => {
+            return `(function(){${contents}})();`;
         }))
         .pipe(uglify())
         .pipe(sourcemaps.write('.'))
@@ -79,7 +107,8 @@ function concatVendor() {
 function copyIndex() {
     return src('client/index.html')
         .pipe(htmlmin({
-            collapseWhitespace: true
+            collapseWhitespace: true,
+            removeComments: true
         }))
         .pipe(dest('dist/'));
 }
@@ -97,7 +126,7 @@ function copyImg() {
 
 // Clean tasks
 function cleanAll() {
-    return del(['dist/*', '!dist/.git']);
+    return del(['dist/*', '!dist/.git', '!dist/.gitignore']);
 }
 
 function cleanVendor() {
@@ -116,6 +145,6 @@ exports.watch = () => {
 }
 
 // Production
-task('concatProduction', parallel(concatScriptsProduction, concatStylesheets));
+task('concatProduction', parallel(concatScriptsProduction, concatStylesheets, concatVendorProduction));
 task('buildProduction', parallel('concatProduction', 'copy'));
 task('production', series(cleanAll, 'buildProduction'));
