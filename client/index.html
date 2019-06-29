@@ -80,11 +80,13 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div id="pomodoro-about">
                             <h2 id="what-is" class="modal-section-heading">
                                 What is the Pomodoro Technique?
                             </h2>
                         </div>
+                        <hr>
                         <div id="modal-what-is" class="modal">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -94,7 +96,8 @@
                                 <div class="modal-body">
                                     <div class="pomodoro-info">
                                         The <a id="pomodoro-wiki"
-                                            href="https://en.wikipedia.org/wiki/Pomodoro_Technique" target="noopener">Pomodoro
+                                            href="https://en.wikipedia.org/wiki/Pomodoro_Technique" title="Wikipedia"
+                                            target="noopener">Pomodoro
                                             Technique<a> is a method to manage time through work and break
                                                 intervals. Traditionally, the timer goes through four intervals of work
                                                 (25
@@ -183,10 +186,12 @@
                                 </li>
                             </ul>
                         </div>
+                        <hr>
                         <div id="info-wrapper">
                             <h2 class="modal-section-heading">Info:</h2>
                             <span id="made-by">Made by Alex Carbajal (<a id="profile-link"
-                                    href="https://github.com/alex-sir" target="noopener">alex-sir</a>)</span>
+                                    href="https://github.com/alex-sir" title="GitHub Profile"
+                                    target="noopener">alex-sir</a>)</span>
                             <div id="open-source">
                                 <span>This project is open source</span>
                                 <a href="https://github.com/alex-sir/pomodoro" target="noopener" title="GitHub Repo">
@@ -224,6 +229,7 @@
                             <input type="text" id="color-picker-content">
                             <button type="button" id="apply-custom-theme">Apply</button>
                         </div>
+                        <hr>
                         <div class="theme-warning-background warning-background">
                             <div class="theme-warning warning">
                                 <div class="theme-warning-dialogue warning-dialogue">
@@ -260,59 +266,62 @@
                                 <label for="break-long-break-link">Break & long break linked</label>
                             </div>
                         </div>
-                    </div>
-                    <div id="time-inputs">
-                        <h2 class="modal-section-heading">Time:</h2>
-                        <div id="time-inputs-wrapper">
-                            <div class="time-input-wrapper">
-                                <label for="session-input">Session</label><br>
-                                <input type="number" id="session-input" class="time-input" value="25">
-                                <i class="fas fa-check-circle confirm-time-change-session confirm-time-change"></i>
-                            </div>
-                            <div class="time-input-wrapper">
-                                <label for="break-input">Break</label><br>
-                                <input type="number" id="break-input" class="time-input" value="5">
-                                <i class="fas fa-check-circle confirm-time-change-break confirm-time-change"></i>
-                            </div>
-                            <div class="time-input-wrapper">
-                                <label for="long-break-input" class="line-through-long-break opacity-long-break">
-                                    Long Break
-                                </label>
-                                <br>
-                                <input type="number" id="long-break-input"
-                                    class="time-input line-through-long-break opacity-long-break" value="15" disabled>
-                                <i
-                                    class="fas fa-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="storage">
-                        <h2 class="modal-section-heading">Storage:</h2>
-                        <div class="btn-storage-container">
-                            <button type="button" id="clear-storage" class="btn-storage">Clear</button>
-                            <button type="button" id="log-storage" class="btn-storage">Log</button>
-                        </div>
-                    </div>
-                    <div class="storage-warning-background warning-background">
-                        <div class="storage-warning warning">
-                            <div class="storage-warning-dialogue warning-dialogue">
-                                <span>Are you sure?</span>
-                                <span class="warning-description">This will reset EVERYTHING to default</span>
-                            </div>
-                            <div class="storage-warning-options warning-options">
-                                <button id="accept-clear" class="btn-warning-option">Yes</button>
-                                <button id="decline-clear" class="btn-warning-option">No</button>
+                        <hr>
+                        <div id="time-inputs">
+                            <h2 class="modal-section-heading">Time:</h2>
+                            <div id="time-inputs-wrapper">
+                                <div class="time-input-wrapper">
+                                    <label for="session-input">Session</label><br>
+                                    <input type="number" id="session-input" class="time-input" value="25">
+                                    <i class="fas fa-check-circle confirm-time-change-session confirm-time-change"></i>
+                                </div>
+                                <div class="time-input-wrapper">
+                                    <label for="break-input">Break</label><br>
+                                    <input type="number" id="break-input" class="time-input" value="5">
+                                    <i class="fas fa-check-circle confirm-time-change-break confirm-time-change"></i>
+                                </div>
+                                <div class="time-input-wrapper">
+                                    <label for="long-break-input" class="line-through-long-break opacity-long-break">
+                                        Long Break
+                                    </label>
+                                    <br>
+                                    <input type="number" id="long-break-input"
+                                        class="time-input line-through-long-break opacity-long-break" value="15"
+                                        disabled>
+                                    <i
+                                        class="fas fa-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="storage-log-wrapper">
-                        <div class="storage-log-content modal-content">
-                            <div class="modal-header">
-                                <p id="close-btn-log" class="close-btn">&times;</p>
-                                <h2>Log</h2>
+                        <hr>
+                        <div id="storage">
+                            <h2 class="modal-section-heading">Storage:</h2>
+                            <div class="btn-storage-container">
+                                <button type="button" id="clear-storage" class="btn-storage">Clear</button>
+                                <button type="button" id="log-storage" class="btn-storage">Log</button>
                             </div>
-                            <div class="storage-log-body">
-                                <div id="storage-log-content"></div>
+                        </div>
+                        <div class="storage-warning-background warning-background">
+                            <div class="storage-warning warning">
+                                <div class="storage-warning-dialogue warning-dialogue">
+                                    <span>Are you sure?</span>
+                                    <span class="warning-description">This will reset EVERYTHING to default</span>
+                                </div>
+                                <div class="storage-warning-options warning-options">
+                                    <button id="accept-clear" class="btn-warning-option">Yes</button>
+                                    <button id="decline-clear" class="btn-warning-option">No</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="storage-log-wrapper">
+                            <div class="storage-log-content modal-content">
+                                <div class="modal-header">
+                                    <p id="close-btn-log" class="close-btn">&times;</p>
+                                    <h2>Log</h2>
+                                </div>
+                                <div class="storage-log-body">
+                                    <div id="storage-log-content"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -350,16 +359,16 @@
                 <p id="timer">25:00</p>
             </div>
             <div class="timer-controls">
-                <button id="play" aria-label="Start"><i class="fas fa-play dark-color"></i></button>
-                <button id="pause" aria-label="Pause"><i class="fas fa-pause dark-color"></i></button>
-                <button id="stop" aria-label="Stop"><i class="fas fa-square dark-color"></i></button>
-                <button id="reset" aria-label="Reset"><i class="fas fa-undo dark-color"></i></button>
+                <button id="play" title="Play" aria-label="Start"><i class="fas fa-play dark-color"></i></button>
+                <button id="pause" title="Pause" aria-label="Pause"><i class="fas fa-pause dark-color"></i></button>
+                <button id="stop" title="Stop" aria-label="Stop"><i class="fas fa-square dark-color"></i></button>
+                <button id="reset" title="Reset" aria-label="Reset"><i class="fas fa-undo dark-color"></i></button>
             </div>
             <div class="pomodoros">
                 <span class="pomodoro dark-border"></span>
                 <span class="pomodoro dark-border"></span>
                 <span class="pomodoro dark-border"></span>
-                <span class="pomodoro dark-border"></span>
+                <span class="pomodoro dark-border" title="Long Break"></span>
             </div>
         </main>
     </div>

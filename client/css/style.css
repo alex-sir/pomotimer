@@ -202,6 +202,12 @@ button:focus {
     margin-bottom: 5%;
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--dark-color);
+}
+
 /* Desktop */
 @media only screen and (min-width: 600px) {
     main {
