@@ -146,7 +146,7 @@ button:focus {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 5%;
+    margin-bottom: 15px;
 }
 
 .pomodoro {

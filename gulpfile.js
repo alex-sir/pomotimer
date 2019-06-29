@@ -24,7 +24,8 @@ const scripts = ['client/js/**/*.js'];
 const vendorScripts = [
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/spectrum-colorpicker/spectrum.js',
-    'node_modules/rgb-hex/index.js'
+    'node_modules/rgb-hex/index.js',
+    'node_modules/screenfull/dist/screenfull.js'
 ];
 const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
 

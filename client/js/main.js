@@ -30,11 +30,12 @@ const timeInputLabelLongBreak = document.querySelector('.time-input-wrapper:last
 // Current seconds
 let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
 // Preferences
+const preferences = document.querySelectorAll('.preference');
 const autoStart = document.querySelector('#auto-start');
 const notifications = document.querySelector('#notifications');
 const tabTitleTime = document.querySelector('#tab-title-time');
 const breakLongBreakLink = document.querySelector('#break-long-break-link');
-const preferences = document.querySelectorAll('.preference');
+const fullscreen = document.querySelector('#fullscreen-toggle');
 // Selections
 let breakSelected = false;
 let sessionTimeSelected = true;
@@ -42,19 +43,22 @@ let breakTimeSelected = false;
 let longBreakTimeSelected = false;
 let customThemeSwitch = true;
 // Time inputs
-const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
-const sessionInput = document.querySelector('#session-input');
-const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
-const breakInput = document.querySelector('#break-input');
-const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
 const timeInputs = document.querySelectorAll('.time-input');
 const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
+const sessionInput = document.querySelector('#session-input');
+const breakInput = document.querySelector('#break-input');
+const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
+const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
+const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
 // Notifications
 const notificationIcon = 'favicon/android-chrome-192x192.png';
 const notificationTime = 5000;
 
 // TODO: Add statistics showing pomodoro completions and progress
 // TODO: Use map for logging localStorage to keep consistency
+// TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
+// TODO: Add a "time and pomodoros only" option, where all other icons are gone except for the time display and pomodoros.
+// TODO: In the about modal, instead of having nested modals, have the new modal overwrite the current modal, since it uses the same dimensions anyways. Add a back button to go back to the previous section.
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile
@@ -958,6 +962,17 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
     if (returnRunBreakLongBreakLinkCheck) return runBreakLongBreakLinkCheck;
 }
 
+/**
+ * @param {DOM element} fullscreen
+ * @return {void}
+ */
+function toggleFullScreen(fullscreen) {
+    fullscreen.addEventListener('change', e => {
+        if (e.target.checked && screenfull.enabled) screenfull.request();
+        else screenfull.exit();
+    });
+}
+
 function mainTimer() {
     // Storage
     setStorage();
@@ -979,6 +994,7 @@ function mainTimer() {
     toggleNotifications(notifications);
     changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput);
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, false);
+    toggleFullScreen(fullscreen);
 }
 
 window.onload = mainTimer();
