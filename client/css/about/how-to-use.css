@@ -1,19 +1,19 @@
 #how-to-use {
-    text-decoration: underline;
     cursor: pointer;
     font-weight: normal;
+    margin-bottom: 0;
 }
 
-#modal-how-to-use ol {
+#details-how-to-use ol {
     list-style-type: decimal;
 }
 
-#modal-how-to-use ul {
+#details-how-to-use ul {
     list-style-type: disc;
 }
 
-#modal-how-to-use ol,
-#modal-to-use ul {
+#details-how-to-use ol,
+#details-how-to-use ul {
     list-style-position: inside;
 }
 
@@ -23,6 +23,7 @@
 
 .pomodoro-guide {
     width: 100%;
+    margin-top: 10px;
 }
 
 .how-to-options,
@@ -40,6 +41,7 @@
 }
 
 #time-option-defaults {
+    margin-top: 5px;
     margin-left: 30px;
 }
 

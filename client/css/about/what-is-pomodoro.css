@@ -3,11 +3,13 @@
     line-height: 1.1;
     text-decoration: underline;
     cursor: pointer;
+    margin-bottom: 0;
 }
 
 .pomodoro-info {
     font-size: 1.2rem;
     line-height: 1.1;
+    margin-top: 10px;
 }
 
 #pomodoro-wiki {

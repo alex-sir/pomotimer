@@ -1,5 +1,6 @@
-#keyboard-controls>h2 {
+#keyboard-controls-summary {
     display: block;
+    cursor: pointer;
 }
 
 #keyboard-controls-list>li {

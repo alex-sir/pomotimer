@@ -8,14 +8,6 @@ const modalAbout = document.querySelector('#simple-modal-about');
 const modalBtnAbout = document.querySelector('#modal-btn-about');
 const closeBtnAbout = document.querySelector('#close-btn-about');
 const about = document.querySelector('.about');
-// How To Use
-const modalHowToUse = document.querySelector('#modal-how-to-use');
-const closeBtnHowToUse = document.querySelector('#close-btn-how-to-use');
-const howToUse = document.querySelector('#how-to-use');
-// What is
-const modalWhatIs = document.querySelector('#modal-what-is');
-const closeBtnWhatIs = document.querySelector('#close-btn-what-is');
-const whatIs = document.querySelector('#what-is');
 
 function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     modalBtn.addEventListener('click', () => {
@@ -105,9 +97,7 @@ function hideModalGeneric(modal) {
 
 function mainModal() {
     modalDisplaySettings(modalSettings, modalBtnSettings, closeBtnSettings, settings);
-    modalDisplayAbout(modalAbout, modalBtnAbout, closeBtnAbout, about);
-    modalDisplayGeneric(modalHowToUse, howToUse, closeBtnHowToUse);
-    modalDisplayGeneric(modalWhatIs, whatIs, closeBtnWhatIs);
+    modalDisplayAbout(modalAbout, modalBtnAbout, closeBtnAbout, about)
 }
 
 window.onload = mainModal();
