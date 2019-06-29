@@ -32,11 +32,12 @@
 }
 
 .storage-log-content {
-    width: 60%;
+    width: 50%;
     min-width: 300px;
     height: auto;
     background-color: var(--light-color);
     padding: 15px;
+    margin-top: 75px;
     font-size: 1.3rem;
 }
 

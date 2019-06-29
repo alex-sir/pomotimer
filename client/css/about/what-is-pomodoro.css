@@ -1,7 +1,6 @@
 #what-is {
     color: var(--dark-color);
     line-height: 1.1;
-    text-decoration: underline;
     cursor: pointer;
     margin-bottom: 0;
 }

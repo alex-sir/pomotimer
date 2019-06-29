@@ -5,7 +5,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: scroll;
     background-color: rgba(0, 0, 0, 0.5);
     color: #202020;
     opacity: 0;
@@ -31,11 +32,16 @@
     margin-bottom: 5px;
 }
 
-.modal-section-heading {
-    display: inline-block;
+/* Setting display property on "summary" tag in Firefox results in no icon (6/29/2019) */
+.modal-section-heading,
+.summary-heading {
     margin-bottom: 10px;
     font-size: 1.5rem;
     justify-self: flex-start;
+}
+
+.modal-section-heading {
+    display: inline-block;
 }
 
 .modal-section-heading-bold {
