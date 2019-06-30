@@ -1,0 +1,33 @@
+#info-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 1.2em;
+}
+
+#made-by,
+#open-source {
+    margin-bottom: 10px;
+}
+
+#made-by,
+#open-source,
+#contact-me {
+    margin-left: 15px;
+}
+
+#profile-link,
+.fa-github,
+#contact-me>a {
+    color: var(--dark-color);
+}
+
+@media only screen and (max-width: 745px) {
+
+    #made-by,
+    #open-source,
+    #contact-me {
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,37 @@
+.themes-custom {
+    display: inline-flex;
+    width: 100%;
+    flex-flow: row nowrap;
+    margin: 10px 0;
+}
+
+.subsection-heading {
+    font-size: 1.25em;
+    margin-left: 15px;
+    margin-right: 13px;
+}
+
+#apply-custom-theme {
+    font-size: 1.25em;
+    height: 100%;
+    width: 89px;
+    background-color: #202020;
+    color: #e8e8e8;
+    padding: 4px;
+}
+
+@media only screen and (max-width: 960px) {
+    .themes-custom {
+        display: flex;
+        flex-flow: column wrap;
+    }
+
+    .themes-custom>h3 {
+        margin-left: 10px;
+        margin-top: 0;
+    }
+
+    #apply-custom-theme {
+        align-self: center;
+    }
+}

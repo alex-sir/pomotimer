@@ -1,0 +1,82 @@
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: scroll;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #202020;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+    background-color: #E8E8E8;
+    margin: 5% auto 0 auto;
+    padding: 20px;
+    width: 70%;
+    min-width: 300px;
+    height: auto;
+}
+
+.modal-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* Setting display property on "summary" tag in Firefox results in no icon (6/29/2019) */
+.modal-section-heading,
+.summary-heading {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    justify-self: flex-start;
+}
+
+.modal-section-heading {
+    display: inline-block;
+}
+
+.modal-section-heading-bold {
+    font-weight: bold;
+}
+
+.modal-header>h2 {
+    font-size: 2.188rem;
+    font-weight: 700;
+}
+
+.close-btn {
+    color: #8F8F8F;
+    font-size: 3.125rem;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    cursor: pointer;
+}
+
+.modal-body>p {
+    font-size: 1.563rem;
+}
+
+@media only screen and (min-width: 1000px) {
+    .modal-content {
+        margin-top: 50px;
+    }
+}
+
+/* Small screen */
+@media only screen and (max-width: 500px) {
+    .modal-content {
+        width: 80%;
+    }
+}
