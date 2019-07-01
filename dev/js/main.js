@@ -147,6 +147,7 @@ function loadStorage() {
     displayTimeLeft(sessionSeconds, false);
     breakMinutes.textContent = JSON.parse(localStorage.getItem('break'));
     longBreak = JSON.parse(localStorage.getItem('longBreak'));
+    longBreakMinutes.textContent = longBreak;
     // Preferences
     autoStart.checked = JSON.parse(localStorage.getItem('autoStart'));
     notifications.checked = JSON.parse(localStorage.getItem('notifications'));
@@ -444,7 +445,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     });
     breakTime.addEventListener('click', runBreakSelect);
     longBreakTime.addEventListener('click', runLongBreakSelect)
-    document.addEventListener('click', e => {
+    document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 76) {
             if (e.repeat) return;
             runLongBreakSelect();
@@ -808,6 +809,7 @@ function resetTimer(reset) {
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         breakMinutes.textContent = '5';
         longBreak = 15;
+        longBreakMinutes.textContent = '15';
         play.disabled = false;
         pause.disabled = true;
         autoStart.disabled = false;
@@ -880,26 +882,30 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
                 displayTimeLeft(sessionSeconds, false);
             }
         } else if (!isSession) {
-            if (longBreakTimeSelected && breakLongBreakLink.checked) {
+            if (longBreakTimeSelected && breakLongBreakLink.checked) {                
                 longBreak = Math.min(inputValue * 3, 6000);
                 sessionSeconds = longBreak * 60;
-                displayTimeLeft(sessionSeconds, false)
-            } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {
+                longBreakMinutes.textContent = longBreak;
+                displayTimeLeft(sessionSeconds, false);
+            } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {                
                 if (isLongBreak) {
                     sessionSeconds = inputValue * 60;
                     displayTimeLeft(sessionSeconds, false);
                 }
-            } else if (breakSelected && !isLongBreak) {
+            } else if (breakSelected && !isLongBreak) {                
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
-            } else if (isLongBreak && longBreakTimeSelected) {
+            } else if (isLongBreak && longBreakTimeSelected) {                
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
             }
         }
         if (isLongBreak) longBreak = +inputValue;
-        if (breakLongBreakLink.checked && !isSession) longBreak = Math.min(inputValue * 3, 6000);
-        if (!isLongBreak) minutes.textContent = parseInt(inputValue, 10);
+        if (breakLongBreakLink.checked && !isSession) {
+            longBreak = Math.min(inputValue * 3, 6000);
+            longBreakMinutes.textContent = longBreak;
+        }
+        minutes.textContent = parseInt(inputValue, 10);
     }
 
     confirmTimeChangeSession.addEventListener('click', () => {
@@ -932,14 +938,14 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         }
     });
     confirmTimeChangeLongBreak.addEventListener('click', () => {
-        runConfirmTimeChange(longBreakInput, longBreak, false, true);
+        runConfirmTimeChange(longBreakInput, longBreakMinutes, false, true);
         checkTimerFont(sessionSeconds, timer);
         setStorageTime();
     });
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChange(longBreakInput, longBreak, false, true);
+            runConfirmTimeChange(longBreakInput, longBreakMinutes, false, true);
             checkTimerFont(sessionSeconds, timer);
             setStorageTime();
         }
@@ -965,6 +971,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
             confirmTimeChangeLongBreak.style.pointerEvents = 'none';
             longBreakInput.disabled = true;
             longBreak = Math.min(+breakMinutes.textContent * 3, 6000);
+            longBreakMinutes.textContent = longBreak;
             if (longBreakTimeSelected) {
                 displayTimeLeft(longBreak * 60, false);
                 sessionSeconds = longBreak * 60;
