@@ -380,6 +380,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
             breakTimeSelected = false;
             longBreakTimeSelected = false;
             sessionTimeSelected = true;
+            customThemeSwitch = 'session';
             titleBorderChange(true, false, false, false);
         }
         checkTimerFont(sessionSeconds, timer);
@@ -398,6 +399,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
             sessionTimeSelected = false;
             longBreakTimeSelected = false;
             breakTimeSelected = true;
+            customThemeSwitch = 'break';
             titleBorderChange(false, true, false, false);
         }
         checkTimerFont(sessionSeconds, timer);
@@ -421,6 +423,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
             longBreakTimeSelected = true;
             breakTimeSelected = false;
             sessionTimeSelected = false;
+            customThemeSwitch = 'long break';
             titleBorderChange(false, false, true, false);
         }
         checkTimerFont(sessionSeconds, timer);
@@ -471,7 +474,7 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             breakTitle.classList.toggle(currentActive);
             if (isSession) sessionTitle.classList.toggle(currentActive);
             if (isLongBreak) longBreakTitle.classList.toggle(currentActive);
-        } else if (longBreakTitle.classList.length >= 1) {
+        } else {
             currentActive = longBreakTitle.classList[longBreakTitle.classList.length - 1];
             if (getCurrentActive) return currentActive;
             longBreakTitle.classList.toggle(currentActive);
@@ -479,22 +482,40 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             if (isBreak) breakTitle.classList.toggle(currentActive);
         }
     } else {
-        // TODO: Long break classList here
+        // FIXME: Long break classList here
         sessionTitle.classList = '';
         breakTitle.classList = '';
-        if (customThemeSwitch) {
-            customThemeSwitch = false;
+        longBreakTitle.classList = '';
+        if (customThemeSwitch === 'break') {
+            // customThemeSwitch = false;
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = '';
+            longBreakTitle.style.backgroundSize = '';
+            longBreakTitle.style.backgroundPosition = '';
             breakTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
-        } else {
-            customThemeSwitch = true;
+        } else if (customThemeSwitch === 'long break') {
+            // customThemeSwitch = false;
+            sessionTitle.style.background = '';
+            sessionTitle.style.backgroundSize = '';
+            sessionTitle.style.backgroundPosition = '';
             breakTitle.style.background = '';
             breakTitle.style.backgroundSize = '';
             breakTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
+            longBreakTitle.style.backgroundSize = 'var(--pomodoro-size)';
+            longBreakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+        } else {
+            // customThemeSwitch = true;
+            breakTitle.style.background = '';
+            breakTitle.style.backgroundSize = '';
+            breakTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = '';
+            longBreakTitle.style.backgroundSize = '';
+            longBreakTitle.style.backgroundPosition = '';
             sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
             sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
@@ -641,12 +662,16 @@ function breakSessionTitleReset() {
     if (breakTitle.classList.length >= 1) {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
         breakTitle.classList = '';
+    } else if (longBreakTitle.classList.length >= 1) {
+        sessionTitle.classList.add(longBreakTitle.classList[longBreakTitle.classList.length - 1]);
+        longBreakTitle.classList = '';
     } else if (JSON.parse(localStorage.getItem('customThemeActive'))) {
         sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
         sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
         sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         breakTitle.style.background = '';
-        customThemeSwitch = true;
+        longBreakTitle.style.background = '';
+        customThemeSwitch = 'session';
     }
 }
 
@@ -783,9 +808,6 @@ function resetTimer(reset) {
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         breakMinutes.textContent = '5';
         longBreak = 15;
-        arrow.forEach(arrow => {
-            arrow.disabled = false;
-        });
         play.disabled = false;
         pause.disabled = true;
         autoStart.disabled = false;

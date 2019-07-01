@@ -86,7 +86,8 @@ function colorPicker() {
             customThemeActive = true;
             localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
             customThemeChanger(customValueBody, customValueIcons, false);
-            if (breakSelected) titleBorderColor(true);
+            if (breakSelected) titleBorderColor(null, true);
+            else if (longBreakTimeSelected) titleBorderColor(null, true);
         }
     });
 }
@@ -108,6 +109,7 @@ function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
         element.setAttribute('style', `border-color: ${contentValue}`);
     });
     if (breakSelected) breakTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
+    else if (longBreakTimeSelected) longBreakTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
     else sessionTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
     themeTitle.setAttribute('style', `color: ${contentValue}`);
     pomodoros.forEach(pomodoro => {
@@ -143,6 +145,7 @@ function removeCustomTheme(fullRemove = false) {
         element.style.borderColor = '';
     });
     breakTitle.style.background = '';
+    longBreakTitle.style.background = '';
     themeActive.style.background = '';
     themeActive.style.backgroundSize = '';
     themeActive.style.backgroundPosition = '';
@@ -223,18 +226,35 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
  * @param {boolean} customThemeReset 
  * @return {void}
  */
-function titleBorderColor(customThemeReset) {
+function titleBorderColor(theme, customThemeReset) {
     if (!JSON.parse(localStorage.getItem('customThemeActive')) && !customThemeReset) {
-        let currentActive = sessionTitle.classList[sessionTitle.classList.length - 1];
-        breakTitle.classList = '';
-        breakTitle.classList.add(currentActive);
-        sessionTitle.classList = '';
+        let currentActive;
+        if (sessionTimeSelected) {
+            currentActive = `${theme.classList[1]}-active`;
+            sessionTitle.classList = '';
+            breakTitle.classList = '';
+            longBreakTitle.classList = '';
+            sessionTitle.classList.add(currentActive);
+        } else if (breakTimeSelected) {
+            currentActive = `${theme.classList[1]}-active`;
+            sessionTitle.classList = '';
+            breakTitle.classList = '';
+            longBreakTitle.classList = '';
+            breakTitle.classList.add(currentActive);
+        } else {
+            currentActive = `${theme.classList[1]}-active`;
+            sessionTitle.classList = '';
+            breakTitle.classList = '';
+            longBreakTitle.classList = '';
+            longBreakTitle.classList.add(currentActive);
+        }
     } else if (customThemeReset) {
-        if (breakSelected) customThemeSwitch = false;
-        else customThemeSwitch = true;
+        if (breakSelected) customThemeSwitch = 'break';
+        else if (longBreakTimeSelected) customThemeSwitch = 'long break';
+        else customThemeSwitch = 'session';
         sessionTitle.classList = '';
         breakTitle.classList = '';
-
+        longBreakTitle.classList = '';
     }
 }
 
@@ -252,7 +272,8 @@ function changeTheme(themes) {
             else {
                 if (JSON.parse(localStorage.getItem('customThemeActive'))) removeCustomTheme(true);
                 setTimeout(() => {
-                    if (breakSelected) titleBorderColor(false);
+                    if (breakSelected) titleBorderColor(theme, false);
+                    else if (longBreakTimeSelected) titleBorderColor(theme, false);
                 }, 0);
                 executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
             }
