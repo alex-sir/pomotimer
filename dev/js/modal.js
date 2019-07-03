@@ -64,9 +64,9 @@ function hideModalAbout(modal) {
 }
 
 /**
- * @param {DOM element} modal
- * @param {DOM element} modalBtn
- * @param {DOM element} closeBtn
+ * @param {HTMLElement} modal
+ * @param {HTMLElement} modalBtn
+ * @param {HTMLElement} closeBtn
  * @return {void}
  */
 function modalDisplayGeneric(modal, modalBtn, closeBtn) {
@@ -84,7 +84,7 @@ function modalDisplayGeneric(modal, modalBtn, closeBtn) {
 }
 
 /**
- * @param {DOM element} modal
+ * @param {HTMLElement} modal
  * @return {void}
  */
 function hideModalGeneric(modal) {

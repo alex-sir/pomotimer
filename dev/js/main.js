@@ -3,11 +3,11 @@ let countdown;
 const timer = document.querySelector('#timer');
 let timerStarted = false;
 // Timer controls
-const play = document.querySelector('#play');
-const pause = document.querySelector('#pause');
+const playPause = document.querySelector('#playPause');
+const playPauseIcon = document.querySelector('#playPause>.la');
+let isPaused = true;
 const stop = document.querySelector('#stop');
 const reset = document.querySelector('#reset');
-const arrow = document.querySelectorAll('.arrow');
 // Pomodoros
 const pomodoros = document.querySelectorAll('.pomodoro');
 let pomodorosCount = 0;
@@ -127,7 +127,7 @@ function setStoragePreferences() {
  * Checks seconds to see if the timer font needs adjusting. Adjusts it if so.
  * 
  * @param {number} seconds
- * @param {DOM element} timer
+ * @param {HTMLElement} timer
  * @return {void}
  */
 function checkTimerFont(seconds, timer) {
@@ -226,12 +226,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         if (breakSelected && pomodorosCount !== 4 && !timerStarted) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
-        pause.disabled = false;
+        isPaused = false;
         stop.disabled = false;
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
-        play.disabled = true;
+        // Toggle play/pause icon
+        playPauseIcon.classList.toggle('la-play');
+        playPauseIcon.classList.toggle('la-pause');
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -246,9 +248,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
             else timeInputLabels[i].classList.add('line-through-long-break', 'opacity-long-break');
         }
-        arrow.forEach(arrow => {
-            arrow.disabled = true;
-        });
         const now = Date.now();
         const then = now + seconds * 1000;
         displayTimeLeft(seconds);
@@ -284,7 +283,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         });
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
-                        play.disabled = false;
                     } else if (breakTime && !breakSelected) {
                         // Session finishes, start break or long break
                         breakSelected = true;
@@ -319,7 +317,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             }
                         }
                         timerDisplay(sessionSeconds, false, true)();
-                        play.disabled = false;
                     } else {
                         try {
                             const notificationBreakOver = new Notification('Break over', {
@@ -335,7 +332,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = true;
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
-                        play.disabled = false;
                     }
                 } else {
                     const notificationTimeOver = new Notification('Time over', {
@@ -351,20 +347,23 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     document.addEventListener('keydown', e => {
         if (e.keyCode === 32) {
             if (e.repeat) return;
-            if (pause.disabled) runTimerDisplay();
-            else pauseTimer(pause, false)();
+            if (isPaused) runTimerDisplay();
+            else pauseTimer(false)();
         }
     });
-    play.addEventListener('click', runTimerDisplay);
+    playPause.addEventListener('click', () => {
+        if (isPaused) runTimerDisplay();
+        else pauseTimer(false)();
+    });
 }
 
 /**
  * Allows selection of a session, break, or long break.
  * Displays correct time and selection.
  * 
- * @param {DOM element} sessionTime
- * @param {DOM element} breakTime
- * @param {DOM element} longBreakPomodoro
+ * @param {HTMLElement} sessionTime
+ * @param {HTMLElement} breakTime
+ * @param {HTMLElement} longBreakPomodoro
  * @return {void}
  */
 function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
@@ -528,9 +527,9 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
 /**
  * Increase or decrease time relative to the desired time option.
  * 
- * @param {DOM element} increase
- * @param {DOM element} minutes
- * @param {DOM element} decrease
+ * @param {HTMLElement} increase
+ * @param {HTMLElement} minutes
+ * @param {HTMLElement} decrease
  * @param {boolean} session
  * @return {void}
  */
@@ -634,23 +633,23 @@ function displayTimeLeft(seconds, title = true) {
 }
 
 /**
- * @param {DOM element} pause
+ * @param {HTMLElement} pause
  * @param {boolean} clickRun
  * @return {function || void}
  */
-function pauseTimer(pause, clickRun) {
+function pauseTimer(clickRun) {
     function runPauseTimer() {
         clearInterval(countdown);
         // Resume timer for session or break
         sessionTitle.classList >= 1 ? timerDisplay(0, true, true) : timerDisplay(0, false, true);
-        pause.disabled = true;
-        play.disabled = false;
+        isPaused = true;
+        playPauseIcon.classList.toggle('la-play');
+        playPauseIcon.classList.toggle('la-pause');
     }
 
     if (!clickRun) return runPauseTimer;
     else {
-        pause.disabled = true;
-        pause.addEventListener('click', runPauseTimer);
+        isPaused = true;
     }
 }
 
@@ -697,7 +696,7 @@ function enableTimeInputs() {
 }
 
 /**
- * @param {DOM element} stop
+ * @param {HTMLElement} stop
  * @param {number} seconds
  * @return {void}
  */
@@ -713,14 +712,14 @@ function stopTimer(stop, seconds) {
         clearInterval(countdown);
         displayTimeLeft(seconds);
         stop.disabled = true;
-        pause.disabled = true;
-        play.disabled = false;
+        isPaused = true;
+        if (playPauseIcon.classList.contains('la-pause')) {
+            playPauseIcon.classList.toggle('la-pause');
+            playPauseIcon.classList.toggle('la-play');
+        }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         enableTimeInputs();
-        arrow.forEach(arrow => {
-            arrow.disabled = false;
-        });
         document.title = 'Pomodoro';
         if (breakSelected) timerDisplay(seconds, false, true);
         else timerDisplay(seconds, true, true);
@@ -738,7 +737,7 @@ function stopTimer(stop, seconds) {
 /**
  * Stops timer and resets pomodoros.
  * 
- * @param {DOM element} stop
+ * @param {HTMLElement} stop
  * @param {*} seconds
  * @return {void}
  */
@@ -757,21 +756,17 @@ function stopTimerHard(stop, seconds) {
     breakTimeSelected = false;
     longBreakTimeSelected = false;
     stop.disabled = true;
-    pause.disabled = true;
-    play.disabled = false;
+    isPaused = true;
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
     enableTimeInputs();
-    arrow.forEach(arrow => {
-        arrow.disabled = false;
-    });
     document.title = 'Pomodoro';
     timerDisplay(seconds, true, true);
     checkTimerFont(sessionSeconds, timer);
 }
 
 /**
- * @param {DOM elements} pomodoros
+ * @param {HTMLElements} pomodoros
  * @return {void}
  */
 function resetPomodoros(pomodoros) {
@@ -789,11 +784,17 @@ function resetPomodoros(pomodoros) {
 }
 
 /**
- * @param {DOM element} reset
+ * @param {HTMLElement} reset
  * @return {void}
  */
 function resetTimer(reset) {
     function runResetTimer() {
+        reset.setAttribute('style', 'transition: transform 0.4s ease-in-out; transform: rotate(-360deg)');
+        reset.disabled = true;
+        setTimeout(() => {
+            reset.setAttribute('style', '');
+            reset.disabled = false;
+        }, 400);
         timerStarted = false;
         clearInterval(countdown);
         timer.textContent = '25:00';
@@ -810,8 +811,11 @@ function resetTimer(reset) {
         breakMinutes.textContent = '5';
         longBreak = 15;
         longBreakMinutes.textContent = '15';
-        play.disabled = false;
-        pause.disabled = true;
+        isPaused = true;
+        if (playPauseIcon.classList.contains('la-pause')) {
+            playPauseIcon.classList.toggle('la-pause');
+            playPauseIcon.classList.toggle('la-play');
+        }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         document.title = 'Pomodoro';
@@ -829,7 +833,7 @@ function resetTimer(reset) {
 }
 
 /**
- * @param {DOM element} notifications
+ * @param {HTMLElement} notifications
  * @return {void}
  */
 function toggleNotifications(notifications) {
@@ -841,12 +845,12 @@ function toggleNotifications(notifications) {
 /**
  * Change the time of a time option through input.
  * 
- * @param {DOM element} confirmTimeChangeSession
- * @param {DOM element} sessionInput
- * @param {DOM element} confirmTimeChangeBreak
- * @param {DOM element} breakInput
- * @param {DOM element} confirmTimeChangeLongBreak
- * @param {DOM element} longBreakInput
+ * @param {HTMLElement} confirmTimeChangeSession
+ * @param {HTMLElement} sessionInput
+ * @param {HTMLElement} confirmTimeChangeBreak
+ * @param {HTMLElement} breakInput
+ * @param {HTMLElement} confirmTimeChangeLongBreak
+ * @param {HTMLElement} longBreakInput
  * @return {void}
  */
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput) {
@@ -861,8 +865,8 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
      * Check which time option is currently selected.
      * Update time option text value, timer display, and session seconds accordingly.
      * 
-     * @param {DOM element} input
-     * @param {DOM element} minutes
+     * @param {HTMLElement} input
+     * @param {HTMLElement} minutes
      * @param {boolean} isSession
      * @param {boolean} isLongBreak
      * @return {void}
@@ -882,20 +886,20 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
                 displayTimeLeft(sessionSeconds, false);
             }
         } else if (!isSession) {
-            if (longBreakTimeSelected && breakLongBreakLink.checked) {                
+            if (longBreakTimeSelected && breakLongBreakLink.checked) {
                 longBreak = Math.min(inputValue * 3, 6000);
                 sessionSeconds = longBreak * 60;
                 longBreakMinutes.textContent = longBreak;
                 displayTimeLeft(sessionSeconds, false);
-            } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {                
+            } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {
                 if (isLongBreak) {
                     sessionSeconds = inputValue * 60;
                     displayTimeLeft(sessionSeconds, false);
                 }
-            } else if (breakSelected && !isLongBreak) {                
+            } else if (breakSelected && !isLongBreak) {
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
-            } else if (isLongBreak && longBreakTimeSelected) {                
+            } else if (isLongBreak && longBreakTimeSelected) {
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
             }
@@ -955,11 +959,11 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
 /**
  * Adjust long break time in conjunction with break if link active.
  * 
- * @param {DOM element} breakLongBreakLink
- * @param {DOM element} longBreakInput
- * @param {DOM element} confirmTimeChangeLongBreak
- * @param {DOM element} timeInputLabelLongBreak
- * @param {DOM element} breakMinutes
+ * @param {HTMLElement} breakLongBreakLink
+ * @param {HTMLElement} longBreakInput
+ * @param {HTMLElement} confirmTimeChangeLongBreak
+ * @param {HTMLElement} timeInputLabelLongBreak
+ * @param {HTMLElement} breakMinutes
  * @return {void}
  */
 function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, returnRunBreakLongBreakLinkCheck) {
@@ -991,7 +995,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
 }
 
 /**
- * @param {DOM element} fullscreen
+ * @param {HTMLElement} fullscreen
  * @return {void}
  */
 function toggleFullScreen(fullscreen) {
@@ -1015,7 +1019,7 @@ function mainTimer() {
     // Time option select
     sessionBreakSelect(sessionTitle, breakTitle, longBreakTitle);
     // Controls
-    pauseTimer(pause, true);
+    pauseTimer(true);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
     // Preferences

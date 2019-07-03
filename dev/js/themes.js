@@ -159,10 +159,10 @@ function removeCustomTheme(fullRemove = false) {
 /**
  * Asks for a timer restart when a pre-built theme is applied on a timer with progress.
  * 
- * @param {DOM element} accept
- * @param {DOM element} decline
- * @param {DOM element} themeWarning
- * @param {DOM element} theme
+ * @param {HTMLElement} accept
+ * @param {HTMLElement} decline
+ * @param {HTMLElement} themeWarning
+ * @param {HTMLElement} theme
  * @return {void}
  */
 function timerRestartTheme(accept, decline, themeWarning, theme) {
@@ -190,9 +190,9 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
 /**
  * Asks for a timer restart when a custom theme is applied on a timer with progress.
  * 
- * @param {DOM element} accept
- * @param {DOM element} decline
- * @param {DOM element} themeWarning
+ * @param {HTMLElement} accept
+ * @param {HTMLElement} decline
+ * @param {HTMLElement} themeWarning
  * @param {string} bodyValue
  * @param {string} contentValue
  * @return {void}
@@ -262,7 +262,7 @@ function titleBorderColor(theme, customThemeReset) {
  * Sets picking for pre-built themes.
  * Calls and checks application od custom theme.
  * 
- * @param {DOM element} themes 
+ * @param {HTMLElement} themes 
  * @return {void}
  */
 function changeTheme(themes) {
@@ -285,13 +285,13 @@ function changeTheme(themes) {
  * Changes current theme into the selected pre-built theme.
  * Uses class switching to achieve this.
  * 
- * @param {DOM element} theme
- * @param {DOM element} themeColor
- * @param {DOM element} themeBorder
- * @param {DOM element} themeActive
- * @param {DOM element} themeTitle
- * @param {DOM elements} pomodoros
- * @param {DOM element} modalSettings
+ * @param {HTMLElement} theme
+ * @param {HTMLElement} themeColor
+ * @param {HTMLElement} themeBorder
+ * @param {HTMLElement} themeActive
+ * @param {HTMLElement} themeTitle
+ * @param {HTMLElements} pomodoros
+ * @param {HTMLElement} modalSettings
  * @param {boolean} isTimerStarted
  * @return {void}
  */
