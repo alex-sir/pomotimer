@@ -212,6 +212,11 @@ function logStorage() {
     });
 }
 
+function togglePlayPause(icon) {
+    icon.classList.toggle('la-play');
+    icon.classList.toggle('la-pause');
+}
+
 /**
  * Runs core logic for displaying and counting down the timer.
  * 
@@ -231,9 +236,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
-        // Toggle play/pause icon
-        playPauseIcon.classList.toggle('la-play');
-        playPauseIcon.classList.toggle('la-pause');
+        togglePlayPause(playPauseIcon);
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -482,7 +485,6 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             if (isBreak) breakTitle.classList.toggle(currentActive);
         }
     } else {
-        // FIXME: Long break classList here
         sessionTitle.classList = '';
         breakTitle.classList = '';
         longBreakTitle.classList = '';
@@ -643,8 +645,7 @@ function pauseTimer(clickRun) {
         // Resume timer for session or break
         sessionTitle.classList >= 1 ? timerDisplay(0, true, true) : timerDisplay(0, false, true);
         isPaused = true;
-        playPauseIcon.classList.toggle('la-play');
-        playPauseIcon.classList.toggle('la-pause');
+        togglePlayPause(playPauseIcon);
     }
 
     if (!clickRun) return runPauseTimer;
@@ -714,8 +715,7 @@ function stopTimer(stop, seconds) {
         stop.disabled = true;
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
-            playPauseIcon.classList.toggle('la-pause');
-            playPauseIcon.classList.toggle('la-play');
+            togglePlayPause(playPauseIcon);
         }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
@@ -757,6 +757,7 @@ function stopTimerHard(stop, seconds) {
     longBreakTimeSelected = false;
     stop.disabled = true;
     isPaused = true;
+    togglePlayPause(playPauseIcon);
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
     enableTimeInputs();
@@ -813,8 +814,7 @@ function resetTimer(reset) {
         longBreakMinutes.textContent = '15';
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
-            playPauseIcon.classList.toggle('la-pause');
-            playPauseIcon.classList.toggle('la-play');
+            togglePlayPause(playPauseIcon);
         }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;

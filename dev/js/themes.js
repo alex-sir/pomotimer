@@ -3,19 +3,28 @@ const body = document.querySelector('body');
 // Theme
 const themes = document.querySelectorAll('.theme');
 let themeClass = document.querySelector('body').classList[0];
-const themeWarningBackground = document.querySelector('.theme-warning-background');
+const themeWarningBackgroundPrebuilt = document.querySelector('#theme-warning-background-prebuilt');
+const themeWarningBackgroundCustom = document.querySelector('#theme-warning-background-custom');
 // Theme color
 const themeColor = document.querySelectorAll('.dark-color');
 const themeBackground = document.querySelectorAll('.dark-background');
 const themeBorder = document.querySelectorAll('.dark-border');
 let themeActive = document.querySelector('.dark-active');
 const themeTitle = document.querySelector('.dark-title');
+// Current theme name
+let currentTheme = body.classList[0];
+let newTheme;
+let tempNewTheme;
 // Restart
-const acceptRestart = document.querySelector('#accept-restart');
-const declineRestart = document.querySelector('#decline-restart');
+const acceptRestartPrebuilt = document.querySelector('#accept-restart-prebuilt');
+const declineRestartPrebuilt = document.querySelector('#decline-restart-prebuilt');
+const acceptRestartCustom = document.querySelector('#accept-restart-custom');
+const declineRestartCustom = document.querySelector('#decline-restart-custom');
 // Custom theme
 let customValueBody;
 let customValueIcons;
+let tempCustomValueBody;
+let tempCustomValueIcons;
 let bodyBackgroundColor = `#${rgbHex(window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color'))}`;
 let iconsColor = `#${rgbHex(window.getComputedStyle(sessionTitle).getPropertyValue('color'))}`;
 const applyCustomTheme = document.querySelector('#apply-custom-theme');
@@ -41,11 +50,10 @@ function setStorageTheme() {
 }
 
 function loadStorageTheme() {
-    let storageTheme;
     themes.forEach(theme => {
-        if (theme.classList.contains(JSON.parse(localStorage.getItem('themeClass')))) storageTheme = theme;
+        if (theme.classList.contains(JSON.parse(localStorage.getItem('themeClass')))) newTheme = theme.getAttribute('data-color');
     })
-    if (!JSON.parse(localStorage.getItem('customThemeActive'))) executeChangeTheme(storageTheme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
+    if (!JSON.parse(localStorage.getItem('customThemeActive'))) executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
     else {
         customThemeChanger(JSON.parse(localStorage.getItem('customBodyBackgroundColor')), JSON.parse(localStorage.getItem('customIconsColor'), false));
     }
@@ -81,8 +89,11 @@ function colorPicker() {
         customValueIcons = $('#color-picker-content').spectrum('get');
     });
     applyCustomTheme.addEventListener('click', () => {
-        if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartThemeCustom(acceptRestart, declineRestart, themeWarningBackground, customValueBody, customValueIcons);
-        else {
+        if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) {
+            themeWarningBackgroundCustom.style.display = 'block';
+            tempCustomValueBody = customValueBody;
+            tempCustomValueIcons = customValueIcons;
+        } else {
             customThemeActive = true;
             localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
             customThemeChanger(customValueBody, customValueIcons, false);
@@ -165,11 +176,11 @@ function removeCustomTheme(fullRemove = false) {
  * @param {HTMLElement} theme
  * @return {void}
  */
-function timerRestartTheme(accept, decline, themeWarning, theme) {
-    themeWarning.style.display = 'block';
+function timerRestartTheme(accept, decline, themeWarning) {
     accept.addEventListener('click', () => {
         stopTimerHard(stop, sessionSeconds);
-        executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, true);
+        newTheme = tempNewTheme;
+        executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, true);
         if (JSON.parse(localStorage.getItem('customThemeActive'))) {
             removeCustomTheme(true);
         }
@@ -197,8 +208,7 @@ function timerRestartTheme(accept, decline, themeWarning, theme) {
  * @param {string} contentValue
  * @return {void}
  */
-function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, contentValue) {
-    themeWarning.style.display = 'block';
+function timerRestartThemeCustom(accept, decline, themeWarning) {
     accept.addEventListener('click', () => {
         customThemeActive = true;
         localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
@@ -208,7 +218,9 @@ function timerRestartThemeCustom(accept, decline, themeWarning, bodyValue, conte
         breakTimeSelected = false;
         breakSelected = false;
         longBreakTimeSelected = false;
-        customThemeChanger(bodyValue, contentValue, true);
+        customValueBody = tempCustomValueBody;
+        customValueIcons = tempCustomValueIcons;
+        customThemeChanger(customValueBody, customValueIcons, true);
         titleBorderColor(true)
         themeWarning.style.display = 'none';
     });
@@ -268,14 +280,17 @@ function titleBorderColor(theme, customThemeReset) {
 function changeTheme(themes) {
     themes.forEach(theme => {
         theme.addEventListener('click', function () {
-            if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) timerRestartTheme(acceptRestart, declineRestart, themeWarningBackground, theme);
-            else {
+            if (((timerStarted || pomodorosCount >= 1) && !longBreakTimeSelected) || timerStarted) {
+                themeWarningBackgroundPrebuilt.style.display = 'block';
+                tempNewTheme = theme.getAttribute('data-color');
+            } else {
                 if (JSON.parse(localStorage.getItem('customThemeActive'))) removeCustomTheme(true);
                 setTimeout(() => {
                     if (breakSelected) titleBorderColor(theme, false);
                     else if (longBreakTimeSelected) titleBorderColor(theme, false);
                 }, 0);
-                executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
+                newTheme = theme.getAttribute('data-color');
+                executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, false);
             }
         });
     });
@@ -295,28 +310,30 @@ function changeTheme(themes) {
  * @param {boolean} isTimerStarted
  * @return {void}
  */
-function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
+function executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
     body.classList = '';
-    body.classList.add(theme.classList[1]);
+    body.classList.add(newTheme);
     themeColor.forEach(element => {
-        element.classList.remove(element.classList[element.classList.length - 1]);
-        element.classList.add(`${theme.classList[1]}-color`);
+        element.classList.remove(`${currentTheme}-color`);
+        element.classList.add(`${newTheme}-color`);
     });
     themeBorder.forEach(element => {
-        element.classList.remove(element.classList[element.classList.length - 1]);
-        element.classList.add(`${theme.classList[1]}-border`);
+        element.classList.remove(`${currentTheme}-border`);
+        element.classList.add(`${newTheme}-border`);
     });
-    themeActive.classList.remove(themeActive.classList[themeActive.classList.length - 1]);
-    themeActive.classList.add(`${theme.classList[1]}-active`);
-    themeActive = document.querySelector(`.${theme.classList[1]}-active`);
-    themeTitle.classList.remove(themeTitle.classList[themeTitle.classList.length - 1]);
-    themeTitle.classList.add(`${theme.classList[1]}-title`);
+    themeActive.classList.remove(`${currentTheme}-active`);
+    themeActive.classList.add(`${newTheme}-active`);
+    themeActive = document.querySelector(`.${newTheme}-active`);
+    themeTitle.classList.remove(`${currentTheme}-title`);
+    themeTitle.classList.add(`${newTheme}-title`);
     pomodoros.forEach(pomodoro => {
         pomodoro.classList = '';
-        pomodoro.classList.add('pomodoro', `${theme.classList[1]}-border`);
-        if (longBreakTimeSelected && !isTimerStarted) pomodoro.classList.add('pomodoro', `${theme.classList[1]}-background`);
+        pomodoro.classList.add('pomodoro', `${newTheme}-border`);
+        if (longBreakTimeSelected && !isTimerStarted) pomodoro.classList.add('pomodoro', `${newTheme}-background`);
     });
     hideModalSettings(modalSettings, settings);
+    // Update theme variables
+    currentTheme = body.classList[0];
     // Update tab and local storage properties
     setTimeout(() => {
         bodyBackgroundColor = `#${rgbHex(window.getComputedStyle(document.querySelector('body')).getPropertyValue('background-color'))}`;
@@ -329,8 +346,13 @@ function executeChangeTheme(theme, themeColor, themeBorder, themeActive, themeTi
 }
 
 function mainThemes() {
+    // Storage
     setStorageTheme();
     loadStorageTheme();
+    // Timer restart warnings
+    timerRestartTheme(acceptRestartPrebuilt, declineRestartPrebuilt, themeWarningBackgroundPrebuilt);
+    timerRestartThemeCustom(acceptRestartCustom, declineRestartCustom, themeWarningBackgroundCustom);
+    // Theme changing
     changeTheme(themes);
     colorPicker();
 }

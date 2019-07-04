@@ -214,27 +214,40 @@
                         <h2>Settings</h2>
                     </div>
                     <div class="modal-body">
+                        <!-- Prebuilt themes -->
                         <div class="themes">
                             <h2 class="modal-section-heading">Themes:</h2>
-                            <p class="theme dark">Dark</p>
-                            <p class="theme light">Light</p>
-                            <p class="theme arctic">Arctic</p>
-                            <p class="theme blossom">Blossom</p>
+                            <p class="theme dark" data-color="dark">Dark</p>
+                            <p class="theme light" data-color="light">Light</p>
+                            <p class="theme arctic" data-color="arctic">Arctic</p>
+                            <p class="theme blossom" data-color="blossom">Blossom</p>
                         </div>
+                        <div id="theme-warning-background-prebuilt" class="theme-warning-background warning-background">
+                            <div class="theme-warning warning">
+                                <div class="theme-warning-dialogue warning-dialogue">
+                                    <span>Restart the timer?</span>
+                                </div>
+                                <div class="theme-warning-options warning-options">
+                                    <button id="accept-restart-prebuilt" class="btn-warning-option">Yes</button>
+                                    <button id="decline-restart-prebuilt" class="btn-warning-option">No</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Custom theme -->
                         <div class="themes-custom">
                             <h3 class="subsection-heading">- Custom:</h3>
                             <input type="text" id="color-picker-body">
                             <input type="text" id="color-picker-content">
                             <button type="button" id="apply-custom-theme">Apply</button>
                         </div>
-                        <div class="theme-warning-background warning-background">
+                        <div id="theme-warning-background-custom" class="theme-warning-background warning-background">
                             <div class="theme-warning warning">
                                 <div class="theme-warning-dialogue warning-dialogue">
                                     <span>Restart the timer?</span>
                                 </div>
                                 <div class="theme-warning-options warning-options">
-                                    <button id="accept-restart" class="btn-warning-option">Yes</button>
-                                    <button id="decline-restart" class="btn-warning-option">No</button>
+                                    <button id="accept-restart-custom" class="btn-warning-option">Yes</button>
+                                    <button id="decline-restart-custom" class="btn-warning-option">No</button>
                                 </div>
                             </div>
                         </div>
