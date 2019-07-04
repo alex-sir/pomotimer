@@ -39,7 +39,8 @@ let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreakTimeSelected = false;
-let customThemeSwitch = true;
+let customThemeSwitch = 'session';
+let currentActive;
 // Time inputs
 const timeInputs = document.querySelectorAll('.time-input');
 const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
@@ -236,7 +237,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
-        togglePlayPause(playPauseIcon);
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -256,15 +256,20 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         displayTimeLeft(seconds);
 
         countdown = setInterval(() => {
-            const secondsLeft = Math.round((then - Date.now()) / 1000);
-            // const secondsLeft = Math.round((then - then) / 1000);
+            // const secondsLeft = Math.round((then - Date.now()) / 1000);
+            const secondsLeft = Math.round((then - then) / 1000);
             sessionSeconds -= 1;
 
             if (secondsLeft < 1) {
                 clearInterval(countdown);
                 if (autoStart.checked) {
-                    let currentActive = titleBorderChange(false);
                     if (pomodorosCount === 4) {
+                        if (customThemeActive) {
+                            customThemeSwitch = 'session';
+                            titleBorderChange(false, false, false, false);
+                        } else {
+                            currentActive = titleBorderChange(true, false, false, false);
+                        }
                         try {
                             const notificationLongBreakOver = new Notification('Long break over', {
                                 icon: notificationIcon,
@@ -293,10 +298,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = false;
                         pomodorosCount++;
                         // Fill in next pomodoro
-                        if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
-                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
+                            if (customThemeActive) {
+                                customThemeSwitch = 'long break';
+                                titleBorderChange(false, false, false, false);
+                            } else {
+                                currentActive = titleBorderChange(false, false, true, false);
+                            }
                             try {
                                 const notificationLongBreakStart = new Notification('Session over', {
                                     icon: notificationIcon,
@@ -309,6 +318,12 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             longBreakTimeSelected = true;
                         } else {
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                            if (customThemeActive) {
+                                customThemeSwitch = 'break';
+                                titleBorderChange(false, false, false, false);
+                            } else {
+                                currentActive = titleBorderChange(false, true, false, false);
+                            }
                             try {
                                 const notificationBreakStart = new Notification('Session over', {
                                     icon: notificationIcon,
@@ -319,8 +334,16 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                 console.error(e);
                             }
                         }
+                        if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
+                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         timerDisplay(sessionSeconds, false, true)();
                     } else {
+                        if (customThemeActive) {
+                            customThemeSwitch = 'session';
+                            titleBorderChange(false, false, false, false);
+                        } else {
+                            currentActive = titleBorderChange(true, false, false, false);
+                        }
                         try {
                             const notificationBreakOver = new Notification('Break over', {
                                 icon: notificationIcon,
@@ -352,11 +375,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (e.repeat) return;
             if (isPaused) runTimerDisplay();
             else pauseTimer(false)();
+            togglePlayPause(playPauseIcon);
         }
     });
     playPause.addEventListener('click', () => {
         if (isPaused) runTimerDisplay();
         else pauseTimer(false)();
+        togglePlayPause(playPauseIcon);
     });
 }
 
@@ -484,12 +509,13 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             if (isSession) sessionTitle.classList.toggle(currentActive);
             if (isBreak) breakTitle.classList.toggle(currentActive);
         }
+        return currentActive;
     } else {
         sessionTitle.classList = '';
         breakTitle.classList = '';
         longBreakTitle.classList = '';
         if (customThemeSwitch === 'break') {
-            // customThemeSwitch = false;
+            console.log('BREAK');
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
@@ -500,7 +526,7 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         } else if (customThemeSwitch === 'long break') {
-            // customThemeSwitch = false;
+            console.log('LONG BREAK');
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
@@ -511,7 +537,7 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             longBreakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             longBreakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         } else {
-            // customThemeSwitch = true;
+            console.log('SESSION');
             breakTitle.style.background = '';
             breakTitle.style.backgroundSize = '';
             breakTitle.style.backgroundPosition = '';
@@ -522,8 +548,8 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
             sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         }
+        return;
     }
-    return currentActive;
 }
 
 /**
@@ -784,6 +810,7 @@ function resetPomodoros(pomodoros) {
     });
 }
 
+// TODO: Change reset timer to NOT reset to default values, just reset pomodoros. Add an option in settings to reset to default values. Might remove it from time controls all together...
 /**
  * @param {HTMLElement} reset
  * @return {void}
