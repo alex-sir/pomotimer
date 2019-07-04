@@ -256,8 +256,8 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         displayTimeLeft(seconds);
 
         countdown = setInterval(() => {
-            // const secondsLeft = Math.round((then - Date.now()) / 1000);
-            const secondsLeft = Math.round((then - then) / 1000);
+            const secondsLeft = Math.round((then - Date.now()) / 1000);
+            // const secondsLeft = Math.round((then - then) / 1000);
             sessionSeconds -= 1;
 
             if (secondsLeft < 1) {
@@ -671,7 +671,6 @@ function pauseTimer(clickRun) {
         // Resume timer for session or break
         sessionTitle.classList >= 1 ? timerDisplay(0, true, true) : timerDisplay(0, false, true);
         isPaused = true;
-        togglePlayPause(playPauseIcon);
     }
 
     if (!clickRun) return runPauseTimer;

@@ -150,6 +150,7 @@ button:focus {
 
 .pomodoros {
     display: inline-flex;
+    margin-top: 5px;
 }
 
 .pomodoro {
@@ -358,6 +359,11 @@ hr {
     #timer {
         font-size: 5.313rem;
     }
+
+    .pomodoros {
+        display: inline-flex;
+        margin-top: 15px;
+    }
 }
 
 /* Tablet */
@@ -388,6 +394,28 @@ hr {
     nav {
         width: 80vw;
     }
+
+    .session-title,
+    .break-title,
+    .long-break-title {
+        align-items: flex-end;
+        margin-top: 5px;
+    }
+
+    .session-title,
+    .break-title,
+    .long-break-title {
+        font-size: 1.5rem;
+    }
+
+    .minutes>p {
+        font-size: 2rem;
+    }
+
+    .pomodoros {
+        display: inline-flex;
+        margin-top: 15px;
+    }
 }
 
 /* Small tablet */
@@ -417,16 +445,18 @@ hr {
         height: 50vh;
         max-height: 425px;
         margin-top: -5px;
+        /* width: 90vw; */
+        margin: 0 auto;
     }
 
     .session-title,
     .break-title,
     .long-break-title {
-        font-size: 32.5px;
+        font-size: 1.38rem;
     }
 
     .minutes>p {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     .timer-controls {
