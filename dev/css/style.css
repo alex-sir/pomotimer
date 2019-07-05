@@ -234,6 +234,24 @@ button:focus {
     opacity: 0.9;
 }
 
+.shrink-animation {
+    animation: shrink 0.4s ease-in-out;
+}
+
+@keyframes shrink {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.75);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 .btn-time:hover {
     opacity: 0.7;
 }

@@ -233,7 +233,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         seconds = sessionSeconds;
         clearInterval(countdown);
         isPaused = false;
-        stop.disabled = false;
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
@@ -371,7 +370,8 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     }
     if (returnRunTimerDisplay) return runTimerDisplay;
     document.addEventListener('keydown', e => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 &&
+            (document.activeElement === body)) {
             if (e.repeat) return;
             if (isPaused) runTimerDisplay();
             else pauseTimer(false)();
@@ -458,14 +458,18 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     }
 
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 80) {
+        if ((e.altKey && e.keyCode === 80) ||
+            (document.activeElement === sessionTitle && e.keyCode === 32) ||
+            (document.activeElement === sessionTitle && e.keyCode === 13)) {
             if (e.repeat) return
             runSessionSelect();
         }
     });
     sessionTime.addEventListener('click', runSessionSelect);
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 66) {
+        if (e.altKey && e.keyCode === 66 ||
+            (document.activeElement === breakTitle && e.keyCode === 32) ||
+            (document.activeElement === breakTitle && e.keyCode === 13)) {
             if (e.repeat) return
             runBreakSelect();
         }
@@ -473,7 +477,9 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     breakTime.addEventListener('click', runBreakSelect);
     longBreakTime.addEventListener('click', runLongBreakSelect)
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 76) {
+        if (e.altKey && e.keyCode === 76 ||
+            (document.activeElement === longBreakTitle && e.keyCode === 32) ||
+            (document.activeElement === longBreakTitle && e.keyCode === 13)) {
             if (e.repeat) return;
             runLongBreakSelect();
         }
@@ -724,17 +730,20 @@ function enableTimeInputs() {
  * @return {void}
  */
 function stopTimer(stop, seconds) {
-    stop.disabled = true;
-
     function runStopTimer() {
         if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
         else if (pomodorosCount === 4) seconds = longBreak * 60;
         else seconds = parseInt(sessionMinutes.textContent) * 60;
         if (!(pomodorosCount >= 1) || longBreakTimeSelected) timerStarted = false;
+        stop.classList.add('shrink-animation');
+        stop.disabled = true;
+        setTimeout(() => {
+            stop.classList.remove('shrink-animation');
+            stop.disabled = false;
+        }, 400);
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
-        stop.disabled = true;
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
             togglePlayPause(playPauseIcon);
@@ -763,7 +772,7 @@ function stopTimer(stop, seconds) {
  * @param {*} seconds
  * @return {void}
  */
-function stopTimerHard(stop, seconds) {
+function stopTimerHard(seconds) {
     seconds = parseInt(sessionMinutes.textContent) * 60;
     timerStarted = false;
     seconds = parseInt(sessionMinutes.textContent) * 60;
@@ -777,7 +786,6 @@ function stopTimerHard(stop, seconds) {
     sessionTimeSelected = true;
     breakTimeSelected = false;
     longBreakTimeSelected = false;
-    stop.disabled = true;
     isPaused = true;
     togglePlayPause(playPauseIcon);
     autoStart.disabled = false;

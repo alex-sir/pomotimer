@@ -49,6 +49,10 @@ nav>h1,
 .about:hover,
 .about:focus {
     opacity: 0.75;
+}
+
+.settings:hover,
+.about:hover {
     cursor: pointer;
 }
 
@@ -90,8 +94,11 @@ button {
 
 button:hover,
 button:focus {
-    cursor: pointer;
     opacity: 0.7;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 /* Session */

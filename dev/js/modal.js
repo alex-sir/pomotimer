@@ -8,17 +8,31 @@ const modalAbout = document.querySelector('#simple-modal-about');
 const modalBtnAbout = document.querySelector('#modal-btn-about');
 const closeBtnAbout = document.querySelector('#close-btn-about');
 const about = document.querySelector('.about');
+// Accessibility
+const timerContainerElements = document.querySelectorAll('.container *');
 
 function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     modalBtn.addEventListener('click', () => {
         modal.style.visibility = 'visible';
         modal.style.opacity = '1';
         settings.style.transform = 'rotate(90deg)';
+        // FIXME: Modal background elements shouldn't be tabbable
+        // timerContainerElements.forEach(timerContainerElement => {
+        //     timerContainerElement.setAttribute('tabindex', '-1');
+        // });
+        // modalBtnSettings.setAttribute('tabindex', '-1');
+        // modalBtnAbout.setAttribute('tabindex', '-1');
         body.style.overflow = 'hidden';
         settings.blur();
     });
     closeBtn.addEventListener('click', () => {
         hideModalSettings(modal, settings);
+    });
+    document.addEventListener('keydown', e => {
+        if (document.activeElement === closeBtnSettings &&
+            (e.keyCode === 32 || e.keyCode === 13)) {
+            hideModalSettings(modal, settings);
+        }
     });
     window.addEventListener('click', e => {
         if (e.target === modal) {
@@ -29,6 +43,11 @@ function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
 
 function hideModalSettings(modal, settings) {
     modal.style.opacity = '0';
+    // timerContainerElements.forEach(timerContainerElement => {
+    //     timerContainerElement.setAttribute('tabindex', '0');
+    // });
+    // modalBtnSettings.setAttribute('tabindex', '0');
+    // modalBtnAbout.setAttribute('tabindex', '0');
     setTimeout(() => {
         modal.style.visibility = 'hidden';
     }, 300);
@@ -45,16 +64,22 @@ function modalDisplayAbout(modal, modalBtn, closeBtn, about) {
         about.blur();
     });
     closeBtn.addEventListener('click', () => {
-        hideModalAbout(modal);
+        hideModalAbout(modal, about);
+    });
+    document.addEventListener('keydown', e => {
+        if (document.activeElement === closeBtnAbout &&
+            (e.keyCode === 32 || e.keyCode === 13)) {
+            hideModalAbout(modal, about);
+        }
     });
     window.addEventListener('click', e => {
         if (e.target === modal) {
-            hideModalAbout(modal);
+            hideModalAbout(modal, about);
         }
     });
 }
 
-function hideModalAbout(modal) {
+function hideModalAbout(modal, about) {
     modal.style.opacity = '0';
     setTimeout(() => {
         modal.style.visibility = 'hidden';
@@ -96,6 +121,7 @@ function hideModalGeneric(modal) {
 }
 
 function mainModal() {
+    // Modals
     modalDisplaySettings(modalSettings, modalBtnSettings, closeBtnSettings, settings);
     modalDisplayAbout(modalAbout, modalBtnAbout, closeBtnAbout, about)
 }
