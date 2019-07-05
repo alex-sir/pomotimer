@@ -3,25 +3,23 @@ let countdown;
 const timer = document.querySelector('#timer');
 let timerStarted = false;
 // Timer controls
-const play = document.querySelector('#play');
-const pause = document.querySelector('#pause');
+const playPause = document.querySelector('#playPause');
+const playPauseIcon = document.querySelector('#playPause>.la');
+let isPaused = true;
 const stop = document.querySelector('#stop');
 const reset = document.querySelector('#reset');
-const arrow = document.querySelectorAll('.arrow');
 // Pomodoros
 const pomodoros = document.querySelectorAll('.pomodoro');
 let pomodorosCount = 0;
 // Session
 const sessionTitle = document.querySelector('.session-title h3');
-const increaseSession = document.querySelector('#increase-session');
 const sessionMinutes = document.querySelector('#session-minutes');
-const decreaseSession = document.querySelector('#decrease-session');
 // Break
 const breakTitle = document.querySelector('.break-title h3');
-const increaseBreak = document.querySelector('#increase-break');
 const breakMinutes = document.querySelector('#break-minutes');
-const decreaseBreak = document.querySelector('#decrease-break');
 // Long break
+const longBreakTitle = document.querySelector('.long-break-title h3');
+const longBreakMinutes = document.querySelector('#long-break-minutes');
 let longBreak = 15;
 const longBreakPomodoro = document.querySelector('.pomodoro:last-of-type');
 const longBreakInput = document.querySelector('#long-break-input');
@@ -41,7 +39,8 @@ let breakSelected = false;
 let sessionTimeSelected = true;
 let breakTimeSelected = false;
 let longBreakTimeSelected = false;
-let customThemeSwitch = true;
+let customThemeSwitch = 'session';
+let currentActive;
 // Time inputs
 const timeInputs = document.querySelectorAll('.time-input');
 const timeInputLabels = document.querySelectorAll('.time-input-wrapper>label');
@@ -129,7 +128,7 @@ function setStoragePreferences() {
  * Checks seconds to see if the timer font needs adjusting. Adjusts it if so.
  * 
  * @param {number} seconds
- * @param {DOM element} timer
+ * @param {HTMLElement} timer
  * @return {void}
  */
 function checkTimerFont(seconds, timer) {
@@ -138,7 +137,7 @@ function checkTimerFont(seconds, timer) {
     } else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
         timer.style.fontSize = '5rem';
     } else {
-        timer.style.fontSize = '5.625rem';
+        timer.style.fontSize = '8rem';
     }
 }
 
@@ -149,6 +148,7 @@ function loadStorage() {
     displayTimeLeft(sessionSeconds, false);
     breakMinutes.textContent = JSON.parse(localStorage.getItem('break'));
     longBreak = JSON.parse(localStorage.getItem('longBreak'));
+    longBreakMinutes.textContent = longBreak;
     // Preferences
     autoStart.checked = JSON.parse(localStorage.getItem('autoStart'));
     notifications.checked = JSON.parse(localStorage.getItem('notifications'));
@@ -213,6 +213,11 @@ function logStorage() {
     });
 }
 
+function togglePlayPause(icon) {
+    icon.classList.toggle('la-play');
+    icon.classList.toggle('la-pause');
+}
+
 /**
  * Runs core logic for displaying and counting down the timer.
  * 
@@ -227,12 +232,10 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         if (breakSelected && pomodorosCount !== 4 && !timerStarted) sessionSeconds = breakMinutes.textContent * 60;
         seconds = sessionSeconds;
         clearInterval(countdown);
-        pause.disabled = false;
-        stop.disabled = false;
+        isPaused = false;
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
-        play.disabled = true;
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -247,9 +250,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (timeInputLabels[i].getAttribute('for') === 'long-break-input' && breakLongBreakLink.checked) null;
             else timeInputLabels[i].classList.add('line-through-long-break', 'opacity-long-break');
         }
-        arrow.forEach(arrow => {
-            arrow.disabled = true;
-        });
         const now = Date.now();
         const then = now + seconds * 1000;
         displayTimeLeft(seconds);
@@ -262,8 +262,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (secondsLeft < 1) {
                 clearInterval(countdown);
                 if (autoStart.checked) {
-                    let currentActive = titleBorderChange(false);
                     if (pomodorosCount === 4) {
+                        if (customThemeActive) {
+                            customThemeSwitch = 'session';
+                            titleBorderChange(false, false, false, false);
+                        } else {
+                            currentActive = titleBorderChange(true, false, false, false);
+                        }
                         try {
                             const notificationLongBreakOver = new Notification('Long break over', {
                                 icon: notificationIcon,
@@ -285,7 +290,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         });
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
-                        play.disabled = false;
                     } else if (breakTime && !breakSelected) {
                         // Session finishes, start break or long break
                         breakSelected = true;
@@ -293,10 +297,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = false;
                         pomodorosCount++;
                         // Fill in next pomodoro
-                        if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
-                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
+                            if (customThemeActive) {
+                                customThemeSwitch = 'long break';
+                                titleBorderChange(false, false, false, false);
+                            } else {
+                                currentActive = titleBorderChange(false, false, true, false);
+                            }
                             try {
                                 const notificationLongBreakStart = new Notification('Session over', {
                                     icon: notificationIcon,
@@ -309,6 +317,12 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             longBreakTimeSelected = true;
                         } else {
                             sessionSeconds = parseInt(breakMinutes.textContent) * 60;
+                            if (customThemeActive) {
+                                customThemeSwitch = 'break';
+                                titleBorderChange(false, false, false, false);
+                            } else {
+                                currentActive = titleBorderChange(false, true, false, false);
+                            }
                             try {
                                 const notificationBreakStart = new Notification('Session over', {
                                     icon: notificationIcon,
@@ -319,9 +333,16 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                 console.error(e);
                             }
                         }
+                        if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
+                        else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         timerDisplay(sessionSeconds, false, true)();
-                        play.disabled = false;
                     } else {
+                        if (customThemeActive) {
+                            customThemeSwitch = 'session';
+                            titleBorderChange(false, false, false, false);
+                        } else {
+                            currentActive = titleBorderChange(true, false, false, false);
+                        }
                         try {
                             const notificationBreakOver = new Notification('Break over', {
                                 icon: notificationIcon,
@@ -336,7 +357,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionTimeSelected = true;
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
-                        play.disabled = false;
                     }
                 } else {
                     const notificationTimeOver = new Notification('Time over', {
@@ -350,39 +370,46 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     }
     if (returnRunTimerDisplay) return runTimerDisplay;
     document.addEventListener('keydown', e => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 &&
+            (document.activeElement === body)) {
             if (e.repeat) return;
-            if (pause.disabled) runTimerDisplay();
-            else pauseTimer(pause, false)();
+            if (isPaused) runTimerDisplay();
+            else pauseTimer(false)();
+            togglePlayPause(playPauseIcon);
         }
     });
-    play.addEventListener('click', runTimerDisplay);
+    playPause.addEventListener('click', () => {
+        if (isPaused) runTimerDisplay();
+        else pauseTimer(false)();
+        togglePlayPause(playPauseIcon);
+    });
 }
 
 /**
  * Allows selection of a session, break, or long break.
  * Displays correct time and selection.
  * 
- * @param {DOM element} sessionTime
- * @param {DOM element} breakTime
- * @param {DOM element} longBreakPomodoro
+ * @param {HTMLElement} sessionTime
+ * @param {HTMLElement} breakTime
+ * @param {HTMLElement} longBreakPomodoro
  * @return {void}
  */
-function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
+function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
         if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
         breakSelected = false;
-        longBreakTimeSelected = false;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         pomodorosCount = 0;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, true, true);
         if (sessionTimeSelected) null;
-        else if (breakTimeSelected) {
+        else if (breakTimeSelected || longBreakTimeSelected) {
             breakTimeSelected = false;
+            longBreakTimeSelected = false;
             sessionTimeSelected = true;
-            titleBorderChange(false);
+            customThemeSwitch = 'session';
+            titleBorderChange(true, false, false, false);
         }
         checkTimerFont(sessionSeconds, timer);
     }
@@ -391,64 +418,72 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
         if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
         breakSelected = true;
-        longBreakTimeSelected = false;
         sessionSeconds = parseInt(breakMinutes.textContent) * 60;
         pomodorosCount = 0;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, false, true);
         if (breakTimeSelected) null;
-        else if (sessionTimeSelected) {
-            breakTimeSelected = true;
+        else if (sessionTimeSelected || longBreakTimeSelected) {
             sessionTimeSelected = false;
-            titleBorderChange(false);
+            longBreakTimeSelected = false;
+            breakTimeSelected = true;
+            customThemeSwitch = 'break';
+            titleBorderChange(false, true, false, false);
         }
         checkTimerFont(sessionSeconds, timer);
     }
 
     function runLongBreakSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
-        breakSelected = true;
-        longBreakTimeSelected = true;
-        sessionSeconds = parseInt(longBreak) * 60;
+        breakSelected = false;
+        sessionSeconds = parseInt(longBreakMinutes.textContent) * 60;
         displayTimeLeft(sessionSeconds, false);
         timerDisplay(sessionSeconds, false, true);
-        let currentActive = titleBorderChange(true);
+        let currentActive = titleBorderChange(false, false, false, true);
         pomodorosCount = 4;
         // Fill in all four pomodoros
         pomodoros.forEach(pomodoro => {
             if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoro.classList.add(`${currentActive.split('-')[0]}-background`);
             else pomodoro.setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
         });
-        if (breakTimeSelected) null;
-        else if (sessionTimeSelected) {
-            breakTimeSelected = true;
+        if (longBreakTimeSelected) null;
+        else if (sessionTimeSelected || breakTimeSelected) {
+            longBreakTimeSelected = true;
+            breakTimeSelected = false;
             sessionTimeSelected = false;
-            titleBorderChange(false);
+            customThemeSwitch = 'long break';
+            titleBorderChange(false, false, true, false);
         }
         checkTimerFont(sessionSeconds, timer);
     }
 
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 80) {
+        if ((e.altKey && e.keyCode === 80) ||
+            (document.activeElement === sessionTitle && e.keyCode === 32) ||
+            (document.activeElement === sessionTitle && e.keyCode === 13)) {
             if (e.repeat) return
             runSessionSelect();
         }
     });
     sessionTime.addEventListener('click', runSessionSelect);
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 66) {
+        if (e.altKey && e.keyCode === 66 ||
+            (document.activeElement === breakTitle && e.keyCode === 32) ||
+            (document.activeElement === breakTitle && e.keyCode === 13)) {
             if (e.repeat) return
             runBreakSelect();
         }
     });
     breakTime.addEventListener('click', runBreakSelect);
+    longBreakTime.addEventListener('click', runLongBreakSelect)
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 76) {
+        if (e.altKey && e.keyCode === 76 ||
+            (document.activeElement === longBreakTitle && e.keyCode === 32) ||
+            (document.activeElement === longBreakTitle && e.keyCode === 13)) {
             if (e.repeat) return;
             runLongBreakSelect();
         }
     });
-    longBreakPomodoro.addEventListener('click', runLongBreakSelect);
 }
 
 /**
@@ -458,51 +493,78 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakPomodoro) {
  * @param {boolean} noTitleToggle
  * @return {DOM class || void}
  */
-function titleBorderChange(noTitleToggle) {
+function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
     let currentActive;
     if (!JSON.parse(localStorage.getItem('customThemeActive'))) {
-        sessionTitle.classList.length >= 1 ?
-            currentActive = sessionTitle.classList[sessionTitle.classList.length - 1] :
+        if (sessionTitle.classList.length >= 1) {
+            currentActive = sessionTitle.classList[sessionTitle.classList.length - 1];
+            if (getCurrentActive) return currentActive;
+            sessionTitle.classList.toggle(currentActive);
+            if (isBreak) breakTitle.classList.toggle(currentActive);
+            if (isLongBreak) longBreakTitle.classList.toggle(currentActive);
+        } else if (breakTitle.classList.length >= 1) {
             currentActive = breakTitle.classList[breakTitle.classList.length - 1];
-        if (noTitleToggle) return currentActive;
-        breakTitle.classList.toggle(currentActive);
-        sessionTitle.classList.toggle(currentActive);
-    } else if (noTitleToggle) {
-        return;
+            if (getCurrentActive) return currentActive;
+            breakTitle.classList.toggle(currentActive);
+            if (isSession) sessionTitle.classList.toggle(currentActive);
+            if (isLongBreak) longBreakTitle.classList.toggle(currentActive);
+        } else {
+            currentActive = longBreakTitle.classList[longBreakTitle.classList.length - 1];
+            if (getCurrentActive) return currentActive;
+            longBreakTitle.classList.toggle(currentActive);
+            if (isSession) sessionTitle.classList.toggle(currentActive);
+            if (isBreak) breakTitle.classList.toggle(currentActive);
+        }
+        return currentActive;
     } else {
         sessionTitle.classList = '';
         breakTitle.classList = '';
-        if (customThemeSwitch) {
-            customThemeSwitch = false;
+        longBreakTitle.classList = '';
+        if (customThemeSwitch === 'break') {
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = '';
+            longBreakTitle.style.backgroundSize = '';
+            longBreakTitle.style.backgroundPosition = '';
             breakTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
-        } else {
-            customThemeSwitch = true;
+        } else if (customThemeSwitch === 'long break') {
+            sessionTitle.style.background = '';
+            sessionTitle.style.backgroundSize = '';
+            sessionTitle.style.backgroundPosition = '';
             breakTitle.style.background = '';
             breakTitle.style.backgroundSize = '';
             breakTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
+            longBreakTitle.style.backgroundSize = 'var(--pomodoro-size)';
+            longBreakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
+        } else {
+            breakTitle.style.background = '';
+            breakTitle.style.backgroundSize = '';
+            breakTitle.style.backgroundPosition = '';
+            longBreakTitle.style.background = '';
+            longBreakTitle.style.backgroundSize = '';
+            longBreakTitle.style.backgroundPosition = '';
             sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
             sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
             sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         }
+        return;
     }
-    return currentActive;
 }
 
 /**
  * Increase or decrease time relative to the desired time option.
  * 
- * @param {DOM element} increase
- * @param {DOM element} minutes
- * @param {DOM element} decrease
+ * @param {HTMLElement} increase
+ * @param {HTMLElement} minutes
+ * @param {HTMLElement} decrease
  * @param {boolean} session
  * @return {void}
  */
-function timerSession(increase, minutes, decrease, session = true) {
+function timerSession(minutes, session = true) {
     function runIncrease(isThroughKey = false) {
         const minutesTextContent = parseInt(minutes.textContent);
         if ((parseInt(minutes.textContent) >= 6000 && !longBreakTimeSelected) ||
@@ -531,11 +593,6 @@ function timerSession(increase, minutes, decrease, session = true) {
         }
         if (breakLongBreakLink.checked && longBreak !== 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
     }
-    increase.addEventListener('click', () => {
-        runIncrease(false);
-        checkTimerFont(sessionSeconds, timer);
-        setStorageTime();
-    });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 38 && !timerStarted) {
             runIncrease(true);
@@ -573,11 +630,6 @@ function timerSession(increase, minutes, decrease, session = true) {
         }
         if (breakLongBreakLink.checked && breakMinutesContent <= 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
     }
-    decrease.addEventListener('click', () => {
-        runDecrease(false);
-        checkTimerFont(sessionSeconds, timer);
-        setStorageTime();
-    });
     document.addEventListener('keydown', e => {
         if (e.altKey && e.keyCode === 40 && !timerStarted) {
             runDecrease(true);
@@ -612,23 +664,21 @@ function displayTimeLeft(seconds, title = true) {
 }
 
 /**
- * @param {DOM element} pause
+ * @param {HTMLElement} pause
  * @param {boolean} clickRun
  * @return {function || void}
  */
-function pauseTimer(pause, clickRun) {
+function pauseTimer(clickRun) {
     function runPauseTimer() {
         clearInterval(countdown);
         // Resume timer for session or break
         sessionTitle.classList >= 1 ? timerDisplay(0, true, true) : timerDisplay(0, false, true);
-        pause.disabled = true;
-        play.disabled = false;
+        isPaused = true;
     }
 
     if (!clickRun) return runPauseTimer;
     else {
-        pause.disabled = true;
-        pause.addEventListener('click', runPauseTimer);
+        isPaused = true;
     }
 }
 
@@ -641,12 +691,16 @@ function breakSessionTitleReset() {
     if (breakTitle.classList.length >= 1) {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
         breakTitle.classList = '';
+    } else if (longBreakTitle.classList.length >= 1) {
+        sessionTitle.classList.add(longBreakTitle.classList[longBreakTitle.classList.length - 1]);
+        longBreakTitle.classList = '';
     } else if (JSON.parse(localStorage.getItem('customThemeActive'))) {
         sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
         sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
         sessionTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         breakTitle.style.background = '';
-        customThemeSwitch = true;
+        longBreakTitle.style.background = '';
+        customThemeSwitch = 'session';
     }
 }
 
@@ -671,30 +725,32 @@ function enableTimeInputs() {
 }
 
 /**
- * @param {DOM element} stop
+ * @param {HTMLElement} stop
  * @param {number} seconds
  * @return {void}
  */
 function stopTimer(stop, seconds) {
-    stop.disabled = true;
-
     function runStopTimer() {
         if (breakSelected && pomodorosCount !== 4) seconds = parseInt(breakMinutes.textContent) * 60;
         else if (pomodorosCount === 4) seconds = longBreak * 60;
         else seconds = parseInt(sessionMinutes.textContent) * 60;
         if (!(pomodorosCount >= 1) || longBreakTimeSelected) timerStarted = false;
+        stop.classList.add('shrink-animation');
+        stop.disabled = true;
+        setTimeout(() => {
+            stop.classList.remove('shrink-animation');
+            stop.disabled = false;
+        }, 400);
         sessionSeconds = seconds;
         clearInterval(countdown);
         displayTimeLeft(seconds);
-        stop.disabled = true;
-        pause.disabled = true;
-        play.disabled = false;
+        isPaused = true;
+        if (playPauseIcon.classList.contains('la-pause')) {
+            togglePlayPause(playPauseIcon);
+        }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         enableTimeInputs();
-        arrow.forEach(arrow => {
-            arrow.disabled = false;
-        });
         document.title = 'Pomodoro';
         if (breakSelected) timerDisplay(seconds, false, true);
         else timerDisplay(seconds, true, true);
@@ -712,11 +768,11 @@ function stopTimer(stop, seconds) {
 /**
  * Stops timer and resets pomodoros.
  * 
- * @param {DOM element} stop
+ * @param {HTMLElement} stop
  * @param {*} seconds
  * @return {void}
  */
-function stopTimerHard(stop, seconds) {
+function stopTimerHard(seconds) {
     seconds = parseInt(sessionMinutes.textContent) * 60;
     timerStarted = false;
     seconds = parseInt(sessionMinutes.textContent) * 60;
@@ -730,22 +786,18 @@ function stopTimerHard(stop, seconds) {
     sessionTimeSelected = true;
     breakTimeSelected = false;
     longBreakTimeSelected = false;
-    stop.disabled = true;
-    pause.disabled = true;
-    play.disabled = false;
+    isPaused = true;
+    togglePlayPause(playPauseIcon);
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
     enableTimeInputs();
-    arrow.forEach(arrow => {
-        arrow.disabled = false;
-    });
     document.title = 'Pomodoro';
     timerDisplay(seconds, true, true);
     checkTimerFont(sessionSeconds, timer);
 }
 
 /**
- * @param {DOM elements} pomodoros
+ * @param {HTMLElements} pomodoros
  * @return {void}
  */
 function resetPomodoros(pomodoros) {
@@ -762,16 +814,21 @@ function resetPomodoros(pomodoros) {
     });
 }
 
+// TODO: Add an option in settings to reset to default values.
 /**
- * @param {DOM element} reset
+ * @param {HTMLElement} reset
  * @return {void}
  */
 function resetTimer(reset) {
     function runResetTimer() {
+        reset.setAttribute('style', 'transition: transform 0.4s ease-in-out; transform: rotate(-360deg)');
+        reset.disabled = true;
+        setTimeout(() => {
+            reset.setAttribute('style', '');
+            reset.disabled = false;
+        }, 400);
         timerStarted = false;
         clearInterval(countdown);
-        timer.textContent = '25:00';
-        sessionMinutes.textContent = '25';
         breakSessionTitleReset();
         breakSelected = false;
         sessionTimeSelected = true;
@@ -781,17 +838,15 @@ function resetTimer(reset) {
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-        breakMinutes.textContent = '5';
         longBreak = 15;
-        arrow.forEach(arrow => {
-            arrow.disabled = false;
-        });
-        play.disabled = false;
-        pause.disabled = true;
+        isPaused = true;
+        if (playPauseIcon.classList.contains('la-pause')) {
+            togglePlayPause(playPauseIcon);
+        }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         document.title = 'Pomodoro';
-        timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60, true, true);
+        displayTimeLeft(parseInt(sessionMinutes.textContent * 60, 10), false);
         checkTimerFont(sessionSeconds, timer);
         setStorageTime();
     }
@@ -805,7 +860,7 @@ function resetTimer(reset) {
 }
 
 /**
- * @param {DOM element} notifications
+ * @param {HTMLElement} notifications
  * @return {void}
  */
 function toggleNotifications(notifications) {
@@ -817,12 +872,12 @@ function toggleNotifications(notifications) {
 /**
  * Change the time of a time option through input.
  * 
- * @param {DOM element} confirmTimeChangeSession
- * @param {DOM element} sessionInput
- * @param {DOM element} confirmTimeChangeBreak
- * @param {DOM element} breakInput
- * @param {DOM element} confirmTimeChangeLongBreak
- * @param {DOM element} longBreakInput
+ * @param {HTMLElement} confirmTimeChangeSession
+ * @param {HTMLElement} sessionInput
+ * @param {HTMLElement} confirmTimeChangeBreak
+ * @param {HTMLElement} breakInput
+ * @param {HTMLElement} confirmTimeChangeLongBreak
+ * @param {HTMLElement} longBreakInput
  * @return {void}
  */
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput) {
@@ -837,8 +892,8 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
      * Check which time option is currently selected.
      * Update time option text value, timer display, and session seconds accordingly.
      * 
-     * @param {DOM element} input
-     * @param {DOM element} minutes
+     * @param {HTMLElement} input
+     * @param {HTMLElement} minutes
      * @param {boolean} isSession
      * @param {boolean} isLongBreak
      * @return {void}
@@ -853,7 +908,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             input.value = 1;
         }
         if (isSession) {
-            if (!breakSelected) {
+            if (!breakSelected && !longBreakTimeSelected) {
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
             }
@@ -861,7 +916,8 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             if (longBreakTimeSelected && breakLongBreakLink.checked) {
                 longBreak = Math.min(inputValue * 3, 6000);
                 sessionSeconds = longBreak * 60;
-                displayTimeLeft(sessionSeconds, false)
+                longBreakMinutes.textContent = longBreak;
+                displayTimeLeft(sessionSeconds, false);
             } else if (longBreakTimeSelected && !breakLongBreakLink.checked) {
                 if (isLongBreak) {
                     sessionSeconds = inputValue * 60;
@@ -876,8 +932,11 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             }
         }
         if (isLongBreak) longBreak = +inputValue;
-        if (breakLongBreakLink.checked && !isSession) longBreak = Math.min(inputValue * 3, 6000);
-        if (!isLongBreak) minutes.textContent = parseInt(inputValue, 10);
+        if (breakLongBreakLink.checked && !isSession) {
+            longBreak = Math.min(inputValue * 3, 6000);
+            longBreakMinutes.textContent = longBreak;
+        }
+        minutes.textContent = parseInt(inputValue, 10);
     }
 
     confirmTimeChangeSession.addEventListener('click', () => {
@@ -910,14 +969,14 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         }
     });
     confirmTimeChangeLongBreak.addEventListener('click', () => {
-        runConfirmTimeChange(longBreakInput, longBreak, false, true);
+        runConfirmTimeChange(longBreakInput, longBreakMinutes, false, true);
         checkTimerFont(sessionSeconds, timer);
         setStorageTime();
     });
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
-            runConfirmTimeChange(longBreakInput, longBreak, false, true);
+            runConfirmTimeChange(longBreakInput, longBreakMinutes, false, true);
             checkTimerFont(sessionSeconds, timer);
             setStorageTime();
         }
@@ -927,11 +986,11 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
 /**
  * Adjust long break time in conjunction with break if link active.
  * 
- * @param {DOM element} breakLongBreakLink
- * @param {DOM element} longBreakInput
- * @param {DOM element} confirmTimeChangeLongBreak
- * @param {DOM element} timeInputLabelLongBreak
- * @param {DOM element} breakMinutes
+ * @param {HTMLElement} breakLongBreakLink
+ * @param {HTMLElement} longBreakInput
+ * @param {HTMLElement} confirmTimeChangeLongBreak
+ * @param {HTMLElement} timeInputLabelLongBreak
+ * @param {HTMLElement} breakMinutes
  * @return {void}
  */
 function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, returnRunBreakLongBreakLinkCheck) {
@@ -943,6 +1002,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
             confirmTimeChangeLongBreak.style.pointerEvents = 'none';
             longBreakInput.disabled = true;
             longBreak = Math.min(+breakMinutes.textContent * 3, 6000);
+            longBreakMinutes.textContent = longBreak;
             if (longBreakTimeSelected) {
                 displayTimeLeft(longBreak * 60, false);
                 sessionSeconds = longBreak * 60;
@@ -962,7 +1022,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
 }
 
 /**
- * @param {DOM element} fullscreen
+ * @param {HTMLElement} fullscreen
  * @return {void}
  */
 function toggleFullScreen(fullscreen) {
@@ -981,12 +1041,12 @@ function mainTimer() {
     logStorage();
     // Timer
     timerDisplay(sessionSeconds, true, false);
-    timerSession(increaseSession, sessionMinutes, decreaseSession, true);
-    timerSession(increaseBreak, breakMinutes, decreaseBreak, false);
+    timerSession(sessionMinutes, true);
+    timerSession(breakMinutes, false);
     // Time option select
-    sessionBreakSelect(sessionTitle, breakTitle, longBreakPomodoro);
+    sessionBreakSelect(sessionTitle, breakTitle, longBreakTitle);
     // Controls
-    pauseTimer(pause, true);
+    pauseTimer(true);
     stopTimer(stop, sessionSeconds);
     resetTimer(reset);
     // Preferences

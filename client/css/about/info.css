@@ -18,9 +18,13 @@
 }
 
 #profile-link,
-.fa-github,
+.la-github,
 #contact-me>a {
     color: var(--dark-color);
+}
+
+.la-github {
+    text-decoration: none;
 }
 
 @media only screen and (max-width: 745px) {

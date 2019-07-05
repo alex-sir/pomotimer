@@ -49,10 +49,6 @@ nav>h1,
 .about:hover,
 .about:focus {
     opacity: 0.75;
-}
-
-.settings:hover,
-.about:hover {
     cursor: pointer;
 }
 
@@ -74,14 +70,14 @@ main {
     display: grid;
     width: 100vw;
     height: 100%;
-    grid-template-columns: repeat(4, auto);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(5, auto);
     grid-template-areas:
-        "session session break break"
-        "session-step session-step break-step break-step"
-        "time time time time"
-        "timer-control timer-control timer-control timer-control"
-        ". pomodoro pomodoro .";
+        "session break long-break"
+        "session-step break-step long-break-step"
+        "time time time"
+        "timer-control timer-control timer-control"
+        "pomodoro pomodoro pomodoro";
 }
 
 button {
@@ -94,11 +90,12 @@ button {
 
 button:hover,
 button:focus {
-    opacity: 0.7;
+    cursor: pointer;
+    opacity: 0.75;
 }
 
-button:hover {
-    cursor: pointer;
+.la {
+    background-color: transparent;
 }
 
 /* Session */
@@ -116,56 +113,59 @@ button:hover {
     align-items: flex-start;
 }
 
-.minutes {
-    padding: 10px;
-}
-
 .minutes>p {
     width: 100px;
     text-align: center;
     font-size: 7vw;
 }
 
+/* TODO: Add a different bold color to each time option */
+
 .session-title,
-.break-title {
+.break-title,
+.long-break-title {
     font-size: 7vw;
 }
 
+.session-title>h3,
+.break-title>h3,
+.long-break-title>h3 {
+    padding-bottom: 3px;
+}
+
 .session-title>h3:hover,
-.break-title>h3:hover {
+.break-title>h3:hover,
+.long-break-title>h3:hover {
     cursor: pointer;
 }
 
-.arrow {
-    font-size: 10vw;
-}
-
-.arrow,
-.minutes {
-    margin: 0 auto auto auto;
-}
-
 /* Pomodoros */
-.pomodoros {
+.pomodoro-container {
     grid-area: pomodoro;
     display: flex;
+    flex-direction: column;
     width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
 }
 
+#pomodoros-complete {
+    grid-area: pomodoro;
+    font-size: 1.4rem;
+}
+
+.pomodoros {
+    display: inline-flex;
+    margin-top: 5px;
+}
+
 .pomodoro {
-    display: inline-block;
     height: 25px;
     width: 25px;
     border: 2px solid #E8E8E8;
     border-radius: 50%;
-}
-
-.pomodoro:last-of-type {
-    cursor: pointer;
+    margin: 0 25px;
 }
 
 /* Break */
@@ -183,17 +183,31 @@ button:hover {
     align-items: flex-start;
 }
 
+/* Long break */
+.long-break-title {
+    display: flex;
+    grid-area: long-break;
+    justify-content: center;
+    align-items: center;
+}
+
+.long-break-step {
+    display: flex;
+    grid-area: long-break-step;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 /* Time */
 .timer-display {
     display: flex;
     grid-area: time;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 10px;
 }
 
 #timer {
-    font-size: 20vw;
+    font-size: 4rem;
 }
 
 /* Timer controls */
@@ -210,6 +224,38 @@ button:hover {
     margin-bottom: 5%;
 }
 
+.session-title,
+.break-title,
+.long-break-title,
+.minutes,
+.btn-time,
+.pomodoro-container {
+    /* font-weight: bold; */
+    opacity: 0.9;
+}
+
+.shrink-animation {
+    animation: shrink 0.4s ease-in-out;
+}
+
+@keyframes shrink {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.75);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn-time:hover {
+    opacity: 0.7;
+}
+
 hr {
     border: 0;
     height: 1px;
@@ -220,7 +266,7 @@ hr {
 @media only screen and (min-width: 600px) {
     main {
         width: 50vw;
-        gap: 1%;
+        gap: 1.5%;
     }
 
     nav {
@@ -229,12 +275,13 @@ hr {
     }
 
     .session-title,
-    .break-title {
-        font-size: 37.5px;
+    .break-title,
+    .long-break-title {
+        font-size: 1.7rem;
     }
 
     .minutes>p {
-        font-size: 2.813rem;
+        font-size: 2rem;
     }
 
     .timer-controls>button {
@@ -245,30 +292,23 @@ hr {
         font-size: 5.625rem;
     }
 
-    .arrow {
-        font-size: 3.750rem;
-    }
-
     /* Grid display */
     .timer-display,
     .session-step,
-    .break-step {
+    .break-step,
+    .long-break-step {
         align-items: flex-start;
     }
 
     .session-title,
     .break-title,
+    .long-break-title {
+        align-items: flex-end;
+        margin-top: -10px;
+    }
+
     .timer-controls {
         align-items: center;
-    }
-
-    .arrow,
-    .minutes {
-        margin: 0 auto;
-    }
-
-    .minutes {
-        padding: 15px;
     }
 }
 
@@ -302,7 +342,8 @@ hr {
     }
 
     .session-title,
-    .break-title {
+    .break-title,
+    .long-break-title {
         font-size: 1.875rem;
     }
 
@@ -318,10 +359,6 @@ hr {
         font-size: 5.938rem;
         margin-bottom: 2%;
     }
-
-    .arrow {
-        font-size: 3.438rem;
-    }
 }
 
 /* Small phone */
@@ -331,7 +368,8 @@ hr {
     }
 
     .session-title,
-    .break-title {
+    .break-title,
+    .long-break-title {
         font-size: 1.250rem;
     }
 
@@ -347,8 +385,9 @@ hr {
         font-size: 5.313rem;
     }
 
-    .arrow {
-        font-size: 2.813rem;
+    .pomodoros {
+        display: inline-flex;
+        margin-top: 15px;
     }
 }
 
@@ -380,6 +419,28 @@ hr {
     nav {
         width: 80vw;
     }
+
+    .session-title,
+    .break-title,
+    .long-break-title {
+        align-items: flex-end;
+        margin-top: 5px;
+    }
+
+    .session-title,
+    .break-title,
+    .long-break-title {
+        font-size: 1.5rem;
+    }
+
+    .minutes>p {
+        font-size: 2rem;
+    }
+
+    .pomodoros {
+        display: inline-flex;
+        margin-top: 15px;
+    }
 }
 
 /* Small tablet */
@@ -409,15 +470,17 @@ hr {
         height: 50vh;
         max-height: 425px;
         margin-top: -5px;
+        margin: 0 auto;
     }
 
     .session-title,
-    .break-title {
-        font-size: 32.5px;
+    .break-title,
+    .long-break-title {
+        font-size: 1.4rem;
     }
 
     .minutes>p {
-        font-size: 2.2rem;
+        font-size: 1.5rem;
     }
 
     .timer-controls {
@@ -430,10 +493,6 @@ hr {
 
     #timer {
         font-size: 5.625rem;
-    }
-
-    .arrow {
-        font-size: 3.125rem;
     }
 
     .pomodoros {

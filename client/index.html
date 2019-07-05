@@ -13,8 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
     <title>Pomotimer</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="icons/line-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="bundle.min.css">
 </head>
@@ -22,59 +21,49 @@
 <body class="dark">
     <header class="main-header dark-border">
         <nav>
-            <button id="modal-btn-about" class="about dark-color" title="About">
-                <i class="fas fa-info-circle"></i>
+            <button id="modal-btn-about" class="about" title="About">
+                <i class="la la-info-circle dark-color"></i>
             </button>
             <!-- About modal -->
             <div id="simple-modal-about" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p id="close-btn-about" class="close-btn">&times;</p>
+                        <p id="close-btn-about" class="close-btn" tabindex="0">&times;</p>
                         <h2>About</h2>
                     </div>
                     <div class="modal-body">
                         <!-- How To Use -->
                         <details id="details-how-to-use">
                             <summary id="how-to-use" class="summary-heading">How To Use</summary>
-                            <img class="pomodoro-guide" src="img/pomodoro-guide.png" alt="Pomodoro Guide">
+                            <img class="pomodoro-guide" src="img\pomodoro-guide.png" alt="Pomodoro Guide">
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time
-                                Options (TO):</h2>
+                                Options:</h2>
                             <div id="click-to-select" class="how-to-info"><em>Click to select</em></div>
                             <ol class="how-to-options">
                                 <li>Session</li>
                                 <li>Break</li>
-                                <li>Long Break</li>
+                                <li>Respite</li>
                             </ol>
-                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls
-                                (C):</h2>
+                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls:</h2>
                             <ol class="how-to-options">
-                                <li>Play - Start or resume the timer</li>
-                                <li>Pause - Pause the timer</li>
+                                <li>Play/Pause - Play or pause the timer</li>
                                 <li>
                                     Stop - Reset the currently selected time (this will not reset any pomodoros)
                                 </li>
                                 <li>
-                                    Reset - Reset the timer to its original values (this will reset all pomodoros)
-                                    <ul id="time-option-defaults">
-                                        <li>Session - 25</li>
-                                        <li>Break - 5</li>
-                                        <li>Long Break - 15</li>
-                                    </ul>
+                                    Reset - Reset the timer, including all pomodoros
                                 </li>
                             </ol>
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Change
                                 Time Length:</h2>
                             <div class="how-to-info">
-                                Change time length through the arrows next to session and break, or through the
-                                settings.
+                                Change time length in the settings.
                             </div>
                         </details>
                         <hr>
                         <!-- What is the Pomodoro Technique? -->
                         <details>
-                            <summary id="what-is" class="summary-heading">
-                                What is the Pomodoro Technique?
-                            </summary>
+                            <summary id="what-is" class="summary-heading">What is the Pomodoro Technique?</summary>
                             <div class="pomodoro-info">
                                 The <a id="pomodoro-wiki" href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
                                     title="Wikipedia" target="noopener">Pomodoro
@@ -122,8 +111,7 @@
                                         <span>
                                             <span class="keyboard-action-name">ALT + R</span>
                                             <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Reset to original values
-                                                (25/5/15)</span>
+                                            <span class="keyboard-action-description">Reset (current time & pomodoros reset)</span>
                                         </span>
                                     </li>
                                     <li>
@@ -147,7 +135,7 @@
                                         <span>
                                             <span class="keyboard-action-name">ALT + L</span>
                                             <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Long Break</span>
+                                            <span class="keyboard-action-description">Respite</span>
                                         </span>
                                     </li>
                                     <li>
@@ -178,7 +166,7 @@
                             <div id="open-source">
                                 <span>This project is open source</span>
                                 <a href="https://github.com/alex-sir/pomodoro" target="noopener" title="GitHub Repo">
-                                    <i class="fab fa-github"></i>
+                                    <i class="la la-github"></i>
                                 </a>
                             </div>
                             <span id="contact-me">Contact Me: <a
@@ -188,38 +176,51 @@
                 </div>
             </div>
             <h1 class="dark-title">Pomotimer</h1>
-            <button id="modal-btn-settings" class="settings dark-color" aria-label="Settings" title="Settings">
-                <i class="fas fa-cog"></i>
+            <button id="modal-btn-settings" class="settings" aria-label="Settings" title="Settings">
+                <i class="la la-cog dark-color"></i>
             </button>
             <!-- Settings modal -->
             <div id="simple-modal-settings" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <p id="close-btn-settings" class="close-btn">&times;</p>
+                        <p id="close-btn-settings" class="close-btn" tabindex="0">&times;</p>
                         <h2>Settings</h2>
                     </div>
                     <div class="modal-body">
+                        <!-- Prebuilt themes -->
                         <div class="themes">
                             <h2 class="modal-section-heading">Themes:</h2>
-                            <p class="theme dark">Dark</p>
-                            <p class="theme light">Light</p>
-                            <p class="theme arctic">Arctic</p>
-                            <p class="theme blossom">Blossom</p>
+                            <p class="theme dark" data-color="dark">Dark</p>
+                            <p class="theme light" data-color="light">Light</p>
+                            <p class="theme arctic" data-color="arctic">Arctic</p>
+                            <p class="theme blossom" data-color="blossom">Blossom</p>
                         </div>
+                        <div id="theme-warning-background-prebuilt" class="theme-warning-background warning-background">
+                            <div class="theme-warning warning">
+                                <div class="theme-warning-dialogue warning-dialogue">
+                                    <span>Restart the timer?</span>
+                                </div>
+                                <div class="theme-warning-options warning-options">
+                                    <button id="accept-restart-prebuilt" class="btn-warning-option">Yes</button>
+                                    <button id="decline-restart-prebuilt" class="btn-warning-option">No</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Custom theme -->
                         <div class="themes-custom">
                             <h3 class="subsection-heading">- Custom:</h3>
                             <input type="text" id="color-picker-body">
                             <input type="text" id="color-picker-content">
                             <button type="button" id="apply-custom-theme">Apply</button>
                         </div>
-                        <div class="theme-warning-background warning-background">
+                        <div id="theme-warning-background-custom" class="theme-warning-background warning-background">
                             <div class="theme-warning warning">
                                 <div class="theme-warning-dialogue warning-dialogue">
                                     <span>Restart the timer?</span>
                                 </div>
                                 <div class="theme-warning-options warning-options">
-                                    <button id="accept-restart" class="btn-warning-option">Yes</button>
-                                    <button id="decline-restart" class="btn-warning-option">No</button>
+                                    <button id="accept-restart-custom" class="btn-warning-option">Yes</button>
+                                    <button id="decline-restart-custom" class="btn-warning-option">No</button>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +232,7 @@
                             <div class="preferences-option">
                                 <input type="checkbox" id="auto-start" class=" preference preference-option-checkbox"
                                     data-preference="autoStart">
-                                <label for="auto-start">Auto start session/break</label>
+                                <label for="auto-start">Auto start interval</label>
                             </div>
                             <div class="preferences-option">
                                 <input type="checkbox" id="notifications" class=" preference preference-option-checkbox"
@@ -246,7 +247,7 @@
                             <div class="preferences-option">
                                 <input type="checkbox" id="break-long-break-link"
                                     class=" preference preference-option-checkbox" data-preference="breakLongBreakLink">
-                                <label for="break-long-break-link">Break & long break linked</label>
+                                <label for="break-long-break-link">Break & respite linked</label>
                             </div>
                             <div class="preferences-option">
                                 <input type="checkbox" id="fullscreen-toggle"
@@ -261,23 +262,23 @@
                                 <div class="time-input-wrapper">
                                     <label for="session-input">Session</label><br>
                                     <input type="number" id="session-input" class="time-input" value="25">
-                                    <i class="fas fa-check-circle confirm-time-change-session confirm-time-change"></i>
+                                    <i class="la la-check-circle confirm-time-change-session confirm-time-change"></i>
                                 </div>
                                 <div class="time-input-wrapper">
                                     <label for="break-input">Break</label><br>
                                     <input type="number" id="break-input" class="time-input" value="5">
-                                    <i class="fas fa-check-circle confirm-time-change-break confirm-time-change"></i>
+                                    <i class="la la-check-circle confirm-time-change-break confirm-time-change"></i>
                                 </div>
                                 <div class="time-input-wrapper">
                                     <label for="long-break-input" class="line-through-long-break opacity-long-break">
-                                        Long Break
+                                        Respite
                                     </label>
                                     <br>
                                     <input type="number" id="long-break-input"
                                         class="time-input line-through-long-break opacity-long-break" value="15"
                                         disabled>
                                     <i
-                                        class="fas fa-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
+                                        class="la la-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
                                 </div>
                             </div>
                         </div>
@@ -320,43 +321,50 @@
     <div class="container">
         <main>
             <div class="session-title">
-                <h3 class="dark-active">Session</h3>
+                <h3 class="dark-active" tabindex="0">Session</h3>
             </div>
             <div class="session-step">
-                <button id="increase-session" class="arrow dark-color" aria-label="Increase session time"><i
-                        class="fas fa-long-arrow-alt-up"></i></button>
                 <div class="minutes">
                     <p id="session-minutes">25</p>
                 </div>
-                <button id="decrease-session" class="arrow dark-color" aria-label="Decrease session time"><i
-                        class="fas fa-long-arrow-alt-down"></i></button>
             </div>
             <div class="break-title">
-                <h3>Break</h3>
+                <h3 tabindex="0">Break</h3>
             </div>
             <div class="break-step">
-                <button id="increase-break" class="arrow dark-color" aria-label="Increase break time"><i
-                        class="fas fa-long-arrow-alt-up"></i></button>
                 <div class="minutes">
                     <p id="break-minutes">5</p>
                 </div>
-                <button id="decrease-break" class="arrow dark-color" aria-label="Decrease break time"><i
-                        class="fas fa-long-arrow-alt-down"></i></button>
+            </div>
+            <div class="long-break-title">
+                <h3 tabindex="0">Respite</h3>
+            </div>
+            <div class="long-break-step">
+                <div class="minutes">
+                    <p id="long-break-minutes">15</p>
+                </div>
             </div>
             <div class="timer-display">
                 <p id="timer">25:00</p>
             </div>
             <div class="timer-controls">
-                <button id="play" title="Play" aria-label="Start"><i class="fas fa-play dark-color"></i></button>
-                <button id="pause" title="Pause" aria-label="Pause"><i class="fas fa-pause dark-color"></i></button>
-                <button id="stop" title="Stop" aria-label="Stop"><i class="fas fa-square dark-color"></i></button>
-                <button id="reset" title="Reset" aria-label="Reset"><i class="fas fa-undo dark-color"></i></button>
+                <button id="playPause" class="btn-time" title="Play/Pause" aria-label="Play/Pause"><i
+                        class="la la-play dark-color"></i></button>
+                <button id="stop" class="btn-time" title="Stop" aria-label="Stop"><i
+                        class="la la-stop dark-color"></i></button>
+                <button id="reset" class="btn-time" title="Reset" aria-label="Reset"><i
+                        class="la la-rotate-left dark-color"></i></button>
             </div>
-            <div class="pomodoros">
-                <span class="pomodoro dark-border"></span>
-                <span class="pomodoro dark-border"></span>
-                <span class="pomodoro dark-border"></span>
-                <span class="pomodoro dark-border" title="Long Break"></span>
+            <div class="pomodoro-container">
+                <div>
+                    <h3 id="pomodoros-complete">Pomodoros Complete</h3>
+                </div>
+                <div class="pomodoros">
+                    <span class="pomodoro dark-border"></span>
+                    <span class="pomodoro dark-border"></span>
+                    <span class="pomodoro dark-border"></span>
+                    <span class="pomodoro dark-border"></span>
+                </div>
             </div>
         </main>
     </div>

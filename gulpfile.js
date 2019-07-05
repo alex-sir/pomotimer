@@ -125,6 +125,16 @@ function copyImg() {
         .pipe(dest('dist/img'));
 }
 
+function copyFonts() {
+    return src('client/fonts/**/*')
+        .pipe(dest('dist/fonts'))
+}
+
+function copyIcons() {
+    return src('client/icons/**/*')
+        .pipe(dest('dist/icons'));
+}
+
 // Clean tasks
 function cleanAll() {
     return del(['dist/*', '!dist/.git', '!dist/.gitignore']);
@@ -136,7 +146,7 @@ function cleanVendor() {
 
 // Development
 task('concat', parallel(concatScripts, concatStylesheets));
-task('copy', parallel(copyIndex, concatVendor, copyFavicon, copyImg));
+task('copy', parallel(copyIndex, concatVendor, copyFavicon, copyImg, copyFonts, copyIcons));
 task('build', parallel('concat', 'copy'));
 exports.cleanAll = cleanAll;
 exports.cleanVendor = cleanVendor;
