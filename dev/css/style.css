@@ -445,18 +445,17 @@ hr {
         height: 50vh;
         max-height: 425px;
         margin-top: -5px;
-        /* width: 90vw; */
         margin: 0 auto;
     }
 
     .session-title,
     .break-title,
     .long-break-title {
-        font-size: 1.38rem;
+        font-size: 1.4rem;
     }
 
     .minutes>p {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .timer-controls {
