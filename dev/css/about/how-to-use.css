@@ -40,11 +40,6 @@
     margin-bottom: 10px;
 }
 
-#time-option-defaults {
-    margin-top: 5px;
-    margin-left: 30px;
-}
-
 @media only screen and (max-width: 850px) {
 
     .how-to-options,

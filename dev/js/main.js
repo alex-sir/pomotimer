@@ -515,7 +515,6 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
         breakTitle.classList = '';
         longBreakTitle.classList = '';
         if (customThemeSwitch === 'break') {
-            console.log('BREAK');
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
@@ -526,7 +525,6 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             breakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             breakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         } else if (customThemeSwitch === 'long break') {
-            console.log('LONG BREAK');
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
             sessionTitle.style.backgroundPosition = '';
@@ -537,7 +535,6 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
             longBreakTitle.style.backgroundSize = 'var(--pomodoro-size)';
             longBreakTitle.style.backgroundPosition = 'var(--pomodoro-position)';
         } else {
-            console.log('SESSION');
             breakTitle.style.background = '';
             breakTitle.style.backgroundSize = '';
             breakTitle.style.backgroundPosition = '';
@@ -809,7 +806,7 @@ function resetPomodoros(pomodoros) {
     });
 }
 
-// TODO: Change reset timer to NOT reset to default values, just reset pomodoros. Add an option in settings to reset to default values. Might remove it from time controls all together...
+// TODO: Add an option in settings to reset to default values.
 /**
  * @param {HTMLElement} reset
  * @return {void}
@@ -824,8 +821,6 @@ function resetTimer(reset) {
         }, 400);
         timerStarted = false;
         clearInterval(countdown);
-        timer.textContent = '25:00';
-        sessionMinutes.textContent = '25';
         breakSessionTitleReset();
         breakSelected = false;
         sessionTimeSelected = true;
@@ -835,9 +830,7 @@ function resetTimer(reset) {
         resetPomodoros(pomodoros);
         pomodorosCount = 0;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
-        breakMinutes.textContent = '5';
         longBreak = 15;
-        longBreakMinutes.textContent = '15';
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
             togglePlayPause(playPauseIcon);
@@ -845,7 +838,7 @@ function resetTimer(reset) {
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         document.title = 'Pomodoro';
-        timerDisplay(parseInt(timer.textContent.split(':')[0]) * 60, true, true);
+        displayTimeLeft(parseInt(sessionMinutes.textContent * 60, 10), false);
         checkTimerFont(sessionSeconds, timer);
         setStorageTime();
     }
@@ -907,7 +900,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
             input.value = 1;
         }
         if (isSession) {
-            if (!breakSelected) {
+            if (!breakSelected && !longBreakTimeSelected) {
                 sessionSeconds = inputValue * 60;
                 displayTimeLeft(sessionSeconds, false);
             }

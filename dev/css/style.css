@@ -91,6 +91,7 @@ button {
 button:hover,
 button:focus {
     cursor: pointer;
+    opacity: 0.75;
 }
 
 .la {
@@ -124,6 +125,12 @@ button:focus {
 .break-title,
 .long-break-title {
     font-size: 7vw;
+}
+
+.session-title>h3,
+.break-title>h3,
+.long-break-title>h3 {
+    padding-bottom: 3px;
 }
 
 .session-title>h3:hover,
