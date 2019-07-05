@@ -20,10 +20,9 @@ The [*Pomodoro Technique*](https://en.wikipedia.org/wiki/Pomodoro_Technique) is 
 
 ### Controls
 
-1. Play - Play or pause the timer
-2. Pause - Pause the timer
-3. Stop - Reset the currently selected time (this will not reset any pomodoros)
-4. Reset - Reset the timer, including all pomodoros
+1. Play/Pause - Play or pause the timer
+2. Stop - Reset the currently selected time (this will not reset any pomodoros)
+3. Reset - Reset the timer, including all pomodoros
 
 ### Change Time Length
 
