@@ -270,7 +270,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             currentActive = titleBorderChange(true, false, false, false);
                         }
                         try {
-                            const notificationLongBreakOver = new Notification('Long break over', {
+                            const notificationLongBreakOver = new Notification('Respite over', {
                                 icon: notificationIcon,
                                 body: 'Session started'
                             });
@@ -308,7 +308,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             try {
                                 const notificationLongBreakStart = new Notification('Session over', {
                                     icon: notificationIcon,
-                                    body: 'Long break started'
+                                    body: 'Respite started'
                                 });
                                 setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
                             } catch (e) {
@@ -359,10 +359,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         timerDisplay(sessionSeconds, true, true)();
                     }
                 } else {
-                    const notificationTimeOver = new Notification('Time over', {
-                        icon: notificationIcon,
-                    });
-                    setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
+                    try {
+                        const notificationTimeOver = new Notification('Time over', {
+                            icon: notificationIcon,
+                        });
+                        setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
             }
             displayTimeLeft(secondsLeft);
@@ -553,90 +557,6 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
         }
         return;
     }
-}
-
-/**
- * Increase or decrease time relative to the desired time option.
- * 
- * @param {HTMLElement} increase
- * @param {HTMLElement} minutes
- * @param {HTMLElement} decrease
- * @param {boolean} session
- * @return {void}
- */
-function timerSession(minutes, session = true) {
-    function runIncrease(isThroughKey = false) {
-        const minutesTextContent = parseInt(minutes.textContent);
-        if ((parseInt(minutes.textContent) >= 6000 && !longBreakTimeSelected) ||
-            (longBreak >= 6000 && longBreakTimeSelected && !session && minutesTextContent >= 6000) ||
-            (!session && !breakSelected && isThroughKey) ||
-            (session && breakSelected && isThroughKey) ||
-            (breakLongBreakLink.checked && longBreak === 6000 && !session && minutesTextContent >= 6000)) {
-            return;
-        } else {
-            if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
-                sessionSeconds += 60;
-                longBreak += 1;
-                displayTimeLeft(sessionSeconds, false);
-            } else minutes.textContent = parseInt(minutes.textContent) + 1;
-            if (session) {
-                if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-                if (!breakSelected && !longBreakTimeSelected) sessionSeconds += 60;
-            } else if (breakSelected) {
-                if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked && minutesTextContent < 2000) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
-                else if (longBreakTimeSelected) null;
-                else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-                if (!longBreakTimeSelected) sessionSeconds += 60;
-                else if (breakLongBreakLink.checked && minutesTextContent >= 2000) null;
-                else if (breakLongBreakLink.checked) sessionSeconds += 60 * 3;
-            }
-        }
-        if (breakLongBreakLink.checked && longBreak !== 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
-    }
-    document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 38 && !timerStarted) {
-            runIncrease(true);
-            checkTimerFont(sessionSeconds, timer);
-            setStorageTime();
-        }
-    });
-
-    function runDecrease(isThroughKey = false) {
-        if ((parseInt(minutes.textContent) <= 1 && !longBreakTimeSelected) ||
-            (longBreak <= 1 && longBreakTimeSelected && !session) ||
-            (!session && !breakSelected && isThroughKey) ||
-            (session && breakSelected && isThroughKey) ||
-            (breakLongBreakLink.checked && longBreak === 3 && !session)) {
-            return;
-        }
-
-        const breakMinutesContent = parseInt(breakMinutes.textContent) * 3;
-
-        if (longBreakTimeSelected && !breakLongBreakLink.checked && !session) {
-            sessionSeconds -= 60;
-            longBreak -= 1;
-            displayTimeLeft(sessionSeconds, false);
-        } else minutes.textContent = parseInt(minutes.textContent) - 1;
-        if (session) {
-            if (!breakSelected) displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-            if (!breakSelected && !longBreakTimeSelected) sessionSeconds -= 60;
-        } else if (breakSelected) {
-            if (breakTimeSelected && longBreakTimeSelected && breakLongBreakLink.checked && breakMinutesContent <= 6000) displayTimeLeft((parseInt(minutes.textContent) * 3) * 60, false);
-            else if (longBreakTimeSelected) null;
-            else displayTimeLeft(parseInt(minutes.textContent) * 60, false);
-            if (!longBreakTimeSelected) sessionSeconds -= 60;
-            else if (breakLongBreakLink.checked && parseInt(breakMinutes.textContent) >= 2000) null;
-            else if (breakLongBreakLink.checked) sessionSeconds -= 60 * 3;
-        }
-        if (breakLongBreakLink.checked && breakMinutesContent <= 6000) longBreak = parseInt(breakMinutes.textContent) * 3;
-    }
-    document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 40 && !timerStarted) {
-            runDecrease(true);
-            checkTimerFont(sessionSeconds, timer);
-            setStorageTime();
-        }
-    });
 }
 
 /**
@@ -948,6 +868,12 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
+            sessionInput.classList.add('shrink-animation-sm');
+            sessionInput.disabled = true;
+            setTimeout(() => {
+                sessionInput.classList.remove('shrink-animation-sm');
+                sessionInput.disabled = false;
+            }, 400);
             runConfirmTimeChange(sessionInput, sessionMinutes, true, false);
             checkTimerFont(sessionSeconds, timer);
             setStorageTime();
@@ -963,6 +889,12 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         checkIsDigit(e);
         if (e.keyCode === 13) {
             if (e.repeat) return;
+            breakInput.classList.add('shrink-animation-sm');
+            breakInput.disabled = true;
+            setTimeout(() => {
+                breakInput.classList.remove('shrink-animation-sm');
+                breakInput.disabled = false;
+            }, 400);
             runConfirmTimeChange(breakInput, breakMinutes, false, false);
             checkTimerFont(sessionSeconds, timer);
             setStorageTime();
@@ -976,6 +908,12 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
     longBreakInput.addEventListener('keydown', e => {
         if (e.keyCode === 13) {
             if (e.repeat) return;
+            longBreakInput.classList.add('shrink-animation-sm');
+            longBreakInput.disabled = true;
+            setTimeout(() => {
+                longBreakInput.classList.remove('shrink-animation-sm');
+                longBreakInput.disabled = false;
+            }, 400);
             runConfirmTimeChange(longBreakInput, longBreakMinutes, false, true);
             checkTimerFont(sessionSeconds, timer);
             setStorageTime();
@@ -1041,8 +979,6 @@ function mainTimer() {
     logStorage();
     // Timer
     timerDisplay(sessionSeconds, true, false);
-    timerSession(sessionMinutes, true);
-    timerSession(breakMinutes, false);
     // Time option select
     sessionBreakSelect(sessionTitle, breakTitle, longBreakTitle);
     // Controls

@@ -38,9 +38,6 @@ Change time length in the settings.
   * ALT + P - Session
   * ALT + B - Break
   * ALT + L - Respite
-* Change Time Length
-  * ALT + ↑ - Increase time
-  * ALT + ↓ - Decrease time
 
 ## Features
 

@@ -27,6 +27,24 @@
     transition: background-color 0.3s ease-in-out;
 }
 
+.shrink-animation-sm {
+    animation: shrink-sm 0.4s ease-in-out;
+}
+
+@keyframes shrink-sm {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 .time-input:not(:last-child) {
     margin-bottom: 10px;
 }
