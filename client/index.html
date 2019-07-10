@@ -8,13 +8,11 @@
     <meta name="author" content="Alex Carbajal">
     <meta name="description" content="Pomodoro timer with customizable session/break times and a minimalist interface.">
     <meta name="theme-color" content="#202020">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
     <title>Pomotimer</title>
-    <link rel="stylesheet" href="icons/line-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="bundle.min.css">
 </head>
 
@@ -35,7 +33,7 @@
                         <!-- How To Use -->
                         <details id="details-how-to-use">
                             <summary id="how-to-use" class="summary-heading">How To Use</summary>
-                            <img class="pomodoro-guide" src="img\pomodoro-guide.png" alt="Pomodoro Guide">
+                            <img class="pomodoro-guide" src="assets/img/pomodoro-guide.png" alt="Pomodoro Guide">
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time
                                 Options:</h2>
                             <div id="click-to-select" class="how-to-info"><em>Click to select</em></div>
@@ -111,7 +109,8 @@
                                         <span>
                                             <span class="keyboard-action-name">ALT + R</span>
                                             <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Reset (current time & pomodoros reset)</span>
+                                            <span class="keyboard-action-description">Reset (current time & pomodoros
+                                                reset)</span>
                                         </span>
                                     </li>
                                     <li>
@@ -305,7 +304,7 @@
     <div class="container">
         <main>
             <div class="session-title">
-                <h3 class="dark-active" tabindex="0">Session</h3>
+                <h3 class="dark-active" title="ALT + P" tabindex="0">Session</h3>
             </div>
             <div class="session-step">
                 <div class="minutes">
@@ -313,7 +312,7 @@
                 </div>
             </div>
             <div class="break-title">
-                <h3 tabindex="0">Break</h3>
+                <h3 title="ALT + B" tabindex="0">Break</h3>
             </div>
             <div class="break-step">
                 <div class="minutes">
@@ -321,7 +320,7 @@
                 </div>
             </div>
             <div class="long-break-title">
-                <h3 tabindex="0">Respite</h3>
+                <h3 title="ALT + L" tabindex="0">Respite</h3>
             </div>
             <div class="long-break-step">
                 <div class="minutes">
@@ -332,11 +331,11 @@
                 <p id="timer">25:00</p>
             </div>
             <div class="timer-controls">
-                <button id="playPause" class="btn-time" title="Play/Pause" aria-label="Play/Pause"><i
+                <button id="playPause" class="btn-time" title="Play/Pause (SPACE)" aria-label="Play/Pause"><i
                         class="la la-play dark-color"></i></button>
-                <button id="stop" class="btn-time" title="Stop" aria-label="Stop"><i
+                <button id="stop" class="btn-time" title="Stop (ALT + S)" aria-label="Stop"><i
                         class="la la-stop dark-color"></i></button>
-                <button id="reset" class="btn-time" title="Reset" aria-label="Reset"><i
+                <button id="reset" class="btn-time" title="Reset (ALT + R)" aria-label="Reset"><i
                         class="la la-rotate-left dark-color"></i></button>
             </div>
             <div class="pomodoro-container">

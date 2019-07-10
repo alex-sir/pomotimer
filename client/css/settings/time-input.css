@@ -21,7 +21,7 @@
 .time-input {
     width: 150px;
     padding: 5px;
-    background-color: #E8E8E8;
+    background-color: #e8e8e8;
     border: 1px solid #202020;
     font-size: 0.8em;
     transition: background-color 0.3s ease-in-out;
@@ -64,10 +64,6 @@
 
 .confirm-time-change:active {
     transform: scale(0.9);
-}
-
-.time-change-confirmed {
-    color: green;
 }
 
 /* Long break disabled */

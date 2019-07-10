@@ -1,11 +1,11 @@
 :root {
     /* Colors */
     --dark-color: #202020;
-    --light-color: #E8E8E8;
-    --white-color: #E7ECEF;
-    --cyan-color: #04ACAC;
+    --light-color: #e8e8e8;
+    --white-color: #e7ecef;
+    --cyan-color: #04acac;
     --pink-color: #ffb0aa;
-    --brown-color: #AA4139;
+    --brown-color: #aa4139;
     /* Pomodoros */
     --pomodoro-size: 100% 0.094rem;
     --pomodoro-position: left bottom;

@@ -34,6 +34,7 @@ const themeColorTab = document.querySelector('meta[name="theme-color"]');
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
 // FIXME: User shouldn't be able to select two colors that are very similar, it'll make the icons invisible
+// FIXME: Hex values should be in lowercase
 
 function setStorageTheme() {
     if ((window.localStorage.length === 0 || !localStorage.getItem('themeClass')) &&
@@ -43,7 +44,7 @@ function setStorageTheme() {
         // Custom theme
         localStorage.setItem('customThemeActive', JSON.stringify(customThemeActive));
         localStorage.setItem('bodyBackgroundColor', JSON.stringify('#202020'));
-        localStorage.setItem('iconsColor', JSON.stringify('#E8E8E8'));
+        localStorage.setItem('iconsColor', JSON.stringify('#e8e8e8'));
         localStorage.setItem('customBodyBackgroundColor', JSON.stringify('#000080'));
         localStorage.setItem('customIconsColor', JSON.stringify('#c8c8c8'));
     }

@@ -57,6 +57,7 @@ const notificationTime = 5000;
 // TODO: Use map for logging localStorage to keep consistency
 // TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
 // TODO: Add a "time and pomodoros only" option, where all other icons are gone except for the time display and pomodoros.
+// TODO: Add a "fade on play" option where everything but the time fades. On by default
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile

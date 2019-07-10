@@ -27,6 +27,11 @@ const vendorScripts = [
     'node_modules/rgb-hex/index.js',
     'node_modules/screenfull/dist/screenfull.js'
 ];
+const stylesheets = [
+    'client/assets/fonts/inconsolata/stylesheet.css',
+    'client/assets/icons/line-awesome.min.css',
+    'client/css/**/*.css'
+];
 const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
 
 // Concat tasks
@@ -62,13 +67,13 @@ function concatScriptsProduction() {
 }
 
 function concatStylesheets() {
-    return src('client/**/**.css')
+    return src(stylesheets)
         .pipe(sourcemaps.init({
             loadMaps: true
         }))
         .pipe(postcss([autoprefixer()]))
         .pipe(concat('bundle.min.css'))
-        .pipe(cleanCSS())
+        // .pipe(cleanCSS())
         .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
 }
@@ -115,29 +120,29 @@ function copyIndex() {
 }
 
 function copyFavicon() {
-    return src('client/favicon/*')
-        .pipe(dest('dist/favicon'));
+    return src('client/assets/favicon/*')
+        .pipe(dest('dist/assets/favicon'));
 }
 
 function copyImg() {
-    return src('client/img/*')
+    return src('client/assets/img/*')
         .pipe(imagemin())
-        .pipe(dest('dist/img'));
+        .pipe(dest('dist/assets/img'));
 }
 
 function copyFonts() {
-    return src('client/fonts/**/*')
-        .pipe(dest('dist/fonts'))
+    return src('client/assets/fonts/**/**')
+        .pipe(dest('dist/assets/fonts'))
 }
 
 function copyIcons() {
-    return src('client/icons/**/*')
-        .pipe(dest('dist/icons'));
+    return src('client/assets/icons/**/*')
+        .pipe(dest('dist/assets/icons'));
 }
 
 // Clean tasks
 function cleanAll() {
-    return del(['dist/*', '!dist/.git', '!dist/.gitignore']);
+    return del(['dist/*', '!dist/.git']);
 }
 
 function cleanVendor() {
