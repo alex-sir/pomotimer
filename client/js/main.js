@@ -61,7 +61,6 @@ const notificationTime = 5000;
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile
-// FIXME: Slight nudge to timer when on mobile times of >=60 minutes are selected
 
 /**
  * https://mzl.la/2zJOaCZ
@@ -135,10 +134,12 @@ function setStoragePreferences() {
 function checkTimerFont(seconds, timer) {
     if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) {
         timer.style.fontSize = '4.5rem';
+        timer.setAttribute('style', 'font-size: 5rem; margin: 24px 0;');
     } else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
         timer.style.fontSize = '5rem';
-    } else {
-        timer.style.fontSize = '8rem';
+        timer.setAttribute('style', 'font-size: 5rem; margin: 24px 0;');
+    } else if (window.matchMedia('(max-width: 420px)').matches) {
+        timer.setAttribute('style', 'font-size: 8rem;');
     }
 }
 

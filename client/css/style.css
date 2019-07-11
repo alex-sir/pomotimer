@@ -122,8 +122,6 @@ button:focus {
     font-size: 7vw;
 }
 
-/* TODO: Add a different bold color to each time option */
-
 .session-title,
 .break-title,
 .long-break-title {
@@ -247,7 +245,7 @@ button:focus {
     }
 
     50% {
-        transform: scale(0.75);
+        transform: scale(0.8);
     }
 
     100% {
@@ -289,10 +287,6 @@ hr {
 
     .timer-controls>button {
         font-size: 3.125rem;
-    }
-
-    #timer {
-        font-size: 5.625rem;
     }
 
     /* Grid display */
@@ -505,6 +499,12 @@ hr {
     .pomodoros {
         align-items: flex-start;
         justify-content: space-between;
+    }
+}
+
+@media only screen and (min-width: 420px) {
+    #timer {
+        font-size: 9rem;
     }
 }
 
