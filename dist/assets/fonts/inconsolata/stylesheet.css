@@ -3,7 +3,7 @@
 @font-face {
     font-family: 'inconsolata';
     src: url('assets/fonts/inconsolata/inconsolata-bold-webfont.woff2') format('woff2'),
-         url('assets/fonts/inconsolata/inconsolata-bold-webfont.woff') format('woff');
+        url('assets/fonts/inconsolata/inconsolata-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -12,7 +12,7 @@
 @font-face {
     font-family: 'inconsolata';
     src: url('assets/fonts/inconsolata/inconsolata-regular-webfont.woff2') format('woff2'),
-         url('assets/fonts/inconsolata/inconsolata-regular-webfont.woff') format('woff');
+        url('assets/fonts/inconsolata/inconsolata-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

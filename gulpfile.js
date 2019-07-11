@@ -20,7 +20,6 @@ const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
 const scripts = ['client/js/**/*.js'];
-// TODO: Get rid of vendor and switch to browserify (if possible)
 const vendorScripts = [
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/spectrum-colorpicker/spectrum.js',
@@ -32,7 +31,7 @@ const stylesheets = [
     'client/assets/icons/line-awesome.min.css',
     'client/css/**/*.css'
 ];
-const watchGlobs = ['client/js/**/*.js', 'client/**/*.html', 'client/css/**/*.css'];
+const watchGlobs = ['client/**/*.html', 'client/css/**/*.css', 'client/js/**/*.js'];
 
 // Concat tasks
 function concatScripts() {

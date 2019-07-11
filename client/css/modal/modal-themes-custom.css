@@ -11,6 +11,10 @@
     margin-right: 13px;
 }
 
+.subsection-heading>span {
+    display: initial;
+}
+
 #apply-custom-theme {
     font-size: 1.25em;
     height: 100%;
@@ -26,9 +30,12 @@
         flex-flow: column wrap;
     }
 
-    .themes-custom>h3 {
-        margin-left: 10px;
-        margin-top: 0;
+    .subsection-heading {
+        margin: 0;
+    }
+
+    .subsection-heading>span {
+        display: none;
     }
 
     #apply-custom-theme {

@@ -335,21 +335,21 @@ hr {
     }
 
     h3 {
-        margin-top: 7.5px;
+        margin-top: 5px;
     }
 
     .session-title,
     .break-title,
     .long-break-title {
-        font-size: 1.875rem;
+        font-size: 1.5rem;
     }
 
     .minutes>p {
-        font-size: 2.188rem;
+        font-size: 1.813rem;
     }
 
     .timer-controls>button {
-        font-size: 2.813rem;
+        font-size: 2.5rem;
     }
 
     .pomodoros {
@@ -426,21 +426,16 @@ hr {
     .long-break-title {
         align-items: flex-end;
         margin-top: 5px;
-    }
-
-    .session-title,
-    .break-title,
-    .long-break-title {
         font-size: 1.5rem;
     }
 
     .minutes>p {
-        font-size: 2rem;
+        font-size: 1.813rem;
     }
 
     .pomodoros {
         display: inline-flex;
-        margin-top: 15px;
+        margin-top: 20px;
     }
 }
 
@@ -482,6 +477,7 @@ hr {
 
     .minutes>p {
         font-size: 1.5rem;
+        margin-top: -2px;
     }
 
     .timer-controls {

@@ -39,6 +39,23 @@ Change time length in the settings.
   * ALT + B - Break
   * ALT + L - Respite
 
+## Gulp Tasks
+
+    Run tasks with "npx gulp", e.g. "npx gulp build"
+
+* Development
+  * concat - Concatenate all scripts and stylesheets
+  * copy - Copy all needed files
+  * build - concat + copy
+  * cleanAll - Remove all files from dist, excluding .git
+  * cleanVendor - Remove all files from vendor
+  * default - cleanAll + build
+  * watch - Watch all HTML, CSS, and JavaScript files for changes. On change, runs default
+* Production
+  * concatProduction - Same as development, except with scripts and vendor scripts wrapped in a self-executing function
+  * buildProduction - concatProduction + copy
+  * production - cleanAll + buildProduction
+
 ## Features
 
 * Customizable Times - From one minute up to one hundred hours.
