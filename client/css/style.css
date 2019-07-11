@@ -337,11 +337,11 @@ hr {
 @media only screen and (max-height: 700px) {
     main {
         width: 100vw;
-        gap: 5%;
+        gap: 2.5%;
     }
 
     h3 {
-        margin-top: 2%;
+        margin-top: 7.5px;
     }
 
     .session-title,
@@ -356,6 +356,10 @@ hr {
 
     .timer-controls>button {
         font-size: 2.813rem;
+    }
+
+    .pomodoros {
+        margin-top: 20px;
     }
 
     #timer {

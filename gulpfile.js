@@ -73,7 +73,13 @@ function concatStylesheets() {
         }))
         .pipe(postcss([autoprefixer()]))
         .pipe(concat('bundle.min.css'))
-        // .pipe(cleanCSS())
+        .pipe(cleanCSS({
+            level: {
+                1: {
+                    specialComments: 0
+                }
+            }
+        }))
         .pipe(sourcemaps.write('.'))
         .pipe(dest('dist/'));
 }

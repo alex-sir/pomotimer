@@ -134,7 +134,7 @@ function setStoragePreferences() {
  */
 function checkTimerFont(seconds, timer) {
     if (seconds === 360000 && window.matchMedia('(max-width: 420px)').matches) {
-        timer.style.fontSize = '4.688rem';
+        timer.style.fontSize = '4.5rem';
     } else if (seconds >= 3600 && window.matchMedia('(max-width: 420px)').matches) {
         timer.style.fontSize = '5rem';
     } else {
