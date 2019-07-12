@@ -362,36 +362,6 @@ hr {
     }
 }
 
-/* Small phone */
-@media only screen and (max-height: 700px) and (max-width: 370px) {
-    main {
-        gap: 2.5%;
-    }
-
-    .session-title,
-    .break-title,
-    .long-break-title {
-        font-size: 1.250rem;
-    }
-
-    .minutes>p {
-        font-size: 1.563rem;
-    }
-
-    .timer-controls>button {
-        font-size: 2.188rem;
-    }
-
-    #timer {
-        font-size: 5.313rem;
-    }
-
-    .pomodoros {
-        display: inline-flex;
-        margin-top: 15px;
-    }
-}
-
 /* Tablet */
 @media only screen and (min-width: 700px) and (max-width: 950px) {
     main {
@@ -495,6 +465,43 @@ hr {
     .pomodoros {
         align-items: flex-start;
         justify-content: space-between;
+        margin-top: 0;
+    }
+}
+
+@media only screen and (max-width: 600px) and (max-height: 400px) {
+    .pomodoros {
+        margin-top: 15px;
+    }
+}
+
+/* Small phone */
+@media only screen and (max-height: 700px) and (max-width: 370px) {
+    main {
+        gap: 2.5%;
+    }
+
+    .session-title,
+    .break-title,
+    .long-break-title {
+        font-size: 1.250rem;
+    }
+
+    .minutes>p {
+        font-size: 1.563rem;
+    }
+
+    .timer-controls>button {
+        font-size: 2.188rem;
+    }
+
+    #timer {
+        font-size: 5.313rem;
+    }
+
+    .pomodoros {
+        display: inline-flex;
+        margin-top: 15px;
     }
 }
 
