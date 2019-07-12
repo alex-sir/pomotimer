@@ -24,7 +24,7 @@ The [*Pomodoro Technique*](https://en.wikipedia.org/wiki/Pomodoro_Technique) is 
 2. Stop - Reset the currently selected time (this will not reset any pomodoros)
 3. Reset - Reset the timer, including all pomodoros
 
-### Change Time Length
+### Time Length
 
 Change time length in the settings.
 
