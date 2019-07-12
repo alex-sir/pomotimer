@@ -71,14 +71,24 @@ function colorPicker() {
         color: `${JSON.parse(localStorage.getItem('customBodyBackgroundColor'))}`,
         showInput: true,
         showInitial: true,
-        showAlpha: true,
+        showPalette: true,
+        showSelectionPalette: true,
+        hideAfterPaletteSelect: true,
+        maxSelectionSize: 50,
+        palette: [],
+        localStorageKey: 'customBodyBackgroundColorsList',
         preferredFormat: 'hex'
     });
     $('#color-picker-content').spectrum({
         color: `${JSON.parse(localStorage.getItem('customIconsColor'))}`,
         showInput: true,
         showInitial: true,
-        showAlpha: true,
+        showPalette: true,
+        showSelectionPalette: true,
+        hideAfterPaletteSelect: true,
+        maxSelectionSize: 50,
+        palette: [],
+        localStorageKey: 'customIconsColorsList',
         preferredFormat: 'hex'
     });
     customValueBody = $('#color-picker-body').spectrum('get');

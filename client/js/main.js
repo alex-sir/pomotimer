@@ -144,12 +144,17 @@ function checkTimerFont(seconds, timer) {
 }
 
 function loadStorage() {
-    // Time
+    // Session
     sessionMinutes.textContent = JSON.parse(localStorage.getItem('session'));
+    sessionInput.setAttribute('value', JSON.parse(localStorage.getItem('session')));
     sessionSeconds = +sessionMinutes.textContent * 60;
     displayTimeLeft(sessionSeconds, false);
+    // Break
     breakMinutes.textContent = JSON.parse(localStorage.getItem('break'));
+    breakInput.setAttribute('value', JSON.parse(localStorage.getItem('break')));
+    // Long Break
     longBreak = JSON.parse(localStorage.getItem('longBreak'));
+    longBreakInput.setAttribute('value', longBreak);
     longBreakMinutes.textContent = longBreak;
     // Preferences
     autoStart.checked = JSON.parse(localStorage.getItem('autoStart'));
@@ -404,6 +409,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     function runSessionSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
         if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
+        sessionTime.blur();
         breakSelected = false;
         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
         pomodorosCount = 0;
@@ -423,6 +429,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
     function runBreakSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
         if (sessionSeconds === longBreak * 60) resetPomodoros(pomodoros);
+        breakTime.blur();
         breakSelected = true;
         sessionSeconds = parseInt(breakMinutes.textContent) * 60;
         pomodorosCount = 0;
@@ -441,6 +448,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
 
     function runLongBreakSelect() {
         if (timerStarted) stopTimerHard(stop, sessionSeconds);
+        longBreakTime.blur();
         breakSelected = false;
         sessionSeconds = parseInt(longBreakMinutes.textContent) * 60;
         displayTimeLeft(sessionSeconds, false);
@@ -857,6 +865,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
         if (breakLongBreakLink.checked && !isSession) {
             longBreak = Math.min(inputValue * 3, 6000);
             longBreakMinutes.textContent = longBreak;
+            longBreakInput.setAttribute('value', longBreak);
         }
         minutes.textContent = parseInt(inputValue, 10);
     }
@@ -943,6 +952,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
             longBreakInput.disabled = true;
             longBreak = Math.min(+breakMinutes.textContent * 3, 6000);
             longBreakMinutes.textContent = longBreak;
+            longBreakInput.setAttribute('value', longBreak);
             if (longBreakTimeSelected) {
                 displayTimeLeft(longBreak * 60, false);
                 sessionSeconds = longBreak * 60;
@@ -957,6 +967,7 @@ function breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTime
     }
     breakLongBreakLink.addEventListener('change', () => {
         runBreakLongBreakLinkCheck(breakLongBreakLink);
+        setStorageTime();
     });
     if (returnRunBreakLongBreakLinkCheck) return runBreakLongBreakLinkCheck;
 }
