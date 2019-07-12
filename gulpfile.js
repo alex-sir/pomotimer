@@ -149,7 +149,7 @@ function copyIcons() {
 
 // Clean tasks
 function cleanAll() {
-    return del(['dist/*', '!dist/.git']);
+    return del(['dist/*', '!dist/.git', '!dist/CNAME']);
 }
 
 function cleanVendor() {
