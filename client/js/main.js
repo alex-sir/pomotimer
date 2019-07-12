@@ -50,7 +50,7 @@ const confirmTimeChanges = document.querySelectorAll('.confirm-time-change');
 const confirmTimeChangeSession = document.querySelector('.confirm-time-change-session');
 const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-break');
 // Notifications
-const notificationIcon = 'favicon/android-chrome-192x192.png';
+const notificationIcon = 'assets/favicon/android-chrome-192x192.png';
 const notificationTime = 5000;
 
 // TODO: Add statistics showing pomodoro completions and progress
@@ -225,6 +225,36 @@ function togglePlayPause(icon) {
     icon.classList.toggle('la-pause');
 }
 
+function zenMode() {
+    const timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-display)');
+    const navElements = document.querySelectorAll('nav *');
+    const mainHeader = document.querySelector('.main-header');
+    let headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
+    let tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
+    headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.55');
+
+    if (playPauseIcon.classList.contains('la-pause')) {
+        timerElements.forEach(element => {
+            element.setAttribute('style', 'opacity 1; transition: opacity 0.4s ease-in-out;');
+            element.style.opacity = '0.55';
+        });
+        navElements.forEach(element => {
+            element.setAttribute('style', 'opacity 1; transition: opacity 0.4s ease-in-out;');
+            element.style.opacity = '0.55';
+        });
+        mainHeader.setAttribute('style', 'transition: border-color 0.4s ease-in-out;');
+        mainHeader.style.borderColor = headerBottomBorder;
+    } else {
+        timerElements.forEach(element => {
+            element.style.opacity = '1';
+        });
+        navElements.forEach(element => {
+            element.style.opacity = '1';
+        });
+        mainHeader.style.borderColor = hexToRgba(`#${tempHeaderBottomBorder}`, '1');
+    }
+}
+
 /**
  * Runs core logic for displaying and counting down the timer.
  * 
@@ -387,12 +417,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (isPaused) runTimerDisplay();
             else pauseTimer(false)();
             togglePlayPause(playPauseIcon);
+            // zenMode();
         }
     });
     playPause.addEventListener('click', () => {
         if (isPaused) runTimerDisplay();
         else pauseTimer(false)();
         togglePlayPause(playPauseIcon);
+        // zenMode();
     });
 }
 

@@ -74,7 +74,7 @@ function colorPicker() {
         showPalette: true,
         showSelectionPalette: true,
         hideAfterPaletteSelect: true,
-        maxSelectionSize: 50,
+        maxSelectionSize: 5,
         palette: [],
         localStorageKey: 'customBodyBackgroundColorsList',
         preferredFormat: 'hex'
@@ -86,7 +86,7 @@ function colorPicker() {
         showPalette: true,
         showSelectionPalette: true,
         hideAfterPaletteSelect: true,
-        maxSelectionSize: 50,
+        maxSelectionSize: 5,
         palette: [],
         localStorageKey: 'customIconsColorsList',
         preferredFormat: 'hex'
