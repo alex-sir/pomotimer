@@ -47,7 +47,7 @@ Change time length in the settings.
   * concat - Concatenate all scripts and stylesheets
   * copy - Copy all needed files
   * build - concat + copy
-  * cleanAll - Remove all files from dist, excluding .git
+  * cleanAll - Remove all files from dist, excluding .git and CNAME
   * cleanVendor - Remove all files from vendor
   * default - cleanAll + build
   * watch - Watch all HTML, CSS, and JavaScript files for changes. On change, runs default
