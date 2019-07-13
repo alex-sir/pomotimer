@@ -1,0 +1,45 @@
+.sound-heading {
+    width: 100%;
+}
+
+.notification-sound-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 17.5px;
+}
+
+#notification-sound-select,
+.test-sound {
+    padding: 3px;
+}
+
+#notification-sound-select {
+    width: 15%;
+    font-size: 1.1rem;
+    background-color: var(--light-color);
+    border: 1px solid var(--dark-color);
+    margin-left: 15px;
+}
+
+.test-sound {
+    font-size: 1.6rem;
+    margin-left: 10px;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.1s ease-in-out;
+}
+
+.test-sound:active {
+    transform: scale(0.9);
+}
+
+@media only screen and (max-width: 960px) {
+    #notification-sound-select {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .test-sound {
+        margin-left: 5px;
+    }
+}

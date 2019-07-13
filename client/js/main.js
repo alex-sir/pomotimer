@@ -52,6 +52,10 @@ const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-brea
 // Notifications
 const notificationIcon = 'assets/favicon/android-chrome-192x192.png';
 const notificationTime = 5000;
+// Sound
+let notificationSound = new Audio('assets/sound/blithe.mp3');
+const optionsNotificationSound = document.querySelector('#notification-sound-select');
+const playNotificationSound = document.querySelector('.test-sound')
 
 // TODO: Add statistics showing pomodoro completions and progress
 // TODO: Use map for logging localStorage to keep consistency
@@ -107,6 +111,8 @@ function setStorage() {
         tabTitleTime.checked = true;
         localStorage.setItem('breakLongBreakLink', JSON.stringify(true));
         breakLongBreakLink.checked = true;
+        // Sound
+        localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
     }
 }
 
@@ -162,6 +168,13 @@ function loadStorage() {
     tabTitleTime.checked = JSON.parse(localStorage.getItem('tabTitleTime'));
     breakLongBreakLink.checked = JSON.parse(localStorage.getItem('breakLongBreakLink'));
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, true)(breakLongBreakLink);
+    // Sound
+    optionsNotificationSound.value = JSON.parse(localStorage.getItem('notificationSound'));
+    if (optionsNotificationSound.value === 'none') {
+        notificationSound = new Audio();
+    } else {
+        notificationSound = new Audio(`assets/sound/${optionsNotificationSound.value}.mp3`);
+    }
     // Timer font
     checkTimerFont(sessionSeconds, timer);
 }
@@ -307,13 +320,17 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             currentActive = titleBorderChange(true, false, false, false);
                         }
                         try {
-                            const notificationLongBreakOver = new Notification('Respite over', {
-                                icon: notificationIcon,
-                                body: 'Session started'
-                            });
-                            setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
+                            if (Notification.permission === 'granted') {
+                                const notificationLongBreakOver = new Notification('Respite over', {
+                                    icon: notificationIcon,
+                                    body: 'Session started'
+                                });
+                                notificationSound.play();
+                                setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
+                            }
                         } catch (e) {
-                            console.error(e);
+                            // console.error(e);
+                            null;
                         }
                         breakSelected = false;
                         breakTimeSelected = true;
@@ -343,13 +360,17 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                 currentActive = titleBorderChange(false, false, true, false);
                             }
                             try {
-                                const notificationLongBreakStart = new Notification('Session over', {
-                                    icon: notificationIcon,
-                                    body: 'Respite started'
-                                });
-                                setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
+                                if (Notification.permission === 'granted') {
+                                    const notificationLongBreakStart = new Notification('Session over', {
+                                        icon: notificationIcon,
+                                        body: 'Respite started'
+                                    });
+                                    notificationSound.play();
+                                    setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
+                                }
                             } catch (e) {
-                                console.error(e);
+                                // console.error(e);
+                                null;
                             }
                             longBreakTimeSelected = true;
                         } else {
@@ -361,13 +382,17 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                 currentActive = titleBorderChange(false, true, false, false);
                             }
                             try {
-                                const notificationBreakStart = new Notification('Session over', {
-                                    icon: notificationIcon,
-                                    body: 'Break started'
-                                });
-                                setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
+                                if (Notification.permission === 'granted') {
+                                    const notificationBreakStart = new Notification('Session over', {
+                                        icon: notificationIcon,
+                                        body: 'Break started'
+                                    });
+                                    notificationSound.play();
+                                    setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
+                                }
                             } catch (e) {
-                                console.error(e);
+                                // console.error(e);
+                                null;
                             }
                         }
                         if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
@@ -381,13 +406,17 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             currentActive = titleBorderChange(true, false, false, false);
                         }
                         try {
-                            const notificationBreakOver = new Notification('Break over', {
-                                icon: notificationIcon,
-                                body: 'Session started'
-                            });
-                            setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
+                            if (Notification.permission === 'granted') {
+                                const notificationBreakOver = new Notification('Break over', {
+                                    icon: notificationIcon,
+                                    body: 'Session started'
+                                });
+                                notificationSound.play();
+                                setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
+                            }
                         } catch (e) {
-                            console.error(e);
+                            // console.error(e);
+                            null;
                         }
                         breakSelected = false;
                         breakTimeSelected = false;
@@ -397,12 +426,16 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                     }
                 } else {
                     try {
-                        const notificationTimeOver = new Notification('Time over', {
-                            icon: notificationIcon,
-                        });
-                        setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
+                        if (Notification.permission === 'granted') {
+                            const notificationTimeOver = new Notification('Time over', {
+                                icon: notificationIcon,
+                            });
+                            notificationSound.play();
+                            setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
+                        }
                     } catch (e) {
-                        console.error(e);
+                        // console.error(e);
+                        null;
                     }
                 }
             }
@@ -1015,6 +1048,21 @@ function toggleFullScreen(fullscreen) {
     });
 }
 
+function selectNotificationSound(options, play) {
+    options.addEventListener('change', e => {
+        if (e.target.value === 'none') {
+            notificationSound = new Audio();
+        } else {
+            notificationSound = new Audio(`assets/sound/${e.target.value}.mp3`);
+        }
+        localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
+    });
+
+    play.addEventListener('click', () => {
+        notificationSound.play();
+    });
+}
+
 function mainTimer() {
     // Storage
     setStorage();
@@ -1035,6 +1083,8 @@ function mainTimer() {
     changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput);
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, false);
     toggleFullScreen(fullscreen);
+    // Sound
+    selectNotificationSound(optionsNotificationSound, playNotificationSound);
 }
 
 window.onload = mainTimer();

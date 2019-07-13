@@ -147,6 +147,11 @@ function copyIcons() {
         .pipe(dest('dist/assets/icons'));
 }
 
+function copySound() {
+    return src('client/assets/sound/*')
+        .pipe(dest('dist/assets/sound'));
+}
+
 // Clean tasks
 function cleanAll() {
     return del(['dist/*', '!dist/.git', '!dist/CNAME']);
@@ -158,7 +163,7 @@ function cleanVendor() {
 
 // Development
 task('concat', parallel(concatScripts, concatStylesheets));
-task('copy', parallel(copyIndex, concatVendor, copyFavicon, copyImg, copyFonts, copyIcons));
+task('copy', parallel(copyIndex, concatVendor, copyFavicon, copyImg, copyFonts, copyIcons, copySound));
 task('build', parallel('concat', 'copy'));
 exports.cleanAll = cleanAll;
 exports.cleanVendor = cleanVendor;
