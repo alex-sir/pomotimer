@@ -3,8 +3,8 @@ let countdown;
 const timer = document.querySelector('#timer');
 let timerStarted = false;
 // Timer controls
-const playPause = document.querySelector('#playPause');
-const playPauseIcon = document.querySelector('#playPause>.la');
+const playPause = document.querySelector('#play-pause');
+const playPauseIcon = document.querySelector('#play-pause>.la');
 let isPaused = true;
 const stop = document.querySelector('#stop');
 const reset = document.querySelector('#reset');
@@ -34,6 +34,7 @@ const notifications = document.querySelector('#notifications');
 const tabTitleTime = document.querySelector('#tab-title-time');
 const breakLongBreakLink = document.querySelector('#break-long-break-link');
 const fullscreen = document.querySelector('#fullscreen-toggle');
+const zenModeToggle = document.querySelector('#zen-mode');
 // Selections
 let breakSelected = false;
 let sessionTimeSelected = true;
@@ -56,12 +57,28 @@ const notificationTime = 5000;
 let notificationSound = new Audio('assets/sound/blithe.mp3');
 const optionsNotificationSound = document.querySelector('#notification-sound-select');
 const playNotificationSound = document.querySelector('.test-sound')
+// Zen Mode
+let timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-display)');
+let navElements = document.querySelectorAll('.zen-element');
+let mainHeader = document.querySelector('.main-header');
+const transitionTime = 0.4;
+// Zen Mode Header Bottom Border
+let headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
+let tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
+headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.4');
+// Zen Mode Opacity Sections
+const nav = document.querySelector('nav');
+const timeOptions = document.querySelectorAll('.time-option');
+const timerControls = document.querySelector('.timer-controls');
+const timerControlsElements = document.querySelectorAll('.timer-controls *');
+const pomodoroContainer = document.querySelector('.pomodoro-container');
+const pomodoroContainerElements = document.querySelectorAll('.pomodoro-container *');
 
 // TODO: Add statistics showing pomodoro completions and progress
 // TODO: Use map for logging localStorage to keep consistency
 // TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
 // TODO: Add a "time and pomodoros only" option, where all other icons are gone except for the time display and pomodoros.
-// TODO: Add a "fade on play" option where everything but the time fades. On by default
+// TODO: Add a "fade on play" option where everything but the time fades
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile
@@ -111,6 +128,8 @@ function setStorage() {
         tabTitleTime.checked = true;
         localStorage.setItem('breakLongBreakLink', JSON.stringify(true));
         breakLongBreakLink.checked = true;
+        localStorage.setItem('zenMode', JSON.stringify(true));
+        zenModeToggle.checked = true;
         // Sound
         localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
     }
@@ -168,6 +187,7 @@ function loadStorage() {
     tabTitleTime.checked = JSON.parse(localStorage.getItem('tabTitleTime'));
     breakLongBreakLink.checked = JSON.parse(localStorage.getItem('breakLongBreakLink'));
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, true)(breakLongBreakLink);
+    zenModeToggle.checked = JSON.parse(localStorage.getItem('zenMode'));
     // Sound
     optionsNotificationSound.value = JSON.parse(localStorage.getItem('notificationSound'));
     if (optionsNotificationSound.value === 'none') {
@@ -238,34 +258,162 @@ function togglePlayPause(icon) {
     icon.classList.toggle('la-pause');
 }
 
-function zenMode() {
-    const timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-display)');
-    const navElements = document.querySelectorAll('nav *');
-    const mainHeader = document.querySelector('.main-header');
-    let headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
-    let tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
-    headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.55');
+// Zen Mode Opacity
+function fullOpacity() {
+    function activateFullOpacity(container, containerElements) {
+        container.style.opacity = '1';
+        containerElements.forEach(element => {
+            element.style.opacity = '1';
+        });
+    }
+    if (this.classList.contains('timer-controls')) {
+        timerControls.style.opacity = '1';
+        timerControlsElements.forEach(element => {
+            if (element.classList.contains('btn-time')) {
+                element.style.removeProperty('transition');
+                element.style.removeProperty('opacity');
+            } else {
+                element.style.opacity = '1';
+            }
+        });
+    } else if (this.classList.contains('pomodoro-container')) {
+        activateFullOpacity(pomodoroContainer, pomodoroContainerElements);
+    } else if (this.classList.contains('main-nav')) {
+        activateFullOpacity(nav, navElements);
+    } else if (this.classList.contains('time-option')) {
+        timeOptions.forEach(timeOption => {
+            if (timeOption.tagName === 'H3') {
+                timeOption.style.removeProperty('transition');
+                timeOption.style.removeProperty('opacity');
+            } else {
+                timeOption.style.opacity = '1';
+            }
+        });
+    }
+}
 
-    if (playPauseIcon.classList.contains('la-pause')) {
+function lessOpacity() {
+    function activateLessOpacity(container, containerElements) {
+        container.style.opacity = '0.6';
+        containerElements.forEach(element => {
+            element.style.opacity = '0.6';
+        });
+    }
+    if (this.classList.contains('timer-controls')) {
+        activateLessOpacity(timerControls, timerControlsElements);
+    } else if (this.classList.contains('pomodoro-container')) {
+        activateLessOpacity(pomodoroContainer, pomodoroContainerElements);
+    } else if (this.classList.contains('main-nav')) {
+        activateLessOpacity(nav, navElements);
+    } else if (this.classList.contains('time-option')) {
+        timeOptions.forEach(timeOption => {
+            timeOption.style.opacity = '0.6';
+        });
+    }
+}
+
+function zenMode(returnDeactivate) {
+    timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-display)');
+    navElements = document.querySelectorAll('.zen-element');
+    mainHeader = document.querySelector('.main-header');
+    headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
+    tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
+    headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.4');
+
+    function activateZenMode() {
         timerElements.forEach(element => {
-            element.setAttribute('style', 'opacity 1; transition: opacity 0.4s ease-in-out;');
-            element.style.opacity = '0.55';
+            if (element.tagName === 'H3' || element.classList.contains('pomodoro')) {
+                element.style.transition = `opacity ${transitionTime}s ease-in-out`;
+                element.style.opacity = '0.6';
+            } else {
+                element.setAttribute('style', `opacity 1; transition: opacity ${transitionTime}s ease-in-out;`);
+                element.style.opacity = '0.6';
+            }
         });
         navElements.forEach(element => {
-            element.setAttribute('style', 'opacity 1; transition: opacity 0.4s ease-in-out;');
-            element.style.opacity = '0.55';
+            element.setAttribute('style', `opacity 1; transition: opacity ${transitionTime}s ease-in-out;`);
+            element.style.opacity = '0.4';
         });
-        mainHeader.setAttribute('style', 'transition: border-color 0.4s ease-in-out;');
+        mainHeader.setAttribute('style', `transition: border-color ${transitionTime}s ease-in-out;`);
         mainHeader.style.borderColor = headerBottomBorder;
-    } else {
+        nav.setAttribute('style', `transition: opacity ${transitionTime}s ease-in-out;`);
+        // Section opacity listeners
+        timerControls.addEventListener('mouseover', fullOpacity, false);
+        timerControls.addEventListener('mouseout', lessOpacity, false);
+        pomodoroContainer.addEventListener('mouseover', fullOpacity, false);
+        pomodoroContainer.addEventListener('mouseout', lessOpacity, false);
+        nav.addEventListener('mouseover', fullOpacity, false);
+        nav.addEventListener('mouseout', lessOpacity, false);
+        timeOptions.forEach(timeOption => {
+            timeOption.addEventListener('mouseover', fullOpacity, false);
+            timeOption.addEventListener('mouseout', lessOpacity, false);
+        });
+    }
+
+    function deactivateZenMode() {
         timerElements.forEach(element => {
             element.style.opacity = '1';
+            setTimeout(() => {
+                if (customThemeSwitch === 'session' ||
+                    customThemeSwitch === 'break' ||
+                    customThemeSwitch === 'long break') {
+                    if (!(element.textContent === 'Session') &&
+                        !(element.textContent === 'Break') &&
+                        !(element.textContent === 'Respite') &&
+                        !(element.classList.contains('pomodoro'))) {
+                        element.setAttribute('style', '');
+                    } else {
+                        element.style.removeProperty('transition');
+                        element.style.removeProperty('opacity');
+                    }
+                }
+            }, transitionTime * 1000);
         });
         navElements.forEach(element => {
             element.style.opacity = '1';
+            setTimeout(() => {
+                element.setAttribute('style', '');
+            }, transitionTime * 1000);
         });
         mainHeader.style.borderColor = hexToRgba(`#${tempHeaderBottomBorder}`, '1');
+        nav.style.opacity = '1';
+        // Section opacity listeners
+        timerControls.removeEventListener('mouseover', fullOpacity, false);
+        timerControls.removeEventListener('mouseout', lessOpacity, false);
+        pomodoroContainer.removeEventListener('mouseover', fullOpacity, false);
+        pomodoroContainer.removeEventListener('mouseout', lessOpacity, false);
+        nav.removeEventListener('mouseover', fullOpacity, false);
+        nav.removeEventListener('mouseout', lessOpacity, false);
+        timeOptions.forEach(timeOption => {
+            timeOption.removeEventListener('mouseover', fullOpacity, false);
+            timeOption.removeEventListener('mouseout', lessOpacity, false);
+        });
+        setTimeout(() => {
+            mainHeader.setAttribute('style', '');
+            nav.setAttribute('style', '');
+        }, transitionTime * 1000);
     }
+
+    if (returnDeactivate) return deactivateZenMode;
+
+    if (playPauseIcon.classList.contains('la-pause')) {
+        activateZenMode();
+    } else {
+        deactivateZenMode();
+    }
+}
+
+function zenModePomodoroFinished() {
+    pomodoroContainer.style.opacity = '1';
+    pomodoroContainerElements.forEach(element => {
+        element.style.opacity = '1';
+    });
+    setTimeout(() => {
+        pomodoroContainerElements.forEach(element => {
+            element.style.opacity = '0.6';
+        });
+        pomodoroContainer.style.opacity = '0.6';
+    }, 2000);
 }
 
 /**
@@ -286,6 +434,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         // Disable time inputs and buttons while timer is running
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
+        zenModeToggle.disabled = true;
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -350,7 +499,6 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         breakTimeSelected = true;
                         sessionTimeSelected = false;
                         pomodorosCount++;
-                        // Fill in next pomodoro
                         if (pomodorosCount === 4) {
                             sessionSeconds = Math.min(longBreak * 60, 6000);
                             if (customThemeActive) {
@@ -398,6 +546,9 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         if (!JSON.parse(localStorage.getItem('customThemeActive'))) pomodoros[pomodorosCount - 1].classList.add(`${currentActive.split('-')[0]}-background`);
                         else pomodoros[pomodorosCount - 1].setAttribute('style', `background-color: ${customValueIcons}; border-color: ${customValueIcons};`);
                         timerDisplay(sessionSeconds, false, true)();
+                        pomodoroContainerElements.forEach(element => {
+                            element.style.opacity = 1;
+                        });
                     } else {
                         if (customThemeActive) {
                             customThemeSwitch = 'session';
@@ -424,6 +575,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
                         timerDisplay(sessionSeconds, true, true)();
                     }
+                    if (zenModeToggle.checked) zenModePomodoroFinished();
                 } else {
                     try {
                         if (Notification.permission === 'granted') {
@@ -450,14 +602,14 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
             if (isPaused) runTimerDisplay();
             else pauseTimer(false)();
             togglePlayPause(playPauseIcon);
-            // zenMode();
+            if (zenModeToggle.checked) zenMode(false);
         }
     });
     playPause.addEventListener('click', () => {
         if (isPaused) runTimerDisplay();
         else pauseTimer(false)();
         togglePlayPause(playPauseIcon);
-        // zenMode();
+        if (zenModeToggle.checked) zenMode(false);
     });
 }
 
@@ -575,13 +727,13 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
 function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
     let currentActive;
     if (!JSON.parse(localStorage.getItem('customThemeActive'))) {
-        if (sessionTitle.classList.length >= 1) {
+        if (sessionTitle.classList.length >= 2) {
             currentActive = sessionTitle.classList[sessionTitle.classList.length - 1];
             if (getCurrentActive) return currentActive;
             sessionTitle.classList.toggle(currentActive);
             if (isBreak) breakTitle.classList.toggle(currentActive);
             if (isLongBreak) longBreakTitle.classList.toggle(currentActive);
-        } else if (breakTitle.classList.length >= 1) {
+        } else if (breakTitle.classList.length >= 2) {
             currentActive = breakTitle.classList[breakTitle.classList.length - 1];
             if (getCurrentActive) return currentActive;
             breakTitle.classList.toggle(currentActive);
@@ -599,6 +751,9 @@ function titleBorderChange(isSession, isBreak, isLongBreak, getCurrentActive) {
         sessionTitle.classList = '';
         breakTitle.classList = '';
         longBreakTitle.classList = '';
+        sessionTitle.classList.add('time-option');
+        breakTitle.classList.add('time-option');
+        longBreakTitle.classList.add('time-option');
         if (customThemeSwitch === 'break') {
             sessionTitle.style.background = '';
             sessionTitle.style.backgroundSize = '';
@@ -683,12 +838,14 @@ function pauseTimer(clickRun) {
  * @return {void}
  */
 function breakSessionTitleReset() {
-    if (breakTitle.classList.length >= 1) {
+    if (breakTitle.classList.length >= 2) {
         sessionTitle.classList.add(breakTitle.classList[breakTitle.classList.length - 1]);
         breakTitle.classList = '';
-    } else if (longBreakTitle.classList.length >= 1) {
+        breakTitle.classList.add('time-option');
+    } else if (longBreakTitle.classList.length >= 2) {
         sessionTitle.classList.add(longBreakTitle.classList[longBreakTitle.classList.length - 1]);
         longBreakTitle.classList = '';
+        longBreakTitle.classList.add('time-option');
     } else if (JSON.parse(localStorage.getItem('customThemeActive'))) {
         sessionTitle.style.background = `linear-gradient(to right, ${customValueIcons}, ${customValueIcons}) no-repeat`;
         sessionTitle.style.backgroundSize = 'var(--pomodoro-size)';
@@ -742,9 +899,11 @@ function stopTimer(stop, seconds) {
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
             togglePlayPause(playPauseIcon);
+            if (zenModeToggle.checked) zenMode(true)();
         }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
+        zenModeToggle.disabled = false;
         enableTimeInputs();
         document.title = 'Pomodoro';
         if (breakSelected) timerDisplay(seconds, false, true);
@@ -782,9 +941,13 @@ function stopTimerHard(seconds) {
     breakTimeSelected = false;
     longBreakTimeSelected = false;
     isPaused = true;
-    togglePlayPause(playPauseIcon);
+    if (playPauseIcon.classList.contains('la-pause')) {
+        togglePlayPause(playPauseIcon);
+        if (zenModeToggle.checked) zenMode(true)();
+    }
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
+    zenModeToggle.disabled = false;
     enableTimeInputs();
     document.title = 'Pomodoro';
     timerDisplay(seconds, true, true);
@@ -837,9 +1000,11 @@ function resetTimer(reset) {
         isPaused = true;
         if (playPauseIcon.classList.contains('la-pause')) {
             togglePlayPause(playPauseIcon);
+            if (zenModeToggle.checked) zenMode(true)();
         }
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
+        zenModeToggle.disabled = false;
         document.title = 'Pomodoro';
         displayTimeLeft(parseInt(sessionMinutes.textContent * 60, 10), false);
         checkTimerFont(sessionSeconds, timer);

@@ -34,7 +34,6 @@ const themeColorTab = document.querySelector('meta[name="theme-color"]');
 
 // TODO: Modal should also change color OR make it dark mode (not sure which one is better)
 // FIXME: User shouldn't be able to select two colors that are very similar, it'll make the icons invisible
-// FIXME: Hex values should be in lowercase
 
 function setStorageTheme() {
     if ((window.localStorage.length === 0 || !localStorage.getItem('themeClass')) &&
@@ -257,18 +256,27 @@ function titleBorderColor(theme, customThemeReset) {
             sessionTitle.classList = '';
             breakTitle.classList = '';
             longBreakTitle.classList = '';
+            sessionTitle.classList.add('time-option');
+            breakTitle.classList.add('time-option');
+            longBreakTitle.classList.add('time-option');
             sessionTitle.classList.add(currentActive);
         } else if (breakTimeSelected) {
             currentActive = `${theme.classList[1]}-active`;
             sessionTitle.classList = '';
             breakTitle.classList = '';
             longBreakTitle.classList = '';
+            sessionTitle.classList.add('time-option');
+            breakTitle.classList.add('time-option');
+            longBreakTitle.classList.add('time-option');
             breakTitle.classList.add(currentActive);
         } else {
             currentActive = `${theme.classList[1]}-active`;
             sessionTitle.classList = '';
             breakTitle.classList = '';
             longBreakTitle.classList = '';
+            sessionTitle.classList.add('time-option');
+            breakTitle.classList.add('time-option');
+            longBreakTitle.classList.add('time-option');
             longBreakTitle.classList.add(currentActive);
         }
     } else if (customThemeReset) {
@@ -278,6 +286,9 @@ function titleBorderColor(theme, customThemeReset) {
         sessionTitle.classList = '';
         breakTitle.classList = '';
         longBreakTitle.classList = '';
+        sessionTitle.classList.add('time-option');
+        breakTitle.classList.add('time-option');
+        longBreakTitle.classList.add('time-option');
     }
 }
 
@@ -322,6 +333,7 @@ function changeTheme(themes) {
  * @return {void}
  */
 function executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
+    // FIXME: Changing preset theme then switching to custom theme messes up coloring
     body.classList = '';
     body.classList.add(newTheme);
     themeColor.forEach(element => {

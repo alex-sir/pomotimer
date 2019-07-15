@@ -16,7 +16,7 @@ function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
         modal.style.visibility = 'visible';
         modal.style.opacity = '1';
         settings.style.transform = 'rotate(90deg)';
-        // FIXME: Modal background elements shouldn't be tabbable
+        // FIXME: Modal background elements shouldn't be tabable
         // timerContainerElements.forEach(timerContainerElement => {
         //     timerContainerElement.setAttribute('tabindex', '-1');
         // });

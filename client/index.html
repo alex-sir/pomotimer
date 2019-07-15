@@ -18,9 +18,9 @@
 
 <body class="dark">
     <header class="main-header dark-border">
-        <nav>
+        <nav class="main-nav">
             <button id="modal-btn-about" class="about" title="About">
-                <i class="la la-info-circle dark-color"></i>
+                <i class="la la-info-circle zen-element dark-color"></i>
             </button>
             <!-- About modal -->
             <div id="simple-modal-about" class="modal">
@@ -160,9 +160,9 @@
                     </div>
                 </div>
             </div>
-            <h1 class="dark-title">Pomotimer</h1>
+            <h1 class="zen-element dark-title">Pomotimer</h1>
             <button id="modal-btn-settings" class="settings" aria-label="Settings" title="Settings">
-                <i class="la la-cog dark-color"></i>
+                <i class="la la-cog zen-element dark-color"></i>
             </button>
             <!-- Settings modal -->
             <div id="simple-modal-settings" class="modal">
@@ -232,13 +232,18 @@
                             </div>
                             <div class="preferences-option">
                                 <input type="checkbox" id="break-long-break-link"
-                                    class=" preference preference-option-checkbox" data-preference="breakLongBreakLink">
+                                    class="preference preference-option-checkbox" data-preference="breakLongBreakLink">
                                 <label for="break-long-break-link">Break & respite linked</label>
                             </div>
                             <div class="preferences-option">
                                 <input type="checkbox" id="fullscreen-toggle"
                                     class=" preference preference-option-checkbox" data-preference="fullscreenToggle">
                                 <label for="fullscreen-toggle">Fullscreen</label>
+                            </div>
+                            <div class="preferences-option">
+                                <input type="checkbox" id="zen-mode" class="preference preference-option-checkbox"
+                                    data-preference="zenMode">
+                                <label for="zen-mode">Zen Mode</label>
                             </div>
                         </div>
                         <hr>
@@ -325,35 +330,35 @@
     </header>
     <div class="container">
         <main>
-            <div class="session-title">
-                <h3 class="dark-active" title="ALT + P" tabindex="0">Session</h3>
+            <div class="session-title time-option">
+                <h3 class="time-option dark-active" title="ALT + P" tabindex="0">Session</h3>
             </div>
-            <div class="session-step">
-                <div class="minutes">
-                    <p id="session-minutes">25</p>
+            <div class="session-step time-option">
+                <div class="minutes time-option">
+                    <p id="session-minutes" class="time-option">25</p>
                 </div>
             </div>
-            <div class="break-title">
-                <h3 title="ALT + B" tabindex="0">Break</h3>
+            <div class="break-title time-option">
+                <h3 title="ALT + B" class="time-option" tabindex="0">Break</h3>
             </div>
-            <div class="break-step">
-                <div class="minutes">
-                    <p id="break-minutes">5</p>
+            <div class="break-step time-option">
+                <div class="minutes time-option">
+                    <p id="break-minutes" class="time-option">5</p>
                 </div>
             </div>
-            <div class="long-break-title">
-                <h3 title="ALT + L" tabindex="0">Respite</h3>
+            <div class="long-break-title time-option">
+                <h3 title="ALT + L" class="time-option" tabindex="0">Respite</h3>
             </div>
-            <div class="long-break-step">
-                <div class="minutes">
-                    <p id="long-break-minutes">15</p>
+            <div class="long-break-step time-option">
+                <div class="minutes time-option">
+                    <p id="long-break-minutes" class="time-option">15</p>
                 </div>
             </div>
             <div class="timer-display">
                 <p id="timer">25:00</p>
             </div>
             <div class="timer-controls">
-                <button id="playPause" class="btn-time" title="Play/Pause (SPACE)" aria-label="Play/Pause"><i
+                <button id="play-pause" class="btn-time" title="Play/Pause (SPACE)" aria-label="Play/Pause"><i
                         class="la la-play dark-color"></i></button>
                 <button id="stop" class="btn-time" title="Stop (ALT + S)" aria-label="Stop"><i
                         class="la la-stop dark-color"></i></button>

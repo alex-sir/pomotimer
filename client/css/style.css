@@ -44,7 +44,9 @@ nav>h1,
 
 .settings,
 .about {
-    transition: transform 0.3s ease-in-out;
+    transition:
+        transform 0.3s ease-in-out,
+        opacity 0.2s ease-in-out;
 }
 
 .settings:hover,
@@ -88,13 +90,6 @@ button {
     background-color: transparent;
     font-size: 3em;
     padding: 0;
-    transition: opacity 0.1s ease-in-out;
-}
-
-button:hover,
-button:focus {
-    cursor: pointer;
-    opacity: 0.75;
 }
 
 .la {
@@ -134,12 +129,21 @@ button:focus {
     padding-bottom: 3px;
 }
 
+.session-title>h3,
+.break-title>h3,
+.long-break-title>h3,
+button {
+    transition: opacity 0.2s ease-in-out;
+}
+
 .session-title>h3:hover,
 .break-title>h3:hover,
 .long-break-title>h3:hover,
 .session-title>h3:focus,
 .break-title>h3:focus,
-.long-break-title>h3:focus {
+.long-break-title>h3:focus,
+button:hover,
+button:focus {
     opacity: 0.75;
     cursor: pointer;
 }
@@ -235,8 +239,7 @@ button:focus {
 .minutes,
 .btn-time,
 .pomodoro-container {
-    /* font-weight: bold; */
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .shrink-animation {
