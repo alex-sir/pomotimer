@@ -78,7 +78,6 @@ const pomodoroContainerElements = document.querySelectorAll('.pomodoro-container
 // TODO: Use map for logging localStorage to keep consistency
 // TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
 // TODO: Add a "time and pomodoros only" option, where all other icons are gone except for the time display and pomodoros.
-// TODO: Add a "fade on play" option where everything but the time fades
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
 // FIXME: Delay in time for tab title. Use web workers to solve this
 // FIXME: Notifications don't pop up on mobile
@@ -333,7 +332,7 @@ function zenMode(returnDeactivate) {
         });
         mainHeader.style.transition = `border-color ${transitionTime}s ease-in-out`;
         mainHeader.style.borderColor = headerBottomBorder;
-        nav.setAttribute('style', `transition: opacity ${transitionTime}s ease-in-out;`);
+        nav.style.transition = `opacity ${transitionTime}s ease-in-out`;
         // Section opacity listeners
         timerControls.addEventListener('mouseover', fullOpacity, false);
         timerControls.addEventListener('mouseout', lessOpacity, false);
@@ -375,10 +374,11 @@ function zenMode(returnDeactivate) {
             timeOption.removeEventListener('mouseover', fullOpacity, false);
             timeOption.removeEventListener('mouseout', lessOpacity, false);
         });
-        mainHeader.style.removeProperty('border-color');
+        if (customThemeActive) mainHeader.classList.remove(mainHeader.classList[1]);
+        else mainHeader.style.removeProperty('border-color');
         setTimeout(() => {
             mainHeader.style.removeProperty('transition');
-            nav.setAttribute('style', '');
+            nav.style.removeProperty('transition');
         }, transitionTime * 1000);
     }
 

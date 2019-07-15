@@ -3,7 +3,7 @@ git add -A
 git commit -m "$1"
 git checkout master
 git merge "$2"
-git branch "$2" -d
+git branch $2 -d
 git pull --rebase
 git push
 cd dist
