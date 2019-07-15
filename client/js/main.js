@@ -322,19 +322,16 @@ function zenMode(returnDeactivate) {
 
     function activateZenMode() {
         timerElements.forEach(element => {
-            if (element.tagName === 'H3' || element.classList.contains('pomodoro')) {
-                element.style.transition = `opacity ${transitionTime}s ease-in-out`;
-                element.style.opacity = '0.6';
-            } else {
-                element.setAttribute('style', `opacity 1; transition: opacity ${transitionTime}s ease-in-out;`);
-                element.style.opacity = '0.6';
-            }
+            element.style.transition = `opacity ${transitionTime}s ease-in-out`;
+            element.style.opacity = '0.6';
+            element.style.transition = `opacity ${transitionTime}s ease-in-out`;
+            element.style.opacity = '0.6';
         });
         navElements.forEach(element => {
-            element.setAttribute('style', `opacity 1; transition: opacity ${transitionTime}s ease-in-out;`);
+            element.style.transition = `opacity ${transitionTime}s ease-in-out`;
             element.style.opacity = '0.4';
         });
-        mainHeader.setAttribute('style', `transition: border-color ${transitionTime}s ease-in-out;`);
+        mainHeader.style.transition = `border-color ${transitionTime}s ease-in-out`;
         mainHeader.style.borderColor = headerBottomBorder;
         nav.setAttribute('style', `transition: opacity ${transitionTime}s ease-in-out;`);
         // Section opacity listeners
@@ -354,25 +351,15 @@ function zenMode(returnDeactivate) {
         timerElements.forEach(element => {
             element.style.opacity = '1';
             setTimeout(() => {
-                if (customThemeSwitch === 'session' ||
-                    customThemeSwitch === 'break' ||
-                    customThemeSwitch === 'long break') {
-                    if (!(element.textContent === 'Session') &&
-                        !(element.textContent === 'Break') &&
-                        !(element.textContent === 'Respite') &&
-                        !(element.classList.contains('pomodoro'))) {
-                        element.setAttribute('style', '');
-                    } else {
-                        element.style.removeProperty('transition');
-                        element.style.removeProperty('opacity');
-                    }
-                }
+                element.style.removeProperty('transition');
+                element.style.removeProperty('opacity');
             }, transitionTime * 1000);
         });
         navElements.forEach(element => {
             element.style.opacity = '1';
             setTimeout(() => {
-                element.setAttribute('style', '');
+                element.style.removeProperty('transition');
+                element.style.removeProperty('opacity');
             }, transitionTime * 1000);
         });
         mainHeader.style.borderColor = hexToRgba(`#${tempHeaderBottomBorder}`, '1');
@@ -388,8 +375,9 @@ function zenMode(returnDeactivate) {
             timeOption.removeEventListener('mouseover', fullOpacity, false);
             timeOption.removeEventListener('mouseout', lessOpacity, false);
         });
+        mainHeader.style.removeProperty('border-color');
         setTimeout(() => {
-            mainHeader.setAttribute('style', '');
+            mainHeader.style.removeProperty('transition');
             nav.setAttribute('style', '');
         }, transitionTime * 1000);
     }
