@@ -127,7 +127,7 @@ function customThemeChanger(bodyValue, contentValue, isTimerStarted) {
         element.setAttribute('style', `color: ${contentValue};`);
     });
     themeBorder.forEach(element => {
-        element.setAttribute('style', `border-color: ${contentValue}`);
+        element.setAttribute('style', `border-color: ${contentValue};`);
     });
     if (breakSelected) breakTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
     else if (longBreakTimeSelected) longBreakTitle.setAttribute('style', `background: linear-gradient(to right, ${contentValue}, ${contentValue}) no-repeat; background-size: 100% 1.5px; background-position: left bottom`);
@@ -333,7 +333,6 @@ function changeTheme(themes) {
  * @return {void}
  */
 function executeChangeTheme(themeColor, themeBorder, themeActive, themeTitle, pomodoros, modalSettings, isTimerStarted) {
-    // FIXME: Changing preset theme then switching to custom theme messes up coloring
     body.classList = '';
     body.classList.add(newTheme);
     themeColor.forEach(element => {
