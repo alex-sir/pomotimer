@@ -1,4 +1,4 @@
-<h1 align="center">Pomodoro</h1>
+<h1 align="center">Pomotimer</h1>
 
 <h4 align="center">Minimalist Pomodoro timer with customizable session/break times and colors.</h4>
 

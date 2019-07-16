@@ -15,7 +15,10 @@ body {
 
 /* Header */
 .main-header {
-    border-bottom: 1px solid #e8e8e8;
+    /* border-bottom: 1px solid #e8e8e8; */
+    border-bottom-width: 1px;
+    border-bottom-color: #e8e8e8;
+    border-bottom-style: solid
 }
 
 nav {

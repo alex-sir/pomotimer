@@ -236,14 +236,14 @@
                                 <label for="break-long-break-link">Break & respite linked</label>
                             </div>
                             <div class="preferences-option">
-                                <input type="checkbox" id="fullscreen-toggle"
-                                    class=" preference preference-option-checkbox" data-preference="fullscreenToggle">
-                                <label for="fullscreen-toggle">Fullscreen</label>
-                            </div>
-                            <div class="preferences-option">
                                 <input type="checkbox" id="zen-mode" class="preference preference-option-checkbox"
                                     data-preference="zenMode">
                                 <label for="zen-mode">Zen Mode</label>
+                            </div>
+                            <div class="preferences-option">
+                                <input type="checkbox" id="fullscreen-toggle"
+                                    class=" preference preference-option-checkbox" data-preference="fullscreenToggle">
+                                <label for="fullscreen-toggle">Fullscreen</label>
                             </div>
                         </div>
                         <hr>
@@ -290,6 +290,12 @@
                                     <i class="la la-play-circle"></i>
                                 </div>
                             </div>
+                        </div>
+                        <hr>
+                        <!-- Zen Mode Range -->
+                        <div class="zen-mode-range">
+                            <h2 class="modal-section-heading">Zen Mode Opacity:</h2>
+                            <input type="range" id="zen-mode-opacity" min="0.4" max="0.8" value="0.6" step="0.1">
                         </div>
                         <hr>
                         <!-- Storage -->

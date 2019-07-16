@@ -62,10 +62,13 @@ let timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-dis
 let navElements = document.querySelectorAll('.zen-element');
 let mainHeader = document.querySelector('.main-header');
 const transitionTime = 0.4;
+const zenModeOpacityRange = document.querySelector('#zen-mode-opacity');
+let zenModeOpacity = zenModeOpacityRange.value;
 // Zen Mode Header Bottom Border
-let headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
-let tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
-headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.4');
+let headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottomColor;
+let tempHeaderBottomBorder = headerBottomBorder.substring(headerBottomBorder.indexOf('(') + 1, headerBottomBorder.length - 1).split(', ');
+tempHeaderBottomBorder = rgbHex(parseInt(tempHeaderBottomBorder[0], 10), parseInt(tempHeaderBottomBorder[1], 10), parseInt(tempHeaderBottomBorder[2], 10))
+headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, (parseFloat(zenModeOpacity) - 0.2).toString());
 // Zen Mode Opacity Sections
 const nav = document.querySelector('nav');
 const timeOptions = document.querySelectorAll('.time-option');
@@ -129,6 +132,9 @@ function setStorage() {
         breakLongBreakLink.checked = true;
         localStorage.setItem('zenMode', JSON.stringify(true));
         zenModeToggle.checked = true;
+        localStorage.setItem('zenModeOpacityRangeValue', JSON.stringify('0.6'));
+        zenModeOpacityRange.value = '0.6';
+        zenModeOpacity = zenModeOpacityRange.value;
         // Sound
         localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
     }
@@ -187,6 +193,8 @@ function loadStorage() {
     breakLongBreakLink.checked = JSON.parse(localStorage.getItem('breakLongBreakLink'));
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, true)(breakLongBreakLink);
     zenModeToggle.checked = JSON.parse(localStorage.getItem('zenMode'));
+    zenModeOpacityRange.value = JSON.parse(localStorage.getItem('zenModeOpacityRangeValue'));
+    zenModeOpacity = zenModeOpacityRange.value;
     // Sound
     optionsNotificationSound.value = JSON.parse(localStorage.getItem('notificationSound'));
     if (optionsNotificationSound.value === 'none') {
@@ -257,7 +265,7 @@ function togglePlayPause(icon) {
     icon.classList.toggle('la-pause');
 }
 
-// Zen Mode Opacity
+// Zen Mode full opacity on mouseover
 function fullOpacity() {
     function activateFullOpacity(container, containerElements) {
         container.style.opacity = '1';
@@ -291,11 +299,12 @@ function fullOpacity() {
     }
 }
 
+// Zen Mode less opacity on mouseout
 function lessOpacity() {
     function activateLessOpacity(container, containerElements) {
-        container.style.opacity = '0.6';
+        container.style.opacity = zenModeOpacity;
         containerElements.forEach(element => {
-            element.style.opacity = '0.6';
+            element.style.opacity = zenModeOpacity;
         });
     }
     if (this.classList.contains('timer-controls')) {
@@ -306,32 +315,37 @@ function lessOpacity() {
         activateLessOpacity(nav, navElements);
     } else if (this.classList.contains('time-option')) {
         timeOptions.forEach(timeOption => {
-            timeOption.style.opacity = '0.6';
+            timeOption.style.opacity = zenModeOpacity;
         });
     }
 }
 
+/**
+ * Reduce opacity of every non-modal element except for time on play
+ * 
+ * @param {boolean} returnDeactivate
+ * @return {function || void}
+ */
 function zenMode(returnDeactivate) {
-    timerElements = document.querySelectorAll('main *:not(#timer):not(.timer-display)');
-    navElements = document.querySelectorAll('.zen-element');
-    mainHeader = document.querySelector('.main-header');
-    headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottom;
-    tempHeaderBottomBorder = rgbHex(headerBottomBorder.substring(10, headerBottomBorder.length));
-    headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, '0.4');
+    // Variable reassignment for mainHeader bottom border color
+    headerBottomBorder = window.getComputedStyle(document.querySelector('.main-header')).borderBottomColor;
+    tempHeaderBottomBorder = headerBottomBorder.substring(headerBottomBorder.indexOf('(') + 1, headerBottomBorder.length - 1).split(', ');
+    tempHeaderBottomBorder = rgbHex(parseInt(tempHeaderBottomBorder[0], 10), parseInt(tempHeaderBottomBorder[1], 10), parseInt(tempHeaderBottomBorder[2], 10))
+    headerBottomBorder = hexToRgba(`#${tempHeaderBottomBorder}`, (parseFloat(zenModeOpacity) - 0.2).toString());
 
     function activateZenMode() {
         timerElements.forEach(element => {
             element.style.transition = `opacity ${transitionTime}s ease-in-out`;
-            element.style.opacity = '0.6';
+            element.style.opacity = zenModeOpacity;
             element.style.transition = `opacity ${transitionTime}s ease-in-out`;
-            element.style.opacity = '0.6';
+            element.style.opacity = zenModeOpacity;
         });
         navElements.forEach(element => {
             element.style.transition = `opacity ${transitionTime}s ease-in-out`;
-            element.style.opacity = '0.4';
+            element.style.opacity = (parseFloat(zenModeOpacity) - 0.2).toString();
         });
         mainHeader.style.transition = `border-color ${transitionTime}s ease-in-out`;
-        mainHeader.style.borderColor = headerBottomBorder;
+        mainHeader.style.borderBottomColor = headerBottomBorder;
         nav.style.transition = `opacity ${transitionTime}s ease-in-out`;
         // Section opacity listeners
         timerControls.addEventListener('mouseover', fullOpacity, false);
@@ -398,9 +412,9 @@ function zenModePomodoroFinished() {
     });
     setTimeout(() => {
         pomodoroContainerElements.forEach(element => {
-            element.style.opacity = '0.6';
+            element.style.opacity = zenModeOpacity;
         });
-        pomodoroContainer.style.opacity = '0.6';
+        pomodoroContainer.style.opacity = zenModeOpacity;
     }, 2000);
 }
 
@@ -423,6 +437,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         autoStart.disabled = true;
         breakLongBreakLink.disabled = true;
         zenModeToggle.disabled = true;
+        zenModeOpacityRange.disabled = true;
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) null;
             else {
@@ -892,6 +907,7 @@ function stopTimer(stop, seconds) {
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         zenModeToggle.disabled = false;
+        zenModeOpacityRange.disabled = false;
         enableTimeInputs();
         document.title = 'Pomodoro';
         if (breakSelected) timerDisplay(seconds, false, true);
@@ -936,6 +952,7 @@ function stopTimerHard(seconds) {
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
     zenModeToggle.disabled = false;
+    zenModeOpacityRange.disabled = false;
     enableTimeInputs();
     document.title = 'Pomodoro';
     timerDisplay(seconds, true, true);
@@ -993,6 +1010,7 @@ function resetTimer(reset) {
         autoStart.disabled = false;
         breakLongBreakLink.disabled = false;
         zenModeToggle.disabled = false;
+        zenModeOpacityRange.disabled = false;
         document.title = 'Pomodoro';
         displayTimeLeft(parseInt(sessionMinutes.textContent * 60, 10), false);
         checkTimerFont(sessionSeconds, timer);
@@ -1216,6 +1234,13 @@ function selectNotificationSound(options, play) {
     });
 }
 
+function changeZenModeOpacityValue(range) {
+    range.addEventListener('change', () => {
+        zenModeOpacity = range.value;
+        localStorage.setItem('zenModeOpacityRangeValue', JSON.stringify(zenModeOpacity));
+    });
+}
+
 function mainTimer() {
     // Storage
     setStorage();
@@ -1236,6 +1261,7 @@ function mainTimer() {
     changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput);
     breakLongBreakLinkCheck(breakLongBreakLink, longBreakInput, confirmTimeChangeLongBreak, timeInputLabelLongBreak, breakMinutes, false);
     toggleFullScreen(fullscreen);
+    changeZenModeOpacityValue(zenModeOpacityRange);
     // Sound
     selectNotificationSound(optionsNotificationSound, playNotificationSound);
 }

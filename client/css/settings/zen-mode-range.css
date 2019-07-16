@@ -1,0 +1,31 @@
+.zen-mode-range {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Range track */
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background: var(--dark-color);
+    height: 4px;
+    width: 140px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    background-color: rgba(32, 32, 32, 0.8);
+}
+
+/* Range thumb */
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background-color: var(--light-color);
+    border: 1px solid black;
+    height: 20px;
+    width: 10px;
+}
+
+@media only screen and (max-width: 960px) {
+    input[type='range'] {
+        margin-left: 0;
+        width: 100%;
+    }
+}

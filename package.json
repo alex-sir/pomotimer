@@ -1,6 +1,6 @@
 {
   "name": "pomodoro",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Minimalist Pomodoro timer with customizable session/break times.",
   "main": "app.js",
   "scripts": {
@@ -43,6 +43,7 @@
     "hex-to-rgba": "^2.0.0",
     "jquery": "^3.4.1",
     "rgb-hex": "^3.0.0",
+    "rgb-to-hex": "0.0.0",
     "screenfull": "^4.2.0",
     "spectrum-colorpicker": "^1.8.0"
   }
