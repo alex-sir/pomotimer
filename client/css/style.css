@@ -38,11 +38,11 @@ nav>h1,
 }
 
 .about {
-    margin-left: 3%;
+    margin-left: 7.5%;
 }
 
 .settings {
-    margin-right: 3%;
+    margin-right: 7.5%;
 }
 
 .settings,
@@ -224,7 +224,7 @@ button:focus {
 
 /* Timer controls */
 .timer-controls {
-    width: 70%;
+    width: 90%;
     display: inline-flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -460,6 +460,14 @@ hr {
         max-height: 425px;
         margin-top: -5px;
         margin: 0 auto;
+    }
+
+    .about {
+        margin-left: 3%;
+    }
+
+    .settings {
+        margin-right: 3%;
     }
 
     .session-title,
