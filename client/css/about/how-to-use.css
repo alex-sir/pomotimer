@@ -17,6 +17,10 @@
     list-style-position: inside;
 }
 
+img {
+    max-width: 100%;
+}
+
 .how-to-heading {
     margin-top: 10px;
 }
