@@ -224,11 +224,13 @@ button:focus {
 
 /* Timer controls */
 .timer-controls {
+    width: 70%;
     display: inline-flex;
     justify-content: space-around;
     align-items: flex-start;
     grid-area: timer-control;
-    margin-bottom: -25px;
+    /* margin-bottom: -25px; */
+    margin: 0 auto -25px auto;
 }
 
 .timer-controls>button {
@@ -243,6 +245,16 @@ button:focus {
 .btn-time,
 .pomodoro-container {
     opacity: 1;
+}
+
+.session-title,
+.session-step {
+    margin-left: 60px;
+}
+
+.long-break-title,
+.long-break-step {
+    margin-right: 60px;
 }
 
 .shrink-animation {
@@ -462,7 +474,18 @@ hr {
     }
 
     .timer-controls {
-        margin-bottom: -10px;
+        width: 100%;
+        margin: 0 0 -10px 0;
+    }
+
+    .session-title,
+    .session-step {
+        margin-left: 0;
+    }
+
+    .long-break-title,
+    .long-break-step {
+        margin-right: 0;
     }
 
     .timer-controls>button {
