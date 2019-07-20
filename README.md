@@ -3,7 +3,7 @@
 <h4 align="center">Minimalist Pomodoro timer with customizable session/break times and colors.</h4>
 
 <h2 align="center">
-    <a href="https://pomotimer.com">DEMO</a>
+    <a href="https://pomotimer.com">WEBSITE</a>
 <h2>
 
 # What is the Pomodoro Technique
@@ -47,11 +47,11 @@ Change time length in the settings.
     Run tasks with "npx gulp", e.g. "npx gulp build"
 
 * **Development**
-  * concat - Concatenate all scripts and stylesheets
-  * copy - Copy all needed files
+  * concat - Concatenate all scripts and stylesheets.
+  * copy - Copy all needed files.
   * build - concat + copy
-  * cleanAll - Remove all files from dist, excluding .git and CNAME
-  * cleanVendor - Remove all files from vendor
+  * cleanAll - Remove all files from dist, excluding .git and CNAME.
+  * cleanVendor - Remove all files from vendor.
   * default - cleanAll + build
   * watch - Watch all HTML, CSS, and JavaScript files for changes. On change, runs default.
 * **Production**
@@ -76,7 +76,7 @@ Change time length in the settings.
 * [Spectrum](https://bgrins.github.io/spectrum/) - Color picker used to make a custom theme.
 * [jQuery](https://jquery.com/) - Serves up spectrum.
 
-The majority of the core application is made in vanilla HTML, CSS, and JavaScript.
+The majority of the application is made in vanilla HTML, CSS, and JavaScript.
 
 ## License
 

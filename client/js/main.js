@@ -27,6 +27,8 @@ const confirmTimeChangeLongBreak = document.querySelector('.confirm-time-change-
 const timeInputLabelLongBreak = document.querySelector('#long-break-input-label');
 // Current seconds
 let sessionSeconds = parseInt(sessionMinutes.textContent) * 60;
+// Title
+const tabTitle = 'Pomotimer';
 // Preferences
 const preferences = document.querySelectorAll('.preference');
 const autoStart = document.querySelector('#auto-start');
@@ -554,6 +556,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
         breakLongBreakLink.disabled = true;
         zenModeToggle.disabled = true;
         zenModeOpacityRange.disabled = true;
+        timeInputsReset.disabled = true;
         // Disable and cross-out time inputs in settings
         for (let i = 0; i < timeInputs.length; i++) {
             if (timeInputs[i].id === 'long-break-input' && breakLongBreakLink.checked) {
@@ -1032,7 +1035,7 @@ function displayTimeLeft(seconds, title = true) {
     if (!title || !tabTitleTime.checked) {
         return;
     } else {
-        document.title = `(${display}) Pomodoro`;
+        document.title = `(${display}) ${tabTitle}`;
     }
 }
 
@@ -1120,11 +1123,12 @@ function enableTimeInputs() {
  * Enable certain preferences that are disabled while the timer is active.
  * @returns {undefined}
  */
-function enableCertainPreferences() {
+function enableCertainElements() {
     autoStart.disabled = false;
     breakLongBreakLink.disabled = false;
     zenModeToggle.disabled = false;
     zenModeOpacityRange.disabled = false;
+    timeInputsReset.disabled = false;
 }
 
 /**
@@ -1164,9 +1168,9 @@ function stopTimer(stop, seconds) {
                 zenMode(true)();
             }
         }
-        enableCertainPreferences();
+        enableCertainElements();
         enableTimeInputs();
-        document.title = 'Pomodoro';
+        document.title = tabTitle;
         if (breakSelected) {
             timerDisplay(seconds, false, true);
         } else {
@@ -1216,10 +1220,10 @@ function stopTimerHard(seconds) {
             zenMode(true)();
         }
     }
-    enableCertainPreferences();
+    enableCertainElements();
     // Display timer, enable time inputs, reset tab title
     enableTimeInputs();
-    document.title = 'Pomodoro';
+    document.title = tabTitle;
     timerDisplay(seconds, true, true);
     checkTimerFont(sessionSeconds, timer);
 }
@@ -1276,9 +1280,9 @@ function resetTimer(reset) {
             togglePlayPause(playPauseIcon);
             if (zenModeToggle.checked) zenMode(true)();
         }
-        enableCertainPreferences();
+        enableCertainElements();
         // Display timer, reset tab title, set storage time
-        document.title = 'Pomodoro';
+        document.title = tabTitle;
         displayTimeLeft(parseInt(sessionMinutes.textContent * 60, 10), false);
         checkTimerFont(sessionSeconds, timer);
         setStorageTime();
