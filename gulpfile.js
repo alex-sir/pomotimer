@@ -19,12 +19,11 @@ const insert = require('gulp-insert');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify-es').default;
-const scripts = ['client/js/**/*.js'];
-// TODO: Look into using browserify
+const scripts = ['client/js/*.js'];
 const vendorScripts = [
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/spectrum-colorpicker/spectrum.js',
-    'node_modules/rgb-hex/index.js',
+    'client/js/vendor/rgb-hex.js',
     'node_modules/screenfull/dist/screenfull.js',
     'node_modules/hex-to-rgba/build/index.js'
 ];

@@ -39,11 +39,11 @@ nav>h1,
 }
 
 .about {
-    margin-left: 7.5%;
+    margin-left: 9%;
 }
 
 .settings {
-    margin-right: 7.5%;
+    margin-right: 9%;
 }
 
 .settings,
@@ -225,7 +225,7 @@ button:focus {
 
 /* Timer controls */
 .timer-controls {
-    width: 90%;
+    width: 80%;
     display: inline-flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -250,12 +250,12 @@ button:focus {
 
 .session-title,
 .session-step {
-    margin-left: 60px;
+    margin-left: 110px;
 }
 
 .long-break-title,
 .long-break-step {
-    margin-right: 60px;
+    margin-right: 110px;
 }
 
 .shrink-animation {
@@ -295,7 +295,8 @@ hr {
     }
 
     nav {
-        width: 40vw;
+        /* width: 40vw; */
+        max-width: 595px;
         margin: 0 auto;
     }
 
@@ -336,14 +337,14 @@ hr {
 /* Tablet */
 @media only screen and (min-width: 600px) and (max-width: 1400px) {
     main {
-        width: 60vw;
+        width: 70vw;
     }
 }
 
 /* Small tablet, large phone */
 @media only screen and (min-width: 600px) and (max-width: 1100px) {
     main {
-        width: 70vw;
+        width: 80vw;
     }
 
     nav {
@@ -389,11 +390,11 @@ hr {
 /* Tablet */
 @media only screen and (min-width: 700px) and (max-width: 950px) {
     main {
-        width: 80vw;
+        width: 100vw;
     }
 
     nav {
-        width: 60vw;
+        width: 65vw;
     }
 }
 
@@ -409,10 +410,6 @@ hr {
 
     main {
         width: 90vw;
-    }
-
-    nav {
-        width: 80vw;
     }
 
     .session-title,
@@ -440,7 +437,30 @@ hr {
     }
 
     nav {
-        width: 80vw;
+        width: 75vw;
+    }
+
+    .timer-controls {
+        width: 100%;
+        margin: 0 0 -10px 0;
+    }
+
+    .about {
+        margin-left: 3%;
+    }
+
+    .settings {
+        margin-right: 3%;
+    }
+
+    .session-title,
+    .session-step {
+        margin-left: 0;
+    }
+
+    .long-break-title,
+    .long-break-step {
+        margin-right: 0;
     }
 }
 

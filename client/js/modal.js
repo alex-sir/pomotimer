@@ -11,12 +11,20 @@ const about = document.querySelector('.about');
 // Accessibility
 const timerContainerElements = document.querySelectorAll('.container *');
 
+/**
+ * Display the settings modal.
+ * @param   {HTMLElement} modal
+ * @param   {HTMLElement} modalBtn
+ * @param   {HTMLElement} closeBtn
+ * @param   {HTMLElement} settings
+ * @returns {undefined}
+ */
 function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     modalBtn.addEventListener('click', () => {
         modal.style.visibility = 'visible';
         modal.style.opacity = '1';
         settings.style.transform = 'rotate(90deg)';
-        // FIXME: Modal background elements shouldn't be tabable
+        // FIXME: Modal background elements shouldn't be able to be tabbed into
         // timerContainerElements.forEach(timerContainerElement => {
         //     timerContainerElement.setAttribute('tabindex', '-1');
         // });
@@ -41,6 +49,12 @@ function modalDisplaySettings(modal, modalBtn, closeBtn, settings) {
     });
 }
 
+/**
+ * Hide the settings modal.
+ * @param   {HTMLElement} modal
+ * @param   {HTMLElement} settings
+ * @returns {undefined}
+ */
 function hideModalSettings(modal, settings) {
     modal.style.opacity = '0';
     // timerContainerElements.forEach(timerContainerElement => {
@@ -55,6 +69,14 @@ function hideModalSettings(modal, settings) {
     body.style.overflow = 'auto';
 }
 
+/**
+ * Display the about modal.
+ * @param   {HTMLElement} modal
+ * @param   {HTMLElement} modalBtn
+ * @param   {HTMLElement} closeBtn
+ * @param   {HTMLElement} settings
+ * @returns {undefined}
+ */
 function modalDisplayAbout(modal, modalBtn, closeBtn, about) {
     modalBtn.addEventListener('click', () => {
         modal.style.visibility = 'visible';
@@ -79,6 +101,13 @@ function modalDisplayAbout(modal, modalBtn, closeBtn, about) {
     });
 }
 
+
+/**
+ * Hide the about modal.
+ * @param   {HTMLElement} modal
+ * @param   {HTMLElement} settings
+ * @returns {undefined}
+ */
 function hideModalAbout(modal, about) {
     modal.style.opacity = '0';
     setTimeout(() => {
@@ -89,10 +118,11 @@ function hideModalAbout(modal, about) {
 }
 
 /**
- * @param {HTMLElement} modal
- * @param {HTMLElement} modalBtn
- * @param {HTMLElement} closeBtn
- * @return {void}
+ * Display for a generic modal.
+ * @param   {HTMLElement} modal
+ * @param   {HTMLElement} modalBtn
+ * @param   {HTMLElement} closeBtn
+ * @returns {undefined}
  */
 function modalDisplayGeneric(modal, modalBtn, closeBtn) {
     modalBtn.addEventListener('click', () => {
@@ -104,13 +134,16 @@ function modalDisplayGeneric(modal, modalBtn, closeBtn) {
         hideModalGeneric(modal);
     });
     window.addEventListener('click', e => {
-        if (e.target === modal) hideModalGeneric(modal);
+        if (e.target === modal) {
+            hideModalGeneric(modal);
+        }
     });
 }
 
 /**
- * @param {HTMLElement} modal
- * @return {void}
+ * Hide a generic modal.
+ * @param   {HTMLElement} modal
+ * @returns {undefined}
  */
 function hideModalGeneric(modal) {
     modal.style.opacity = '0';
@@ -120,8 +153,10 @@ function hideModalGeneric(modal) {
     body.style.overflow = 'auto';
 }
 
+/**
+ * Run settings and about modal.
+ */
 function mainModal() {
-    // Modals
     modalDisplaySettings(modalSettings, modalBtnSettings, closeBtnSettings, settings);
     modalDisplayAbout(modalAbout, modalBtnAbout, closeBtnAbout, about)
 }

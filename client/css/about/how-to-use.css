@@ -12,11 +12,6 @@
     list-style-type: disc;
 }
 
-#details-how-to-use ol,
-#details-how-to-use ul {
-    list-style-position: inside;
-}
-
 img {
     max-width: 100%;
 }
@@ -36,18 +31,21 @@ img {
     margin-left: 15px;
 }
 
+.how-to-options {
+    list-style-position: outside;
+    margin-left: 43px;
+}
+
 .how-to-options li {
     margin-bottom: 5px;
 }
 
-#click-to-select {
-    margin-bottom: 10px;
-}
-
 @media only screen and (max-width: 850px) {
-
-    .how-to-options,
     .how-to-info {
         margin-left: 0;
+    }
+
+    .how-to-options {
+        margin-left: 30px;
     }
 }

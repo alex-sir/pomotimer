@@ -1,27 +1,36 @@
+ul {
+    list-style-type: disc;
+    list-style-position: outside;
+}
+
+ul ul {
+    list-style-type: circle;
+    list-style-position: outside;
+    margin-left: 15px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
 #keyboard-controls-summary {
     cursor: pointer;
 }
 
-#keyboard-controls-list>li {
+#keyboard-controls-list {
+    margin-left: 19px;
     margin-bottom: 10px;
-    font-size: 1.25em;
 }
 
-.keyboard-action-name {
-    font-weight: 700;
+.keyboard-controls-list-section {
+    margin-bottom: 5px;
 }
 
-.keyboard-subsection-heading {
-    font-size: 1.25em;
-    margin-left: 15px;
-}
-
-@media only screen and (max-width: 745px) {
-    .keyboard-action-description {
-        display: block;
-    }
-
-    .keyboard-action-dash {
-        display: none;
-    }
+#keyboard-controls-list li {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
 }

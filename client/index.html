@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="author" content="Alex Carbajal">
-    <meta name="description" content="Pomodoro timer with customizable session/break times and a minimalist interface.">
+    <meta name="description" content="Minimalist Pomodoro timer with customizable session/break times and colors.">
     <meta name="theme-color" content="#202020">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
@@ -22,7 +22,7 @@
             <button id="modal-btn-about" class="about" title="About">
                 <i class="la la-info-circle zen-element dark-color"></i>
             </button>
-            <!-- About modal -->
+            <!-- About Modal -->
             <div id="simple-modal-about" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -36,20 +36,26 @@
                             <img class="pomodoro-guide" src="assets/img/pomodoro-guide.png" alt="Pomodoro Guide">
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time
                                 Options:</h2>
-                            <div id="click-to-select" class="how-to-info"><em>Click to select</em></div>
                             <ol class="how-to-options">
-                                <li>Session</li>
-                                <li>Break</li>
-                                <li>Respite</li>
+                                <li>Session - Work time. One finished session equals one complete pomodoro.
+                                </li>
+                                <li>Break - Short break before continuing with another session.</li>
+                                <li>Respite - Long break after four sessions (pomodoros) are complete.</li>
                             </ol>
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls:</h2>
                             <ol class="how-to-options">
-                                <li>Play/Pause - Play or pause the timer</li>
+                                <li>Play/Pause - Play or pause the timer.</li>
                                 <li>
-                                    Stop - Reset the currently selected time (this will not reset any pomodoros)
+                                    Stop - Reset the currently selected
+                                    time
+                                    (this
+                                    will not
+                                    reset
+                                    any
+                                    pomodoros).
                                 </li>
                                 <li>
-                                    Reset - Reset the timer, including all pomodoros
+                                    Reset - Reset the timer, including all pomodoros.
                                 </li>
                             </ol>
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time Length:
@@ -64,21 +70,15 @@
                             <summary id="what-is" class="summary-heading">What is the Pomodoro Technique?</summary>
                             <div class="pomodoro-info">
                                 The <a id="pomodoro-wiki" href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
-                                    title="Wikipedia" target="noopener">Pomodoro
-                                    Technique</a> is a method to manage time through work and break
-                                intervals. Traditionally, the timer goes through four intervals of work
-                                (25
-                                minutes) and breaks (5 minutes) with the last break being longer,
-                                usually around
-                                15 minutes. One pomodoro equals one complete session. After four
-                                pomodoros are
-                                complete the long break starts, and then the timer restarts to the
-                                beginning
-                                with no pomodoros complete. Its purpose is to build discipline by
-                                enforcing
-                                sessions of work with no distractions and breaks to let the mind relax
-                                for a
-                                short amount of time before continuing with work.
+                                    title="Wikipedia" target="noopener">
+                                    Pomodoro Technique</a> is a method to manage work time through work and break
+                                intervals. Traditionally, the timer goes through four sessions of work (25 minutes),
+                                three short breaks (5 minutes), and one long break (15 minutes). One pomodoro equals one
+                                complete work session. After a work session a short break starts, and after four
+                                pomodoros are complete, a long break starts. After that, the timer restarts fresh to the
+                                beginning with no pomodoros complete, restarting the cycle. Its purpose is to build
+                                discipline by enforcing sessions of work with no distractions and breaks to relax before
+                                continuing with work.
                             </div>
                         </details>
                         <hr>
@@ -89,58 +89,30 @@
                             <div id="keyboard-controls">
                                 <ul id="keyboard-controls-list">
                                     <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">SPACE</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Play/Pause</span>
-                                        </span>
+                                        <div class="keyboard-controls-list-section">
+                                            <strong>Controls</strong>
+                                        </div>
+                                        <ul>
+                                            <li>SPACE - Play/Pause</li>
+                                            <li>ALT + S - Stop (current time reset)</li>
+                                            <li>ALT + R - Reset (current time & pomodoros reset)</li>
+                                        </ul>
                                     </li>
                                     <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">ALT + S</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Stop (current time reset)</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">ALT + R</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Reset (current time & pomodoros
-                                                reset)</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">ALT + P</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Session</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">ALT + B</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Break</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="keyboard-subsection-heading keyboard-action-dash">- </span>
-                                        <span>
-                                            <span class="keyboard-action-name">ALT + L</span>
-                                            <span class="keyboard-action-dash"> - </span>
-                                            <span class="keyboard-action-description">Respite</span>
-                                        </span>
+                                        <div class="keyboard-controls-list-section">
+                                            <strong class="keyboard-controls-list-section">Time Options</strong>
+                                        </div>
+                                        <ul>
+                                            <li>ALT + P - Session</li>
+                                            <li>ALT + B - Break</li>
+                                            <li>ALT + L - Respite</li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </div>
                         </details>
                         <hr>
+                        <!-- Info -->
                         <div id="info-wrapper">
                             <h2 class="modal-section-heading">Info:</h2>
                             <span id="made-by">Made by Alex Carbajal (<a id="profile-link"
@@ -148,7 +120,7 @@
                                     target="noopener">alex-sir</a>)</span>
                             <div id="open-source">
                                 <span>This project is
-                                    <a class="external-link" href="https://github.com/alex-sir/pomodoro"
+                                    <a class="external-link" href="https://github.com/alex-sir/pomotimer"
                                         target="noopener" title="GitHub Repo">
                                         open source
                                     </a>
@@ -160,11 +132,13 @@
                     </div>
                 </div>
             </div>
+            <!-- Title -->
             <h1 class="zen-element dark-title">Pomotimer</h1>
+            <!-- Settings Icon -->
             <button id="modal-btn-settings" class="settings" aria-label="Settings" title="Settings">
                 <i class="la la-cog zen-element dark-color"></i>
             </button>
-            <!-- Settings modal -->
+            <!-- Settings Modal -->
             <div id="simple-modal-settings" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -172,7 +146,7 @@
                         <h2>Settings</h2>
                     </div>
                     <div class="modal-body">
-                        <!-- Prebuilt themes -->
+                        <!-- Pre-built Themes -->
                         <div class="themes">
                             <h2 class="modal-section-heading">Themes:</h2>
                             <p class="theme dark" data-color="dark" tabindex="0">Dark</p>
@@ -180,6 +154,7 @@
                             <p class="theme arctic" data-color="arctic" tabindex="0">Arctic</p>
                             <p class="theme blossom" data-color="blossom" tabindex="0">Blossom</p>
                         </div>
+                        <!-- Warning Modal -->
                         <div id="theme-warning-background-prebuilt" class="theme-warning-background warning-background">
                             <div class="theme-warning warning">
                                 <div class="theme-warning-dialogue warning-dialogue">
@@ -191,7 +166,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Custom theme -->
+                        <!-- Custom Theme -->
                         <div class="themes-custom">
                             <h3 class="subsection-heading"><span>- </span>Custom:</h3>
                             <input type="text" id="color-picker-body">
@@ -262,7 +237,8 @@
                                     <i class="la la-check-circle confirm-time-change-break confirm-time-change"></i>
                                 </div>
                                 <div class="time-input-wrapper">
-                                    <label for="long-break-input" class="line-through-long-break opacity-long-break">
+                                    <label for="long-break-input" id="long-break-input-label"
+                                        class="line-through-long-break opacity-long-break">
                                         Respite
                                     </label>
                                     <br>
@@ -272,6 +248,9 @@
                                     <i
                                         class="la la-check-circle confirm-time-change-long-break confirm-time-change opacity-long-break pointer-events-long-break"></i>
                                 </div>
+                            </div>
+                            <div>
+                                <button type="button" class="time-inputs-reset">Reset</button>
                             </div>
                         </div>
                         <hr>
@@ -306,6 +285,7 @@
                                 <button type="button" id="log-storage" class="btn-storage">Log</button>
                             </div>
                         </div>
+                        <!-- Storage Warning -->
                         <div class="storage-warning-background warning-background">
                             <div class="storage-warning warning">
                                 <div class="storage-warning-dialogue warning-dialogue">
@@ -318,6 +298,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Storage Log -->
                         <div class="storage-log-wrapper">
                             <div class="storage-log-content modal-content">
                                 <div class="modal-header">
@@ -336,6 +317,7 @@
     </header>
     <div class="container">
         <main>
+            <!-- Session -->
             <div class="session-title time-option">
                 <h3 class="time-option dark-active" title="ALT + P" tabindex="0">Session</h3>
             </div>
@@ -344,6 +326,7 @@
                     <p id="session-minutes" class="time-option">25</p>
                 </div>
             </div>
+            <!-- Break -->
             <div class="break-title time-option">
                 <h3 title="ALT + B" class="time-option" tabindex="0">Break</h3>
             </div>
@@ -352,6 +335,7 @@
                     <p id="break-minutes" class="time-option">5</p>
                 </div>
             </div>
+            <!-- Respite -->
             <div class="long-break-title time-option">
                 <h3 title="ALT + L" class="time-option" tabindex="0">Respite</h3>
             </div>
@@ -360,9 +344,11 @@
                     <p id="long-break-minutes" class="time-option">15</p>
                 </div>
             </div>
+            <!-- Timer Display -->
             <div class="timer-display">
                 <p id="timer">25:00</p>
             </div>
+            <!-- Timer Controls -->
             <div class="timer-controls">
                 <button id="play-pause" class="btn-time" title="Play/Pause (SPACE)" aria-label="Play/Pause"><i
                         class="la la-play dark-color"></i></button>
@@ -371,6 +357,7 @@
                 <button id="reset" class="btn-time" title="Reset (ALT + R)" aria-label="Reset"><i
                         class="la la-rotate-left dark-color"></i></button>
             </div>
+            <!-- Pomodoros -->
             <div class="pomodoro-container">
                 <div>
                     <h3 id="pomodoros-complete">Pomodoros Complete</h3>
