@@ -58,6 +58,7 @@ const notificationIcon = 'assets/favicon/android-chrome-192x192.png';
 const notificationTime = 5000;
 // Sound
 let notificationSound = new Audio('assets/sound/blithe.mp3');
+const notificationSoundRange = document.querySelector('#notification-sound-volume');
 const optionsNotificationSound = document.querySelector('#notification-sound-select');
 const playNotificationSound = document.querySelector('.test-sound')
 // Zen Mode
@@ -136,6 +137,7 @@ function setStorage() {
         tabTitleTime.checked = true;
         localStorage.setItem('breakLongBreakLink', JSON.stringify(true));
         breakLongBreakLink.checked = true;
+        // Zen Mode
         localStorage.setItem('zenMode', JSON.stringify(true));
         zenModeToggle.checked = true;
         localStorage.setItem('zenModeOpacityRangeValue', JSON.stringify('0.6'));
@@ -143,6 +145,7 @@ function setStorage() {
         zenModeOpacity = zenModeOpacityRange.value;
         // Sound
         localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
+        localStorage.setItem('notificationSoundVolume', JSON.stringify(notificationSoundRange.value));
     }
 }
 
@@ -224,6 +227,8 @@ function loadStorage() {
     } else {
         notificationSound = new Audio(`assets/sound/${optionsNotificationSound.value}.mp3`);
     }
+    notificationSoundRange.value = JSON.parse(localStorage.getItem('notificationSoundVolume'));
+    notificationSound.volume = notificationSoundRange.value;
     // Timer font
     checkTimerFont(sessionSeconds, timer);
 }
@@ -1550,23 +1555,30 @@ function toggleFullScreen(fullscreen) {
 }
 
 /**
- * Switch notification sound and test with the play button.
- * @param   {HTMLElement} options 
- * @param   {HTMLElement} play 
+ * Switch notification sound, test with the play button, and change volume.
+ * @param   {HTMLElement} options     - List of all notification sounds
+ * @param   {HTMLElement} play        - Test the sound
+ * @param   {HTMLElement} volumeRange - Range slider for notification sound volume
  * @returns {undefined}
  */
-function selectNotificationSound(options, play) {
+function selectNotificationSound(options, play, volumeRange) {
     options.addEventListener('change', e => {
         if (e.target.value === 'none') {
             notificationSound = new Audio();
         } else {
             notificationSound = new Audio(`assets/sound/${e.target.value}.mp3`);
         }
+        notificationSound.volume = volumeRange.value;
         localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));
     });
 
     play.addEventListener('click', () => {
         notificationSound.play();
+    });
+
+    volumeRange.addEventListener('change', () => {
+        notificationSound.volume = volumeRange.value;
+        localStorage.setItem('notificationSoundVolume', JSON.stringify(volumeRange.value));
     });
 }
 
@@ -1608,7 +1620,7 @@ function mainTimer() {
     toggleFullScreen(fullscreen);
     changeZenModeOpacityValue(zenModeOpacityRange);
     // Sound
-    selectNotificationSound(optionsNotificationSound, playNotificationSound);
+    selectNotificationSound(optionsNotificationSound, playNotificationSound, notificationSoundRange);
 }
 
 window.onload = mainTimer();

@@ -5,7 +5,7 @@
 .notification-sound-wrapper {
     display: flex;
     flex-direction: row;
-    margin-bottom: 17.5px;
+    margin-bottom: 10px;
 }
 
 #notification-sound-select,
@@ -33,6 +33,22 @@
     transform: scale(0.9);
 }
 
+/* Notification Sound Range */
+.notification-sound-range {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.notification-sound-range>label {
+    margin-left: 15px;
+    font-size: 1.25rem;
+}
+
+#notification-sound-volume {
+    margin: 2px 0 0 10px;
+}
+
 @media only screen and (max-width: 960px) {
     #notification-sound-select {
         width: 100%;
@@ -41,5 +57,20 @@
 
     .test-sound {
         margin-left: 5px;
+    }
+
+    /* Notification Sound Range */
+    .notification-sound-range {
+        flex-direction: column;
+        align-items: unset;
+        margin-bottom: 0;
+    }
+
+    .notification-sound-range>label {
+        margin-left: 0;
+    }
+
+    #notification-sound-volume {
+        margin: 10px 0;
     }
 }
