@@ -25,7 +25,7 @@ const vendorScripts = [
     'node_modules/spectrum-colorpicker/spectrum.js',
     'client/js/vendor/rgb-hex.js',
     'node_modules/screenfull/dist/screenfull.js',
-    'node_modules/hex-to-rgba/build/index.js'
+    'client/js/vendor/hex-to-rgba.js'
 ];
 const stylesheets = [
     'client/assets/fonts/inconsolata/stylesheet.css',
