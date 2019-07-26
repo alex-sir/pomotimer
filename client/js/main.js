@@ -1,3 +1,8 @@
+/**
+ * Main functionality for the timer.
+ * All time options, controls, and preferences.
+ */
+
 // Timer
 let countdown;
 const timer = document.querySelector('#timer');
@@ -307,6 +312,12 @@ function logStorage() {
 function togglePlayPause(icon) {
     icon.classList.toggle('la-play');
     icon.classList.toggle('la-pause');
+    if (zenModeToggle.checked) {
+        playPause.disabled = true;
+        setTimeout(() => {
+            playPause.disabled = false;
+        }, transitionTime * 1000);
+    }
 }
 
 /**
@@ -752,7 +763,8 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
     }
     document.addEventListener('keydown', e => {
         if (e.keyCode === 32 &&
-            (document.activeElement === body)) {
+            (document.activeElement === body) &&
+            playPause.disabled === false) {
             if (e.repeat) {
                 return;
             }
@@ -875,7 +887,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
 
     // Session time select
     document.addEventListener('keydown', e => {
-        if ((e.altKey && e.keyCode === 80) ||
+        if ((e.keyCode === 80) ||
             (document.activeElement === sessionTitle && e.keyCode === 32) ||
             (document.activeElement === sessionTitle && e.keyCode === 13)) {
             if (e.repeat) {
@@ -888,7 +900,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
 
     // Break time select
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 66 ||
+        if (e.keyCode === 66 ||
             (document.activeElement === breakTitle && e.keyCode === 32) ||
             (document.activeElement === breakTitle && e.keyCode === 13)) {
             if (e.repeat) {
@@ -901,7 +913,7 @@ function sessionBreakSelect(sessionTime, breakTime, longBreakTime) {
 
     // Long break time select
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 76 ||
+        if (e.keyCode === 76 ||
             (document.activeElement === longBreakTitle && e.keyCode === 32) ||
             (document.activeElement === longBreakTitle && e.keyCode === 13)) {
             if (e.repeat) {
@@ -1184,7 +1196,8 @@ function stopTimer(stop, seconds) {
         checkTimerFont(sessionSeconds, timer);
     }
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 83) {
+        if (e.keyCode === 83 &&
+            stop.disabled === false) {
             if (e.repeat) {
                 return;
             }
@@ -1293,7 +1306,8 @@ function resetTimer(reset) {
         setStorageTime();
     }
     document.addEventListener('keydown', e => {
-        if (e.altKey && e.keyCode === 82) {
+        if (e.keyCode === 82 &&
+            reset.disabled === false) {
             if (e.repeat) return;
             runResetTimer();
         }

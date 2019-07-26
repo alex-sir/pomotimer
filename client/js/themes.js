@@ -1,3 +1,8 @@
+/**
+ * Functionality for applying pre-built & custom themes.
+ * Includes color pickers and warning dialogues.
+ */
+
 // Body
 const body = document.querySelector('body');
 // Theme

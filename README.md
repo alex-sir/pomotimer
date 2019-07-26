@@ -35,12 +35,12 @@ Change time length in the settings.
 
 * Controls
   * SPACE - Play/Pause
-  * ALT + S - Stop (current time reset)
-  * ALT + R - Reset (current time & pomodoros reset)
+  * S - Stop (current time reset)
+  * R - Reset (current time & pomodoros reset)
 * Time Options
-  * ALT + P - Session
-  * ALT + B - Break
-  * ALT + L - Respite
+  * P - Session
+  * B - Break
+  * L - Respite
 
 ## Setting up for Development
 

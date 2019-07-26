@@ -290,13 +290,13 @@ hr {
 /* Desktop */
 @media only screen and (min-width: 600px) {
     main {
-        width: 50vw;
+        width: 750px;
         gap: 1.5%;
     }
 
     nav {
         /* width: 40vw; */
-        max-width: 595px;
+        width: 590px;
         margin: 0 auto;
     }
 
@@ -331,24 +331,6 @@ hr {
 
     .timer-controls {
         align-items: center;
-    }
-}
-
-/* Tablet */
-@media only screen and (min-width: 600px) and (max-width: 1400px) {
-    main {
-        width: 70vw;
-    }
-}
-
-/* Small tablet, large phone */
-@media only screen and (min-width: 600px) and (max-width: 1100px) {
-    main {
-        width: 75vw;
-    }
-
-    nav {
-        width: 45vw;
     }
 }
 
@@ -387,29 +369,18 @@ hr {
     }
 }
 
-/* Tablet */
-@media only screen and (min-width: 700px) and (max-width: 950px) {
-    main {
-        width: 95vw;
-    }
-
-    nav {
-        width: 65vw;
-    }
-}
-
 /*  Landscape phone */
 @media only screen and (min-width: 700px) and (max-width: 900px) and (max-height: 420px) {
+    nav {
+        width: 625px;
+    }
+
     .container {
         height: 50px;
     }
 
     .timer-controls {
         margin-bottom: -10px;
-    }
-
-    main {
-        width: 90vw;
     }
 
     .session-title,
@@ -422,11 +393,18 @@ hr {
 
     .minutes>p {
         font-size: 1.813rem;
+        padding-top: 3px;
     }
 
     .pomodoros {
         display: inline-flex;
         margin-top: 20px;
+    }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 750px) {
+    nav {
+        width: 575px;
     }
 }
 

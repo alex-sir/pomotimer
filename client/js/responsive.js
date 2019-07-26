@@ -1,3 +1,7 @@
+/**
+ * Keeps timer responsive on high time quantities for small screens.
+ */
+
 // Media queries for small width screens
 const timerFontMediaQueryMin = window.matchMedia('(max-width: 420px)');
 const timerFontMediaQueryMax = window.matchMedia('(max-width: 675px)');

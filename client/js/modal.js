@@ -1,3 +1,8 @@
+/**
+ * Functionality for about and settings modals.
+ * No generic modals are in use, but there might be in the future.
+ */
+
 // Settings
 const modalSettings = document.querySelector('#simple-modal-settings');
 const modalBtnSettings = document.querySelector('#modal-btn-settings');
