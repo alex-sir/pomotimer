@@ -8,7 +8,7 @@
 
 # What Is the Pomodoro Technique
 
-The [*Pomodoro Technique*](https://en.wikipedia.org/wiki/Pomodoro_Technique) is a method to manage work time through work and break intervals. Traditionally, the timer goes through four sessions of work (25 minutes), three short breaks (5 minutes), and one long break (15 minutes). One pomodoro equals one complete work session. After a work session a short break starts, and after four pomodoros are complete, a long break starts. After that, the timer restarts fresh to the beginning with no pomodoros complete, restarting the cycle. Its purpose is to build discipline by
+The [*Pomodoro Technique*](https://en.wikipedia.org/wiki/Pomodoro_Technique) is a method to manage work time through work and break intervals. It was developed by *Francesco Cirillo* in the 1980s. Traditionally, the timer goes through four sessions of work (25 minutes), three short breaks (5 minutes), and one long break (15 minutes). One pomodoro equals one complete work session. After a work session a short break starts, and after four pomodoros are complete, a long break starts. After that, the timer restarts fresh to the beginning with no pomodoros complete, restarting the cycle. Its purpose is to build discipline by
 enforcing sessions of work with no distractions and breaks to relax before continuing with work.
 
 ## How to Use
@@ -30,6 +30,15 @@ enforcing sessions of work with no distractions and breaks to relax before conti
 ### Time Length
 
 Change time length in the settings.
+
+### Step-by-Step Guide
+
+1. Begin your work session. Focus 100% on the task, try not to get distracted.
+2. You finished you work session. One pomodoro complete. Relax on your short break.
+3. Short break over. Repeat steps 1-2 until you are on your fourth work session.
+4. You are now on your last pomodoro before the long break. Work hard and push through.
+5. Time for the long break. If studying, go over what you learned in your head. Take a walk or sit down, whatever helps you.
+6. Repeat the process at step 1 until your done with working.
 
 ### Keyboard Shortcuts
 
@@ -62,7 +71,7 @@ This is where all the application development files reside. All these files are 
 
 ### Ready to Deploy
 
-Before adding and committing with git, run `npx gulp production` to generate the correct files for a production build. It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace. `npx gulp` doesn't do this to make debugging in the browser easier, although it isn't necessary if for some reason something breaks.
+Before adding and committing with git, run `npx gulp production` to generate the correct files for a production build. It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace and save space in the browser. `npx gulp` doesn't do this to make debugging in the browser easier, although it isn't necessary if for some reason something breaks.
 
 ## Gulp Tasks
 
