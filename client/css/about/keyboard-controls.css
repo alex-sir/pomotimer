@@ -17,10 +17,6 @@ em {
     font-style: italic;
 }
 
-#keyboard-controls-summary {
-    cursor: pointer;
-}
-
 #keyboard-controls-list {
     margin-left: 19px;
     margin-bottom: 10px;

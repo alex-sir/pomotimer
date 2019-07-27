@@ -40,6 +40,10 @@
     justify-self: flex-start;
 }
 
+.summary-heading {
+    cursor: pointer;
+}
+
 .modal-section-heading {
     display: inline-block;
 }

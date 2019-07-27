@@ -1,0 +1,9 @@
+ol {
+    list-style: decimal;
+    font-size: 1.2rem;
+    margin-left: 32px;
+}
+
+ol > li {
+    margin-bottom: 5px;
+}
