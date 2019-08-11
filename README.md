@@ -34,11 +34,11 @@ Change time length in the settings.
 ### Step-by-Step Guide
 
 1. Begin your work session. Focus 100% on the task, try not to get distracted.
-2. You finished you work session. One pomodoro complete. Relax on your short break.
+2. You finished your work session. One pomodoro complete. Relax on your short break.
 3. Short break over. Repeat steps 1-2 until you are on your fourth work session.
 4. You are now on your last pomodoro before the long break. Work hard and push through.
-5. Time for the long break. If studying, go over what you learned in your head. Take a walk or sit down, whatever helps you.
-6. Repeat the process at step 1 until your done with working.
+5. Last pomodoro complete, it's time for the long break. If studying, go over what you learned in your head. Take a walk or sit down, whatever helps you.
+6. Repeat the process at step 1 until you are done with working.
 
 ### Keyboard Shortcuts
 
