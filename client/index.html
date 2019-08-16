@@ -35,14 +35,14 @@
                             <summary id="how-to-use" class="summary-heading">How To Use</summary>
                             <img class="pomodoro-guide" src="assets/img/pomodoro-guide.png" alt="Pomodoro Guide">
                             <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time
-                                Options:</h2>
+                                Options</h2>
                             <ol class="how-to-options">
                                 <li>Session - Work time. One finished session equals one complete pomodoro.
                                 </li>
                                 <li>Break - Short break before continuing with another session.</li>
                                 <li>Respite - Long break after four sessions (pomodoros) are complete.</li>
                             </ol>
-                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls:</h2>
+                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Controls</h2>
                             <ol class="how-to-options">
                                 <li>Play/Pause - Play or pause the timer.</li>
                                 <li>
@@ -58,7 +58,7 @@
                                     Reset - Reset the timer, including all pomodoros.
                                 </li>
                             </ol>
-                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time Length:
+                            <h2 class="modal-section-heading how-to-heading modal-section-heading-bold">Time Length
                             </h2>
                             <div class="how-to-info">
                                 Change time length in the settings.
@@ -139,7 +139,7 @@
                         <hr>
                         <!-- Info -->
                         <div id="info-wrapper">
-                            <h2 class="modal-section-heading">Info:</h2>
+                            <h2 class="modal-section-heading">Info</h2>
                             <span id="made-by">Made by Alex Carbajal (<a id="profile-link"
                                     href="https://github.com/alex-sir" title="GitHub Profile"
                                     target="noopener">alex-sir</a>)</span>
@@ -151,8 +151,7 @@
                                     </a>
                                 </span>
                             </div>
-                            <span id="contact-me">Contact Me: <a
-                                    href="mailto:alexcarbajal710@gmail.com">Email</a></span>
+                            <span id="contact-me">Contact Me <a href="mailto:alexcarbajal710@gmail.com">Email</a></span>
                         </div>
                     </div>
                 </div>
@@ -173,7 +172,7 @@
                     <div class="modal-body">
                         <!-- Pre-built Themes -->
                         <div class="themes">
-                            <h2 class="modal-section-heading">Themes:</h2>
+                            <h2 class="modal-section-heading">Themes</h2>
                             <div class="themes-list">
                                 <p class="theme dark" data-color="dark" tabindex="0">Dark</p>
                                 <p class="theme light" data-color="light" tabindex="0">Light</p>
@@ -195,10 +194,14 @@
                         </div>
                         <!-- Custom Theme -->
                         <div class="themes-custom">
-                            <h3 class="subsection-heading">Custom:</h3>
-                            <input type="text" id="color-picker-body">
-                            <input type="text" id="color-picker-content">
-                            <button type="button" id="apply-custom-theme">Apply</button>
+                            <div class="themes-custom-heading">
+                                <h3 class="subsection-heading">Custom</h3>
+                            </div>
+                            <div class="themes-custom-selection">
+                                <input type="text" id="color-picker-body">
+                                <input type="text" id="color-picker-content">
+                                <button type="button" id="apply-custom-theme">Apply</button>
+                            </div>
                         </div>
                         <div id="theme-warning-background-custom" class="theme-warning-background warning-background">
                             <div class="theme-warning warning">
@@ -215,7 +218,7 @@
                         <!-- Preferences -->
                         <div id="preferences">
                             <div class="preferences-option">
-                                <h2 class="modal-section-heading">Preferences:</h2>
+                                <h2 class="modal-section-heading">Preferences</h2>
                             </div>
                             <div class="preferences-option">
                                 <input type="checkbox" id="auto-start" class=" preference preference-option-checkbox"
@@ -251,7 +254,7 @@
                         <hr>
                         <!-- Time Input -->
                         <div id="time-inputs">
-                            <h2 class="modal-section-heading">Time:</h2>
+                            <h2 class="modal-section-heading">Time</h2>
                             <div id="time-inputs-wrapper">
                                 <div class="time-input-wrapper">
                                     <label for="session-input">Session</label><br>
@@ -283,7 +286,7 @@
                         <hr>
                         <!-- Sound -->
                         <div class="sound">
-                            <h2 class="modal-section-heading sound-heading">Notification Sound:</h2>
+                            <h2 class="modal-section-heading sound-heading">Notification Sound</h2>
                             <!-- Notification Sound Select -->
                             <div class="notification-sound-wrapper">
                                 <select id="notification-sound-select">
@@ -299,20 +302,25 @@
                             </div>
                             <!-- Notification Sound Range -->
                             <div class="notification-sound-range">
-                                <label for="notification-sound-volume">Volume:</label>
-                                <input type="range" id="notification-sound-volume" min="0" max="1" value="1" step="0.1">
+                                <div class="notification-sound-label">
+                                    <label class="range-label" for="notification-sound-volume">Volume</label>
+                                </div>
+                                <div class="notification-sound-volume-wrapper">
+                                    <input type="range" id="notification-sound-volume" min="0" max="1" value="1"
+                                        step="0.1">
+                                </div>
                             </div>
                         </div>
                         <hr>
                         <!-- Zen Mode Range -->
                         <div class="zen-mode-range">
-                            <h2 class="modal-section-heading">Zen Mode Opacity:</h2>
+                            <h2 class="modal-section-heading">Zen Mode Opacity</h2>
                             <input type="range" id="zen-mode-opacity" min="0.4" max="0.8" value="0.6" step="0.1">
                         </div>
                         <hr>
                         <!-- Storage -->
                         <div id="storage">
-                            <h2 class="modal-section-heading">Storage:</h2>
+                            <h2 class="modal-section-heading">Storage</h2>
                             <div class="btn-storage-container">
                                 <button type="button" id="clear-storage" class="btn-storage">Clear</button>
                                 <button type="button" id="log-storage" class="btn-storage">Log</button>

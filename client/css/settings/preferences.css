@@ -14,8 +14,12 @@
     margin-left: 15px;
 }
 
-.preferences-option:not(:first-child) {
+.preferences-option:not(:first-child):not(:last-child) {
     margin-bottom: 10px;
+}
+
+.preferences-option:last-child {
+    margin-bottom: 5px;
 }
 
 @media only screen and (max-width: 960px) {

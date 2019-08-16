@@ -71,7 +71,7 @@ This is where all the application development files reside. All these files are 
 
 ### Ready to Deploy
 
-Before adding and committing with git, run `npx gulp production` to generate the correct files for a production build. It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace and save space in the browser. `npx gulp` doesn't do this to make debugging in the browser easier, although it isn't necessary if for some reason something breaks.
+Before adding and committing with git, run `npx gulp production` to generate the correct files for a production build. It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace and save space in the browser.
 
 ## Gulp Tasks
 

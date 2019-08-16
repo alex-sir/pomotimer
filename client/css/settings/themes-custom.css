@@ -1,25 +1,25 @@
 .themes-custom {
-    display: inline-flex;
+    display: flex;
     width: 100%;
-    flex-flow: row nowrap;
-    align-items: center;
-    margin: 15px 0 10px 0;
+    flex-flow: column wrap;
+    /* align-items: center; */
+    margin: 10px 0 10px 15px;
 }
 
 .subsection-heading {
     font-size: 1.25em;
-    margin-left: 15px;
-    margin-right: 13px;
+    margin-bottom: 7px;
 }
 
-.subsection-heading>span {
-    display: initial;
+.themes-custom-selection {
+    display: flex;
+    margin-bottom: 5px;
 }
 
 #apply-custom-theme {
-    font-size: 1.25em;
-    height: 100%;
-    width: 89px;
+    font-size: 1em;
+    height: 30px;
+    width: 100px;
     background-color: #202020;
     color: #e8e8e8;
     padding: 4px;
@@ -27,17 +27,17 @@
 
 @media only screen and (max-width: 960px) {
     .themes-custom {
-        display: flex;
-        flex-flow: column wrap;
         align-items: unset;
+        margin: 15px 0 10px 0;
     }
 
     .subsection-heading {
-        margin: 0;
+        margin-bottom: 0;
     }
 
-    .subsection-heading>span {
-        display: none;
+
+    .themes-custom-selection {
+        flex-flow: column wrap;
     }
 
     #apply-custom-theme {

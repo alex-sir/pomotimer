@@ -14,7 +14,7 @@
 }
 
 #notification-sound-select {
-    width: 15%;
+    width: 105px;
     font-size: 1.1rem;
     background-color: var(--light-color);
     border: 1px solid var(--dark-color);
@@ -36,17 +36,17 @@
 /* Notification Sound Range */
 .notification-sound-range {
     display: flex;
-    align-items: center;
+    flex-flow: column wrap;
     margin-bottom: 10px;
 }
 
-.notification-sound-range>label {
+.range-label {
     margin-left: 15px;
     font-size: 1.25rem;
 }
 
 #notification-sound-volume {
-    margin: 2px 0 0 10px;
+    margin: 2px 0 5px 15px;
 }
 
 @media only screen and (max-width: 960px) {
@@ -66,7 +66,7 @@
         margin-bottom: 0;
     }
 
-    .notification-sound-range>label {
+    .range-label {
         margin-left: 0;
     }
 
