@@ -1,0 +1,124 @@
+:root {
+    /* Colors */
+    --dark-color: #202020;
+    --light-color: #e8e8e8;
+    --white-color: #e7ecef;
+    --cyan-color: #04acac;
+    --pink-color: #ffb0aa;
+    --brown-color: #aa4139;
+    /* Pomodoros */
+    --pomodoro-size: 100% 0.094rem;
+    --pomodoro-position: left bottom;
+}
+
+/* Dark */
+.dark {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+.dark-color {
+    color: var(--light-color);
+}
+
+.dark-background {
+    background-color: var(--light-color);
+}
+
+.dark-border {
+    border-color: var(--light-color);
+}
+
+.dark-active {
+    background: linear-gradient(to right, var(--light-color), var(--light-color)) no-repeat;
+    background-size: var(--pomodoro-size);
+    background-position: var(--pomodoro-position);
+}
+
+.dark-title {
+    color: var(--light-color);
+}
+
+/* Light */
+.light {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
+.light-color {
+    color: var(--dark-color);
+}
+
+.light-background {
+    background-color: var(--dark-color);
+}
+
+.light-border {
+    border-color: var(--dark-color);
+}
+
+.light-active {
+    background: linear-gradient(to right, var(--dark-color), var(--dark-color)) no-repeat;
+    background-size: var(--pomodoro-size);
+    background-position: var(--pomodoro-position);
+}
+
+.light-title {
+    color: var(--dark-color);
+}
+
+/* Arctic */
+.arctic {
+    background-color: var(--white-color);
+    color: var(--cyan-color);
+}
+
+.arctic-color {
+    color: var(--cyan-color);
+}
+
+.arctic-background {
+    background-color: var(--cyan-color);
+}
+
+.arctic-border {
+    border-color: var(--cyan-color);
+}
+
+.arctic-active {
+    background: linear-gradient(to right, var(--cyan-color), var(--cyan-color)) no-repeat;
+    background-size: var(--pomodoro-size);
+    background-position: var(--pomodoro-position);
+}
+
+.arctic-title {
+    color: var(--cyan-color);
+}
+
+/* Blossom */
+.blossom {
+    background-color: var(--pink-color);
+    color: var(--brown-color);
+}
+
+.blossom-color {
+    color: var(--brown-color);
+}
+
+.blossom-background {
+    background-color: var(--brown-color);
+}
+
+.blossom-border {
+    border-color: var(--brown-color);
+}
+
+.blossom-active {
+    background: linear-gradient(to right, var(--brown-color), var(--brown-color)) no-repeat;
+    background-size: var(--pomodoro-size);
+    background-position: var(--pomodoro-position);
+}
+
+.blossom-title {
+    color: var(--brown-color);
+}

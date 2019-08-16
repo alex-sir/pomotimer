@@ -1,124 +1,62 @@
-:root {
-    /* Colors */
-    --dark-color: #202020;
-    --light-color: #e8e8e8;
-    --white-color: #e7ecef;
-    --cyan-color: #04acac;
-    --pink-color: #ffb0aa;
-    --brown-color: #aa4139;
-    /* Pomodoros */
-    --pomodoro-size: 100% 0.094rem;
-    --pomodoro-position: left bottom;
+.themes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-/* Dark */
-.dark {
-    background-color: var(--dark-color);
-    color: var(--light-color);
+.themes-list {
+    display: inline-flex;
 }
 
-.dark-color {
-    color: var(--light-color);
+.theme {
+    padding: 5px;
+    font-weight: 700;
+    text-align: center;
+    width: 100px;
+    border: 1px solid #202020;
+    margin-right: 30px;
 }
 
-.dark-background {
-    background-color: var(--light-color);
+.theme:first-of-type {
+    margin-left: 15px;
 }
 
-.dark-border {
-    border-color: var(--light-color);
+.theme:hover {
+    cursor: pointer;
 }
 
-.dark-active {
-    background: linear-gradient(to right, var(--light-color), var(--light-color)) no-repeat;
-    background-size: var(--pomodoro-size);
-    background-position: var(--pomodoro-position);
+/* Tablet/landscape phone modal */
+@media only screen and (max-width: 960px) {
+    .themes {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        flex-flow: column wrap;
+    }
+
+    .themes-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .theme {
+        width: 100%;
+        border: 1px solid #202020;
+    }
+
+    .theme:not(:last-of-type) {
+        margin-bottom: 10px;
+    }
+
+    .theme:first-of-type {
+        margin-left: 0;
+    }
 }
 
-.dark-title {
-    color: var(--light-color);
-}
-
-/* Light */
-.light {
-    background-color: var(--light-color);
-    color: var(--dark-color);
-}
-
-.light-color {
-    color: var(--dark-color);
-}
-
-.light-background {
-    background-color: var(--dark-color);
-}
-
-.light-border {
-    border-color: var(--dark-color);
-}
-
-.light-active {
-    background: linear-gradient(to right, var(--dark-color), var(--dark-color)) no-repeat;
-    background-size: var(--pomodoro-size);
-    background-position: var(--pomodoro-position);
-}
-
-.light-title {
-    color: var(--dark-color);
-}
-
-/* Arctic */
-.arctic {
-    background-color: var(--white-color);
-    color: var(--cyan-color);
-}
-
-.arctic-color {
-    color: var(--cyan-color);
-}
-
-.arctic-background {
-    background-color: var(--cyan-color);
-}
-
-.arctic-border {
-    border-color: var(--cyan-color);
-}
-
-.arctic-active {
-    background: linear-gradient(to right, var(--cyan-color), var(--cyan-color)) no-repeat;
-    background-size: var(--pomodoro-size);
-    background-position: var(--pomodoro-position);
-}
-
-.arctic-title {
-    color: var(--cyan-color);
-}
-
-/* Blossom */
-.blossom {
-    background-color: var(--pink-color);
-    color: var(--brown-color);
-}
-
-.blossom-color {
-    color: var(--brown-color);
-}
-
-.blossom-background {
-    background-color: var(--brown-color);
-}
-
-.blossom-border {
-    border-color: var(--brown-color);
-}
-
-.blossom-active {
-    background: linear-gradient(to right, var(--brown-color), var(--brown-color)) no-repeat;
-    background-size: var(--pomodoro-size);
-    background-position: var(--pomodoro-position);
-}
-
-.blossom-title {
-    color: var(--brown-color);
+@media only screen and (max-width: 600px),
+only screen and (max-height: 420px) {
+    .modal-section-heading {
+        font-size: 1.4rem;
+    }
 }

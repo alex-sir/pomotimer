@@ -2,7 +2,8 @@
     display: inline-flex;
     width: 100%;
     flex-flow: row nowrap;
-    margin: 10px 0;
+    align-items: center;
+    margin: 15px 0 10px 0;
 }
 
 .subsection-heading {
@@ -28,6 +29,7 @@
     .themes-custom {
         display: flex;
         flex-flow: column wrap;
+        align-items: unset;
     }
 
     .subsection-heading {

@@ -59,7 +59,7 @@ Install all the packages by executing `npm install`.
 
 ### Server
 
-Basic Express.js server that serves up static files. Run the server with nodemon by executing `npx nodemon app.js`.
+Basic Express.js server that serves up static files. Run the server with nodemon by executing `npm run server`.
 
 ### Scripts
 

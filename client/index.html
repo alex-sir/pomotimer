@@ -93,7 +93,8 @@
                             <div>
                                 <ol>
                                     <li>Begin your work session. Focus 100% on the task, try not to get distracted.</li>
-                                    <li>You finished your work session. One pomodoro complete. Relax on your short break.
+                                    <li>You finished your work session. One pomodoro complete. Relax on your short
+                                        break.
                                     </li>
                                     <li>Short break over. Repeat steps 1-2 until you are on your fourth work session.
                                     </li>
@@ -173,10 +174,12 @@
                         <!-- Pre-built Themes -->
                         <div class="themes">
                             <h2 class="modal-section-heading">Themes:</h2>
-                            <p class="theme dark" data-color="dark" tabindex="0">Dark</p>
-                            <p class="theme light" data-color="light" tabindex="0">Light</p>
-                            <p class="theme arctic" data-color="arctic" tabindex="0">Arctic</p>
-                            <p class="theme blossom" data-color="blossom" tabindex="0">Blossom</p>
+                            <div class="themes-list">
+                                <p class="theme dark" data-color="dark" tabindex="0">Dark</p>
+                                <p class="theme light" data-color="light" tabindex="0">Light</p>
+                                <p class="theme arctic" data-color="arctic" tabindex="0">Arctic</p>
+                                <p class="theme blossom" data-color="blossom" tabindex="0">Blossom</p>
+                            </div>
                         </div>
                         <!-- Warning Modal -->
                         <div id="theme-warning-background-prebuilt" class="theme-warning-background warning-background">
@@ -192,7 +195,7 @@
                         </div>
                         <!-- Custom Theme -->
                         <div class="themes-custom">
-                            <h3 class="subsection-heading"><span>- </span>Custom:</h3>
+                            <h3 class="subsection-heading">Custom:</h3>
                             <input type="text" id="color-picker-body">
                             <input type="text" id="color-picker-content">
                             <button type="button" id="apply-custom-theme">Apply</button>
@@ -296,7 +299,7 @@
                             </div>
                             <!-- Notification Sound Range -->
                             <div class="notification-sound-range">
-                                <label for="notification-sound-volume">Volume</label>
+                                <label for="notification-sound-volume">Volume:</label>
                                 <input type="range" id="notification-sound-volume" min="0" max="1" value="1" step="0.1">
                             </div>
                         </div>
