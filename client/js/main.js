@@ -109,15 +109,15 @@ function storageAvailable(type) {
         return true;
     } catch (e) {
         return e instanceof DOMException && (
-                // everything except Firefox
-                e.code === 22 ||
-                // Firefox
-                e.code === 1014 ||
-                // test name field too, because code might not be present
-                // everything except Firefox
-                e.name === 'QuotaExceededError' ||
-                // Firefox
-                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
             // acknowledge QuotaExceededError only if there's something already stored
             (storage && storage.length !== 0);
     }
@@ -1494,7 +1494,7 @@ function resetTimeInput(reset) {
         // Confirm value changes
         confirmTimeChanges.forEach(confirmTimeChange => {
             if (!(confirmTimeChange.classList.contains('confirm-time-change-long-break') &&
-                    breakLongBreakLink.checked)) {
+                breakLongBreakLink.checked)) {
                 confirmTimeChange.click();
             }
         });
