@@ -230,7 +230,8 @@ function loadStorage() {
     if (optionsNotificationSound.value === 'none') {
         notificationSound = new Audio();
     } else {
-        notificationSound = new Audio(`assets/sound/${optionsNotificationSound.value}.mp3`);
+        const soundFile = optionsNotificationSound.value.split('.');
+        notificationSound = new Audio(`assets/sound/${soundFile[0]}.${soundFile[1]}`);
     }
     notificationSoundRange.value = JSON.parse(localStorage.getItem('notificationSoundVolume'));
     notificationSound.volume = notificationSoundRange.value;
@@ -1580,7 +1581,8 @@ function selectNotificationSound(options, play, volumeRange) {
         if (e.target.value === 'none') {
             notificationSound = new Audio();
         } else {
-            notificationSound = new Audio(`assets/sound/${e.target.value}.mp3`);
+            const soundFile = e.target.value.split('.');
+            notificationSound = new Audio(`assets/sound/${soundFile[0]}.${soundFile[1]}`);
         }
         notificationSound.volume = volumeRange.value;
         localStorage.setItem('notificationSound', JSON.stringify(optionsNotificationSound.value));

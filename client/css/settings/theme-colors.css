@@ -2,8 +2,8 @@
     /* Colors */
     --dark-color: #202020;
     --light-color: #e8e8e8;
-    --white-color: #e7ecef;
-    --cyan-color: #04acac;
+    --red-color: #ef444a;
+    --darkgray-color: #000000;
     --pink-color: #ffb0aa;
     --brown-color: #aa4139;
     /* Pomodoros */
@@ -67,32 +67,32 @@
     color: var(--dark-color);
 }
 
-/* Arctic */
-.arctic {
-    background-color: var(--white-color);
-    color: var(--cyan-color);
+/* Spite */
+.spite {
+    background-color: var(--red-color);
+    color: var(--darkgray-color);
 }
 
-.arctic-color {
-    color: var(--cyan-color);
+.spite-color {
+    color: var(--darkgray-color);
 }
 
-.arctic-background {
-    background-color: var(--cyan-color);
+.spite-background {
+    background-color: var(--darkgray-color);
 }
 
-.arctic-border {
-    border-color: var(--cyan-color);
+.spite-border {
+    border-color: var(--darkgray-color);
 }
 
-.arctic-active {
-    background: linear-gradient(to right, var(--cyan-color), var(--cyan-color)) no-repeat;
+.spite-active {
+    background: linear-gradient(to right, var(--darkgray-color), var(--darkgray-color)) no-repeat;
     background-size: var(--pomodoro-size);
     background-position: var(--pomodoro-position);
 }
 
-.arctic-title {
-    color: var(--cyan-color);
+.spite-title {
+    color: var(--darkgray-color);
 }
 
 /* Blossom */
