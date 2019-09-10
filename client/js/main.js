@@ -91,7 +91,7 @@ const pomodoroContainerElements = document.querySelectorAll('.pomodoro-container
 // TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
 // TODO: Add a "time and pomodoros only" option, where all other icons are gone except for the time display and pomodoros.
 // TODO: Add a to-do list under the timer. It should feature the ability to add, delete, tag, and be expandable with more info (a description)
-// FIXME: Delay in time for tab title. Use web workers to solve this
+// FIXME: Delay in time for tab title. Use web workers to solve this (?)
 // FIXME: Notifications don't pop up on mobile
 
 /** 
@@ -307,7 +307,7 @@ function logStorage() {
 
 /**
  * Toggle playPauseIcon when activated to play or pause the timer.
- * @param  {HTMLElement} icon - playPauseIcon in timer controls
+ * @param   {HTMLElement} icon - playPauseIcon in timer controls
  * @returns {undefined}
  */
 function togglePlayPause(icon) {
@@ -329,8 +329,8 @@ function fullOpacity() {
 
     /**
      * Styles container and containerElements to full opacity
-     * @param {HTMLElement} container
-     * @param {HTMLElement} containerElements
+     * @param   {HTMLElement} container
+     * @param   {HTMLElement} containerElements
      * @returns {undefined}
      */
     function activateFullOpacity(container, containerElements) {
@@ -376,8 +376,8 @@ function lessOpacity() {
 
     /**
      * Styles container and containerElements to less opacity.
-     * @param {HTMLElement} container
-     * @param {HTMLElement} containerElements
+     * @param   {HTMLElement} container
+     * @param   {HTMLElement} containerElements
      * @returns {undefined}
      */
     function activateLessOpacity(container, containerElements) {
@@ -1343,12 +1343,12 @@ function smallShrinkAnimation(element) {
 
 /**
  * Change the time of a time option through input in settings.
- * @param  {HTMLElement} confirmTimeChangeSession
- * @param  {HTMLElement} sessionInput
- * @param  {HTMLElement} confirmTimeChangeBreak
- * @param  {HTMLElement} breakInput
- * @param  {HTMLElement} confirmTimeChangeLongBreak
- * @param  {HTMLElement} longBreakInput
+ * @param   {HTMLElement} confirmTimeChangeSession
+ * @param   {HTMLElement} sessionInput
+ * @param   {HTMLElement} confirmTimeChangeBreak
+ * @param   {HTMLElement} breakInput
+ * @param   {HTMLElement} confirmTimeChangeLongBreak
+ * @param   {HTMLElement} longBreakInput
  * @returns {undefined}
  */
 function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChangeBreak, breakInput, confirmTimeChangeLongBreak, longBreakInput) {
@@ -1484,7 +1484,7 @@ function changeTimeInput(confirmTimeChangeSession, sessionInput, confirmTimeChan
 
 /**
  * Reset all time options to their default values.
- * @param {HTMLElement} reset - Time inputs reset button
+ * @param   {HTMLElement} reset - Time inputs reset button
  * @returns {undefined}
  */
 function resetTimeInput(reset) {

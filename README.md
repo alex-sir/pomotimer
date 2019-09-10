@@ -55,27 +55,49 @@ Change time length in the settings.
 
 ### Packages
 
-Install all the packages by executing `npm install`.
+Install all the required packages:
+
+```javascript
+npm install
+```
 
 ### Server
 
-Basic Express.js server that serves up static files. Run the server with nodemon by executing `npm run server`.
+Basic Express.js server that serves up static files. Run the server with nodemon:
+
+```javascript
+npm run server
+```
 
 ### Scripts
 
 In this folder are several bash scripts for git to speed up committing, pushing, merging, etc. You might find them useful.
-
+****
 ### Client
 
-This is where all the application development files reside. All these files are streamed to the dist folder with gulp.js. The files here are concatenated and minified; they do include map files. Start up automatic building with gulp by executing `npx gulp watch`. Any HTML, CSS, or JavaScript file modified in client will now automatically run the default gulp task. Check out all the tasks in the [Gulp Tasks](#gulp-tasks) section below.
+This is where all the application development files reside. All these files are streamed to the dist folder with gulp.js. The files here are concatenated and minified; they do include map files. Start up automatic building:
+
+```javascript
+npx gulp watch
+```
+
+Any HTML, CSS, or JavaScript file modified in client will now automatically run the default gulp task. Check out all the tasks in the [Gulp Tasks](#gulp-tasks) section below.
 
 ### Ready to Deploy
 
-Before adding and committing with git, run `npx gulp production` to generate the correct files for a production build. It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace and save space in the browser.
+Before adding and committing with git, generate the correct files for a production build:
+
+```javascript
+npx gulp production
+```
+
+It is similar to `npx gulp` except it wraps JavaScript files in a self-executing function. This is to prevent polluting the global namespace and save space in the browser.
 
 ## Gulp Tasks
 
-    Run tasks with "npx gulp", e.g. "npx gulp build"
+```markdown
+Run tasks with "npx gulp", e.g. "npx gulp build"
+```
 
 * Development
   * concat - Concatenate all scripts and stylesheets.
