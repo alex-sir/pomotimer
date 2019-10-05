@@ -613,13 +613,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         } else {
                             currentActive = titleBorderChange(true, false, false, false);
                         }
+                        notificationSound.play();
                         try {
                             if (Notification.permission === 'granted') {
                                 const notificationLongBreakOver = new Notification('Respite over', {
                                     icon: notificationIcon,
                                     body: 'Session started'
                                 });
-                                notificationSound.play();
                                 setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
                             }
                         } catch (e) {
@@ -659,13 +659,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             } else {
                                 currentActive = titleBorderChange(false, false, true, false);
                             }
+                            notificationSound.play();
                             try {
                                 if (Notification.permission === 'granted') {
                                     const notificationLongBreakStart = new Notification('Session over', {
                                         icon: notificationIcon,
                                         body: 'Respite started'
                                     });
-                                    notificationSound.play();
                                     setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
                                 }
                             } catch (e) {
@@ -685,13 +685,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             } else {
                                 currentActive = titleBorderChange(false, true, false, false);
                             }
+                            notificationSound.play();
                             try {
                                 if (Notification.permission === 'granted') {
                                     const notificationBreakStart = new Notification('Session over', {
                                         icon: notificationIcon,
                                         body: 'Break started'
                                     });
-                                    notificationSound.play();
                                     setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
                                 }
                             } catch (e) {
@@ -718,13 +718,13 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                         } else {
                             currentActive = titleBorderChange(true, false, false, false);
                         }
+                        notificationSound.play();
                         try {
                             if (Notification.permission === 'granted') {
                                 const notificationBreakOver = new Notification('Break over', {
                                     icon: notificationIcon,
                                     body: 'Session started'
                                 });
-                                notificationSound.play();
                                 setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
                             }
                         } catch (e) {
@@ -742,12 +742,12 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                     }
                 } else {
                     // autoStart disabled
+                    notificationSound.play();
                     try {
                         if (Notification.permission === 'granted') {
                             const notificationTimeOver = new Notification('Time over', {
                                 icon: notificationIcon,
                             });
-                            notificationSound.play();
                             setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
                         }
                     } catch (e) {
