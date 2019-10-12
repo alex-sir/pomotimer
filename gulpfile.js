@@ -126,7 +126,7 @@ function copyIndex() {
 }
 
 function copyFavicon() {
-    return src('client/assets/favicon/*')
+    return src('client/assets/favicon/**/**')
         .pipe(dest('dist/assets/favicon'));
 }
 

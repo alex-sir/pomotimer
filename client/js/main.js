@@ -60,7 +60,7 @@ const confirmTimeChangeBreak = document.querySelector('.confirm-time-change-brea
 const timeInputsReset = document.querySelector('.time-inputs-reset');
 // Notifications
 const notificationIcon = 'assets/favicon/android-chrome-192x192.png';
-const notificationTime = 5000;
+const timeFinishTransitionTime = 5000;
 // Sound
 let notificationSound = new Audio('assets/sound/blithe.mp3');
 const notificationSoundRange = document.querySelector('#notification-sound-volume');
@@ -85,7 +85,14 @@ const timerControls = document.querySelector('.timer-controls');
 const timerControlsElements = document.querySelectorAll('.timer-controls *');
 const pomodoroContainer = document.querySelector('.pomodoro-container');
 const pomodoroContainerElements = document.querySelectorAll('.pomodoro-container *');
+// Favicon
+const appleTouchIcon = document.querySelector('#apple-touch-icon');
+const favicon32 = document.querySelector('#favicon-32');
+const favicon16 = document.querySelector('#favicon-16');
+const faviconDirectory = 'assets/favicon/';
+const alarmFaviconDirectory = 'time-finished/';
 
+// TODO: Change favicon to alarm clock on time interval finish
 // TODO: Add statistics showing pomodoro completions and progress
 // TODO: Use map for logging localStorage to keep consistency
 // TODO: Add a "move to middle" option to move the timer and controls to the middle of the screen. Useful for screens in fullscreen.
@@ -519,7 +526,7 @@ function zenModePomodoroFinishedPomodoros() {
             element.style.opacity = zenModeOpacity;
         });
         pomodoroContainer.style.opacity = zenModeOpacity;
-    }, 2000);
+    }, timeFinishTransitionTime);
 }
 
 /**
@@ -539,7 +546,22 @@ function zenModePomodoroFinishedTitles() {
         timeOptions.forEach(timeOption => {
             timeOption.style.opacity = zenModeOpacity;
         });
-    }, 2000);
+    }, timeFinishTransitionTime);
+}
+
+/**
+ * Change favicon on time interval finish.
+ * @returns {undefined}
+ */
+function timeFinishedFaviconChange() {
+    appleTouchIcon.href = `${faviconDirectory}${alarmFaviconDirectory}apple-touch-icon.png`;
+    favicon32.href = `${faviconDirectory}${alarmFaviconDirectory}favicon-32x32.png`;
+    favicon16.href = `${faviconDirectory}${alarmFaviconDirectory}favicon-16x16.png`;
+    setTimeout(() => {
+        appleTouchIcon.href = `${faviconDirectory}apple-touch-icon.png`;
+        favicon32.href = `${faviconDirectory}favicon-32x32.png`;
+        favicon16.href = `${faviconDirectory}favicon-16x16.png`;
+    }, timeFinishTransitionTime);
 }
 
 /**
@@ -605,6 +627,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
 
             if (secondsLeft < 1) {
                 clearInterval(countdown);
+                timeFinishedFaviconChange();
                 if (autoStart.checked) {
                     if (pomodorosCount === 4) {
                         if (customThemeActive) {
@@ -620,7 +643,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                     icon: notificationIcon,
                                     body: 'Session started'
                                 });
-                                setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), notificationTime);
+                                setTimeout(notificationLongBreakOver.close.bind(notificationLongBreakOver), timeFinishTransitionTime);
                             }
                         } catch (e) {
                             // console.error(e);
@@ -666,7 +689,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                         icon: notificationIcon,
                                         body: 'Respite started'
                                     });
-                                    setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), notificationTime);
+                                    setTimeout(notificationLongBreakStart.close.bind(notificationLongBreakStart), timeFinishTransitionTime);
                                 }
                             } catch (e) {
                                 // console.error(e);
@@ -692,7 +715,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                         icon: notificationIcon,
                                         body: 'Break started'
                                     });
-                                    setTimeout(notificationBreakStart.close.bind(notificationBreakStart), notificationTime);
+                                    setTimeout(notificationBreakStart.close.bind(notificationBreakStart), timeFinishTransitionTime);
                                 }
                             } catch (e) {
                                 // console.error(e);
@@ -725,7 +748,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                                     icon: notificationIcon,
                                     body: 'Session started'
                                 });
-                                setTimeout(notificationBreakOver.close.bind(notificationBreakOver), notificationTime);
+                                setTimeout(notificationBreakOver.close.bind(notificationBreakOver), timeFinishTransitionTime);
                             }
                         } catch (e) {
                             // console.error(e);
@@ -748,7 +771,7 @@ function timerDisplay(seconds, breakTime = true, returnRunTimerDisplay) {
                             const notificationTimeOver = new Notification('Time over', {
                                 icon: notificationIcon,
                             });
-                            setTimeout(notificationTimeOver.close.bind(notificationTimeOver), notificationTime);
+                            setTimeout(notificationTimeOver.close.bind(notificationTimeOver), timeFinishTransitionTime);
                         }
                     } catch (e) {
                         // console.error(e);
