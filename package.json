@@ -42,7 +42,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "hex-to-rgba": "^2.0.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "rgb-hex": "^3.0.0",
     "rgb-to-hex": "0.0.0",
     "screenfull": "^4.2.1",
