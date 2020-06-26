@@ -3,7 +3,7 @@
 <h4 align="center">Minimalist Pomodoro timer with customizable session/break times and colors.</h4>
 
 <h2 align="center">
-    <a href="https://pomotimer.com">DEMO</a>
+    <a href="https://alex-sir.github.io/pomotimer">alex-sir.github.io/pomotimer</a>
 <h2>
 
 # What Is the Pomodoro Technique

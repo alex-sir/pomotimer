@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/alex-sir/pomodoro#readme",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "autoprefixer": "^9.7.4",
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "autoprefixer": "^9.8.4",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -28,7 +28,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
-    "gulp-cli": "^2.2.0",
+    "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^6.2.0",
@@ -37,15 +37,15 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify-es": "^1.0.4",
     "nodemon": "^1.19.4",
-    "terser": "^4.6.7"
+    "terser": "^4.8.0"
   },
   "dependencies": {
     "express": "^4.17.1",
     "hex-to-rgba": "^2.0.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "rgb-hex": "^3.0.0",
     "rgb-to-hex": "0.0.0",
     "screenfull": "^4.2.1",
-    "spectrum-colorpicker": "^1.8.0"
+    "spectrum-colorpicker": "^1.8.1"
   }
 }

@@ -153,7 +153,7 @@ function copySound() {
 
 // Clean tasks
 function cleanAll() {
-    return del(['dist/*', '!dist/.git', '!dist/CNAME']);
+    return del(['dist/*', '!dist/.git']);
 }
 
 function cleanVendor() {
