@@ -1,10 +1,8 @@
-<h1 align="center">Pomotimer</h1>
+<h1 align="center">
+    <a href="https://p0m0timer.herokuapp.com/">Pomotimer</a>
+</h1>
 
 <h4 align="center">Minimalist Pomodoro timer with customizable session/break times and colors.</h4>
-
-<h2 align="center">
-    <a href="https://alex-sir.github.io/pomotimer">alex-sir.github.io/pomotimer</a>
-<h2>
 
 # What Is the Pomodoro Technique
 
